@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr" data-theme="c">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto — Clínica Las Calas</title>
+  <meta name="description" content="Contacte con Clínica Las Calas en Alicante. Teléfono, email, WhatsApp y formulario de contacto." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo.svg" alt="Clínica Las Calas" onerror="this.style.display='none'" />
+        <span class="nav-logo-text">Clínica <span>Las Calas</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" data-i18n="nav.home">Inicio</a>
+        <a href="services.html" data-i18n="nav.services">Servicios</a>
+        <a href="equipe.html" data-i18n="nav.team">Equipo</a>
+        <a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a>
+        <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+        <a href="contact.html" class="active" data-i18n="nav.contact">Contacto</a>
+      </div>
+      <div class="nav-right">
+        <div class="lang-selector" id="langSelector">
+          <button class="lang-btn" id="langBtn"><span id="currentLang">ES</span><span>▾</span></button>
+          <div class="lang-dropdown" id="langDropdown">
+            <div class="lang-option active" data-lang="es"><span class="flag">🇪🇸</span> Español</div>
+            <div class="lang-option" data-lang="en"><span class="flag">🇬🇧</span> English</div>
+            <div class="lang-option" data-lang="fr"><span class="flag">🇫🇷</span> Français</div>
+            <div class="lang-option" data-lang="de"><span class="flag">🇩🇪</span> Deutsch</div>
+            <div class="lang-option" data-lang="it"><span class="flag">🇮🇹</span> Italiano</div>
+            <div class="lang-option" data-lang="ru"><span class="flag">🇷🇺</span> Русский</div>
+            <div class="lang-option" data-lang="uk"><span class="flag">🇺🇦</span> Українська</div>
+            <div class="lang-option" data-lang="zh"><span class="flag">🇨🇳</span> 中文</div>
+            <div class="lang-divider"></div>
+            <div class="lang-option" data-lang="ar-dz"><span class="flag">🇩🇿</span> العربية (DZ)</div>
+            <div class="lang-option" data-lang="ar-ma"><span class="flag">🇲🇦</span> العربية (MA)</div>
+            <div class="lang-option" data-lang="ar-tn"><span class="flag">🇹🇳</span> العربية (TN)</div>
+          </div>
+        </div>
+        <a href="rdv.html" class="btn btn-primary btn-sm" data-i18n="nav.rdv">Pedir cita</a>
+        <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html" data-i18n="nav.home">Inicio</a>
+    <a href="services.html" data-i18n="nav.services">Servicios</a>
+    <a href="equipe.html" data-i18n="nav.team">Equipo</a>
+    <a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a>
+    <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+    <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+    <a href="rdv.html" class="btn btn-primary" data-i18n="nav.rdv">Pedir cita</a>
+  </div>
+
+  <div class="page-header center">
+    <div class="container">
+      <span class="badge" data-i18n="contact.badge">Contacto</span>
+      <h1 data-i18n="contact.title">Estamos aquí para ayudarle</h1>
+      <p data-i18n="contact.subtitle">Contáctenos por teléfono, email, WhatsApp o a través del formulario.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- Infos contact -->
+        <div>
+          <h3 data-i18n="contact.info.title">Información de contacto</h3>
+          <div class="contact-item">
+            <div class="contact-item-icon">📍</div>
+            <div class="contact-item-text">
+              <strong data-i18n="contact.address.label">Dirección</strong>
+              <span>Cap de las Huertas, Alicante, España</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📞</div>
+            <div class="contact-item-text">
+              <strong data-i18n="contact.phone.label">Teléfono</strong>
+              <a href="tel:+34965000000">+34 965 000 000</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">💬</div>
+            <div class="contact-item-text">
+              <strong>WhatsApp</strong>
+              <a href="https://wa.me/34965000000" target="_blank" rel="noopener">+34 965 000 000</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">✉️</div>
+            <div class="contact-item-text">
+              <strong>Email</strong>
+              <a href="mailto:contacto@clinicalascalas.com">contacto@clinicalascalas.com</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">🕐</div>
+            <div class="contact-item-text">
+              <strong data-i18n="contact.hours.label">Horario</strong>
+              <span data-i18n="contact.hours.val">Lun–Vie: 9:00–20:00 · Sáb: 9:00–14:00</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">💻</div>
+            <div class="contact-item-text">
+              <strong data-i18n="contact.tele.label">Teleconsulta</strong>
+              <span data-i18n="contact.tele.val">Microsoft Teams · Previa cita</span>
+            </div>
+          </div>
+
+          <!-- Accès rapide -->
+          <div style="margin-top:2rem;display:flex;flex-direction:column;gap:.75rem;">
+            <a href="rdv.html" class="btn btn-primary" data-i18n="nav.rdv">📅 Pedir cita</a>
+            <a href="https://wa.me/34965000000" target="_blank" rel="noopener" class="btn btn-outline" style="background:#25D366;color:white;border:none;">💬 WhatsApp</a>
+            <a href="https://maps.google.com/?q=Cap+de+las+Huertas+Alicante" target="_blank" rel="noopener" class="btn btn-outline" data-i18n="contact.map.btn">🗺️ Cómo llegar</a>
+          </div>
+
+          <!-- Réseaux sociaux -->
+          <div style="margin-top:1.5rem;">
+            <p style="font-size:.88rem;color:var(--text-light);margin-bottom:.75rem;" data-i18n="contact.social">Síguenos en redes sociales</p>
+            <div style="display:flex;gap:.75rem;">
+              <a href="#" style="display:flex;align-items:center;gap:.4rem;padding:.5rem 1rem;border-radius:var(--radius-full);border:1.5px solid var(--gray-200);font-size:.85rem;font-weight:600;transition:var(--transition);" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">📸 Instagram</a>
+              <a href="#" style="display:flex;align-items:center;gap:.4rem;padding:.5rem 1rem;border-radius:var(--radius-full);border:1.5px solid var(--gray-200);font-size:.85rem;font-weight:600;transition:var(--transition);" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--gray-200)'">📘 Facebook</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulaire -->
+        <div class="contact-form-card">
+          <h3 style="margin-bottom:1.5rem;" data-i18n="contact.form.title">Envíenos un mensaje</h3>
+          <div id="contactAlert" class="alert alert-success" style="display:none;">
+            <span class="alert-icon">✅</span>
+            <span data-i18n="contact.form.success">Mensaje enviado correctamente. Le responderemos en menos de 24h.</span>
+          </div>
+          <form id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="cName" data-i18n="form.name">Nombre <span class="required">*</span></label>
+                <input type="text" id="cName" class="form-control" required data-i18n-placeholder="form.name.placeholder" placeholder="Su nombre" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cEmail" data-i18n="form.email">Email <span class="required">*</span></label>
+                <input type="email" id="cEmail" class="form-control" required data-i18n-placeholder="form.email.placeholder" placeholder="su@email.com" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="cPhone" data-i18n="form.phone">Teléfono</label>
+                <input type="tel" id="cPhone" class="form-control" data-i18n-placeholder="form.phone.placeholder" placeholder="+34 600 000 000" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cLang" data-i18n="form.lang">Idioma preferido</label>
+                <select id="cLang" class="form-control">
+                  <option value="es">🇪🇸 Español</option>
+                  <option value="en">🇬🇧 English</option>
+                  <option value="fr">🇫🇷 Français</option>
+                  <option value="de">🇩🇪 Deutsch</option>
+                  <option value="it">🇮🇹 Italiano</option>
+                  <option value="ru">🇷🇺 Русский</option>
+                  <option value="uk">🇺🇦 Українська</option>
+                  <option value="zh">🇨🇳 中文</option>
+                  <option value="ar-dz">🇩🇿 العربية (DZ)</option>
+                  <option value="ar-ma">🇲🇦 العربية (MA)</option>
+                  <option value="ar-tn">🇹🇳 العربية (TN)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cSubject" data-i18n="form.subject">Asunto <span class="required">*</span></label>
+              <select id="cSubject" class="form-control" required>
+                <option value="" data-i18n="form.subject.select">Seleccionar asunto</option>
+                <option value="rdv" data-i18n="form.subject.rdv">Solicitud de cita</option>
+                <option value="info" data-i18n="form.subject.info">Información general</option>
+                <option value="urgence" data-i18n="form.subject.urgence">Urgencia médica</option>
+                <option value="docs" data-i18n="form.subject.docs">Documentos médicos</option>
+                <option value="other" data-i18n="form.subject.other">Otro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cMsg" data-i18n="form.message">Mensaje <span class="required">*</span></label>
+              <textarea id="cMsg" class="form-control" rows="5" required data-i18n-placeholder="form.message.placeholder" placeholder="Describa su consulta..."></textarea>
+            </div>
+            <div class="form-group">
+              <label style="display:flex;align-items:flex-start;gap:.6rem;font-size:.85rem;color:var(--gray-600);cursor:pointer;">
+                <input type="checkbox" id="cConsent" required style="margin-top:.15rem;flex-shrink:0;" />
+                <span data-i18n="form.consent">Acepto que mis datos sean tratados para gestionar mi consulta. <a href="mentions.html#privacy" style="color:var(--primary);">Política de privacidad</a>.</span>
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;" id="contactSubmit">
+              <span data-i18n="form.send">Enviar mensaje</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Map -->
+      <div class="map-embed" style="margin-top:3rem;" data-aos>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3127.8!2d-0.4!3d38.37!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sCap+de+las+Huertas%2C+Alicante!5e0!3m2!1ses!2ses!4v1"
+          width="100%" height="380" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade" title="Mapa Clínica Las Calas">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo"><span class="nav-logo-text">Clínica <span>Las Calas</span></span></div>
+          <p data-i18n="footer.desc">Clínica médica multiespecialidad en Alicante, Cap de las Huertas.</p>
+          <div class="footer-social"><a href="#" class="footer-social-link">📸</a><a href="#" class="footer-social-link">📘</a><a href="#" class="footer-social-link">💬</a></div>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.services">Servicios</h5>
+          <ul>
+            <li><a href="services.html" data-i18n="svc.general.name">Medicina General</a></li>
+            <li><a href="services.html" data-i18n="svc.cardio.name">Cardiología</a></li>
+            <li><a href="services.html" data-i18n="svc.tele.name">Teleconsulta</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.clinic">Clínica</h5>
+          <ul>
+            <li><a href="equipe.html" data-i18n="nav.team">Equipo</a></li>
+            <li><a href="rdv.html" data-i18n="nav.rdv">Pedir cita</a></li>
+            <li><a href="mentions.html" data-i18n="nav.mentions">Aviso legal</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.contact">Contacto</h5>
+          <div class="footer-contact-item"><span class="icon">📍</span><span>Cap de las Huertas, Alicante</span></div>
+          <div class="footer-contact-item"><span class="icon">📞</span><a href="tel:+34965000000">+34 965 000 000</a></div>
+          <div class="footer-contact-item"><span class="icon">🕐</span><span data-i18n="footer.hours">Lun–Vie 9:00–20:00</span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Clínica Las Calas.</span>
+        <div style="display:flex;gap:1.5rem;"><a href="mentions.html" data-i18n="footer.legal">Aviso legal</a><a href="mentions.html#privacy" data-i18n="footer.privacy">Privacidad</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="chat-fab" id="chatFab">💬<div class="chat-fab-pulse"></div></div>
+  <div class="chat-window hidden" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-header-avatar">🏥</div>
+      <div class="chat-header-info"><strong data-i18n="chat.title">Asistente</strong><div class="chat-header-online"><div class="dot"></div><span data-i18n="chat.online">En línea</span></div></div>
+      <button class="chat-close" id="chatClose">✕</button>
+    </div>
+    <div class="chat-disclaimer"><span class="icon">⚠️</span><span data-i18n="chat.disclaimer">Este asistente no realiza diagnósticos.</span></div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-quick-btns" id="quickBtns">
+      <button class="chat-quick-btn" data-i18n="chat.quick.rdv">📅 Pedir cita</button>
+      <button class="chat-quick-btn" data-i18n="chat.quick.horario">🕐 Horarios</button>
+    </div>
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="chatInput" rows="1" data-i18n-placeholder="chat.placeholder"></textarea>
+      <button class="chat-send" id="chatSend">➤</button>
+    </div>
+  </div>
+  <a href="https://wa.me/34965000000" target="_blank" rel="noopener" class="whatsapp-fab">💬</a>
+
+  <script src="js/chat.js" type="module"></script>
+  <script src="js/main.js" type="module"></script>
+    <script type="module">
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('contactSubmit');
+      btn.innerHTML = '<span class="spinner"></span>';
+      btn.disabled = true;
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: document.getElementById('cName').value,
+            email: document.getElementById('cEmail').value,
+            phone: document.getElementById('cPhone').value,
+            lang: document.getElementById('cLang').value,
+            subject: document.getElementById('cSubject').value,
+            message: document.getElementById('cMsg').value
+          })
+        });
+        document.getElementById('contactAlert').style.display = 'flex';
+        document.getElementById('contactForm').reset();
+      } catch(err) {
+        console.error(err);
+      } finally {
+        btn.innerHTML = '<span data-i18n="form.send">Enviar mensaje</span>';
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

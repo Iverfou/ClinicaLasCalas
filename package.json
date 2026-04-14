@@ -1,0 +1,13 @@
+{
+  "name": "clinicalascalas",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Clínica Las Calas — Alicante, Cap de las Huertas",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.24.0",
+    "resend": "^3.2.0"
+  }
+}

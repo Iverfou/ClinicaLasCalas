@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr" data-theme="c">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tarifas — Clínica Las Calas</title>
+  <meta name="description" content="Tarifas y precios de consulta en Clínica Las Calas, Alicante. Medicina General, Cardiología, Pediatría, Teleconsulta y más." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo.svg" alt="Clínica Las Calas" onerror="this.style.display='none'" />
+        <span class="nav-logo-text">Clínica <span>Las Calas</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" data-i18n="nav.home">Inicio</a>
+        <a href="services.html" data-i18n="nav.services">Servicios</a>
+        <a href="equipe.html" data-i18n="nav.team">Equipo</a>
+        <a href="tarifs.html" class="active" data-i18n="nav.tarifs">Tarifas</a>
+        <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+        <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+      </div>
+      <div class="nav-right">
+        <div class="lang-selector" id="langSelector">
+          <button class="lang-btn" id="langBtn"><span id="currentLang">ES</span><span>▾</span></button>
+          <div class="lang-dropdown" id="langDropdown">
+            <div class="lang-option active" data-lang="es"><span class="flag">🇪🇸</span> Español</div>
+            <div class="lang-option" data-lang="en"><span class="flag">🇬🇧</span> English</div>
+            <div class="lang-option" data-lang="fr"><span class="flag">🇫🇷</span> Français</div>
+            <div class="lang-option" data-lang="de"><span class="flag">🇩🇪</span> Deutsch</div>
+            <div class="lang-option" data-lang="it"><span class="flag">🇮🇹</span> Italiano</div>
+            <div class="lang-option" data-lang="ru"><span class="flag">🇷🇺</span> Русский</div>
+            <div class="lang-option" data-lang="uk"><span class="flag">🇺🇦</span> Українська</div>
+            <div class="lang-option" data-lang="zh"><span class="flag">🇨🇳</span> 中文</div>
+            <div class="lang-divider"></div>
+            <div class="lang-option" data-lang="ar-dz"><span class="flag">🇩🇿</span> العربية (DZ)</div>
+            <div class="lang-option" data-lang="ar-ma"><span class="flag">🇲🇦</span> العربية (MA)</div>
+            <div class="lang-option" data-lang="ar-tn"><span class="flag">🇹🇳</span> العربية (TN)</div>
+          </div>
+        </div>
+        <a href="rdv.html" class="btn btn-primary btn-sm" data-i18n="nav.rdv">Pedir cita</a>
+        <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html" data-i18n="nav.home">Inicio</a>
+    <a href="services.html" data-i18n="nav.services">Servicios</a>
+    <a href="equipe.html" data-i18n="nav.team">Equipo</a>
+    <a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a>
+    <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+    <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+    <a href="rdv.html" class="btn btn-primary" data-i18n="nav.rdv">Pedir cita</a>
+  </div>
+
+  <div class="page-header center">
+    <div class="container">
+      <span class="badge gold" data-i18n="tarifs.badge">Tarifas transparentes</span>
+      <h1 data-i18n="tarifs.title">Nuestros precios</h1>
+      <p data-i18n="tarifs.subtitle">Sin sorpresas. Precios claros y competitivos para todos nuestros servicios.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+
+      <!-- Info paiement -->
+      <div class="alert alert-info" style="max-width:700px;margin:0 auto 3rem;" data-aos>
+        <span class="alert-icon">💳</span>
+        <div>
+          <strong data-i18n="tarifs.payment.title">Métodos de pago aceptados:</strong>
+          <span data-i18n="tarifs.payment.val"> Efectivo · Tarjeta (Visa, Mastercard, Amex) · Transferencia bancaria. Factura disponible para seguros.</span>
+        </div>
+      </div>
+
+      <!-- Grille tarifaire -->
+      <div class="tarifs-grid">
+
+        <div class="tarif-card" data-aos>
+          <div class="tarif-header">
+            <div class="tarif-specialty" data-i18n="svc.general.name">Medicina General</div>
+            <h3 data-i18n="tarifs.general.title">Consulta General</h3>
+          </div>
+          <div class="tarif-price">60€ <span data-i18n="tarifs.per.consult">/ consulta</span></div>
+          <div class="tarif-items">
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.general.l1">Primera visita</span><span class="tarif-item-price">65€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.general.l2">Revisión / seguimiento</span><span class="tarif-item-price">50€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.general.l3">Certificado médico</span><span class="tarif-item-price">30€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.general.l4">Analítica básica</span><span class="tarif-item-price">45€</span></div>
+          </div>
+          <a href="rdv.html" class="btn btn-primary" style="width:100%;margin-top:1.25rem;justify-content:center;" data-i18n="svc.rdv.btn">Reservar</a>
+        </div>
+
+        <div class="tarif-card featured" data-aos>
+          <div class="tarif-header">
+            <div class="tarif-specialty" data-i18n="svc.cardio.name">Cardiología</div>
+            <h3 data-i18n="tarifs.cardio.title">Consulta Cardiológica</h3>
+          </div>
+          <div class="tarif-price">85€ <span data-i18n="tarifs.per.consult">/ consulta</span></div>
+          <div class="tarif-items">
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.cardio.l1">Primera visita + ECG</span><span class="tarif-item-price">95€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.cardio.l2">Ecocardiografía</span><span class="tarif-item-price">120€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.cardio.l3">Holter 24h</span><span class="tarif-item-price">90€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.cardio.l4">Revisión</span><span class="tarif-item-price">70€</span></div>
+          </div>
+          <a href="rdv.html" class="btn btn-primary" style="width:100%;margin-top:1.25rem;justify-content:center;" data-i18n="svc.rdv.btn">Reservar</a>
+        </div>
+
+        <div class="tarif-card" data-aos>
+          <div class="tarif-header">
+            <div class="tarif-specialty" data-i18n="svc.pediatric.name">Pediatría</div>
+            <h3 data-i18n="tarifs.pediatric.title">Consulta Pediátrica</h3>
+          </div>
+          <div class="tarif-price">55€ <span data-i18n="tarifs.per.consult">/ consulta</span></div>
+          <div class="tarif-items">
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.pediatric.l1">Primera visita</span><span class="tarif-item-price">60€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.pediatric.l2">Control del crecimiento</span><span class="tarif-item-price">50€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.pediatric.l3">Vacunación</span><span class="tarif-item-price">40€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.pediatric.l4">Urgencia pediátrica</span><span class="tarif-item-price">65€</span></div>
+          </div>
+          <a href="rdv.html" class="btn btn-primary" style="width:100%;margin-top:1.25rem;justify-content:center;" data-i18n="svc.rdv.btn">Reservar</a>
+        </div>
+
+        <div class="tarif-card" data-aos>
+          <div class="tarif-header">
+            <div class="tarif-specialty" data-i18n="svc.dermato.name">Dermatología</div>
+            <h3 data-i18n="tarifs.dermato.title">Consulta Dermatológica</h3>
+          </div>
+          <div class="tarif-price">75€ <span data-i18n="tarifs.per.consult">/ consulta</span></div>
+          <div class="tarif-items">
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.dermato.l1">Primera visita</span><span class="tarif-item-price">80€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.dermato.l2">Control lunares</span><span class="tarif-item-price">65€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.dermato.l3">Tratamiento acné</span><span class="tarif-item-price">70€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.dermato.l4">Revisión</span><span class="tarif-item-price">60€</span></div>
+          </div>
+          <a href="rdv.html" class="btn btn-primary" style="width:100%;margin-top:1.25rem;justify-content:center;" data-i18n="svc.rdv.btn">Reservar</a>
+        </div>
+
+        <div class="tarif-card" data-aos>
+          <div class="tarif-header">
+            <div class="tarif-specialty" data-i18n="svc.gyneco.name">Ginecología</div>
+            <h3 data-i18n="tarifs.gyneco.title">Consulta Ginecológica</h3>
+          </div>
+          <div class="tarif-price">80€ <span data-i18n="tarifs.per.consult">/ consulta</span></div>
+          <div class="tarif-items">
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.gyneco.l1">Revisión ginecológica</span><span class="tarif-item-price">85€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.gyneco.l2">Ecografía obstétrica</span><span class="tarif-item-price">100€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.gyneco.l3">Citología</span><span class="tarif-item-price">60€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.gyneco.l4">Planificación familiar</span><span class="tarif-item-price">70€</span></div>
+          </div>
+          <a href="rdv.html" class="btn btn-primary" style="width:100%;margin-top:1.25rem;justify-content:center;" data-i18n="svc.rdv.btn">Reservar</a>
+        </div>
+
+        <div class="tarif-card" data-aos>
+          <div class="tarif-header">
+            <div class="tarif-specialty">Diabetología</div>
+            <h3>Consulta Diabetología</h3>
+          </div>
+          <div class="tarif-price">75€ <span data-i18n="tarifs.per.consult">/ consulta</span></div>
+          <div class="tarif-items">
+            <div class="tarif-item"><span class="tarif-item-name">Primera visita + glucemia</span><span class="tarif-item-price">80€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name">Control y seguimiento</span><span class="tarif-item-price">60€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name">HbA1c + consulta</span><span class="tarif-item-price">75€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name">Educación terapéutica</span><span class="tarif-item-price">65€</span></div>
+          </div>
+          <a href="rdv.html" class="btn btn-primary" style="width:100%;margin-top:1.25rem;justify-content:center;" data-i18n="svc.rdv.btn">Reservar</a>
+        </div>
+
+        <div class="tarif-card" data-aos>
+          <div class="tarif-header">
+            <div class="tarif-specialty" data-i18n="svc.tele.name">Teleconsulta</div>
+            <h3 data-i18n="tarifs.tele.title">Consulta Online Teams</h3>
+          </div>
+          <div class="tarif-price">50€ <span data-i18n="tarifs.per.consult">/ consulta</span></div>
+          <div class="tarif-items">
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.tele.l1">Medicina General online</span><span class="tarif-item-price">50€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.tele.l2">Especialista online</span><span class="tarif-item-price">70€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.tele.l3">Seguimiento online</span><span class="tarif-item-price">40€</span></div>
+            <div class="tarif-item"><span class="tarif-item-name" data-i18n="tarifs.tele.l4">Pediatría online</span><span class="tarif-item-price">50€</span></div>
+          </div>
+          <a href="rdv.html" class="btn btn-primary" style="width:100%;margin-top:1.25rem;justify-content:center;" data-i18n="svc.rdv.btn">Reservar</a>
+        </div>
+
+      </div>
+
+      <!-- Note assurances -->
+      <div style="margin-top:3rem;text-align:center;" data-aos>
+        <div style="background:var(--gold-light);border:1.5px solid rgba(201,168,76,.3);border-radius:var(--radius-xl);padding:2rem;max-width:700px;margin:0 auto;">
+          <div style="font-size:2rem;margin-bottom:.75rem;">🏥</div>
+          <h3 style="margin-bottom:.5rem;" data-i18n="tarifs.insurance.title">¿Tiene seguro médico?</h3>
+          <p style="color:var(--text-light);font-size:.93rem;margin-bottom:1.25rem;" data-i18n="tarifs.insurance.desc">Trabajamos con las principales aseguradoras privadas. Emitimos facturas detalladas para reembolso por seguro de viaje o salud.</p>
+          <a href="contact.html" class="btn btn-gold" data-i18n="tarifs.insurance.btn">Consultar cobertura</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container">
+      <h2 data-i18n="cta.title">¿Necesitas atención médica?</h2>
+      <p data-i18n="cta.subtitle">Reserva tu consulta en menos de 2 minutos.</p>
+      <div class="cta-band-actions">
+        <a href="rdv.html" class="btn btn-gold btn-lg" data-i18n="cta.btn.rdv">Pedir cita ahora</a>
+        <a href="contact.html" class="btn btn-outline-white btn-lg" data-i18n="cta.btn.contact">Contactar</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo"><span class="nav-logo-text">Clínica <span>Las Calas</span></span></div>
+          <p data-i18n="footer.desc">Clínica médica multiespecialidad en Alicante, Cap de las Huertas.</p>
+          <div class="footer-social"><a href="#" class="footer-social-link">📸</a><a href="#" class="footer-social-link">📘</a></div>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.services">Servicios</h5>
+          <ul>
+            <li><a href="services.html" data-i18n="svc.general.name">Medicina General</a></li>
+            <li><a href="services.html" data-i18n="svc.cardio.name">Cardiología</a></li>
+            <li><a href="services.html" data-i18n="svc.tele.name">Teleconsulta</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.clinic">Clínica</h5>
+          <ul>
+            <li><a href="equipe.html" data-i18n="nav.team">Equipo</a></li>
+            <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+            <li><a href="rdv.html" data-i18n="nav.rdv">Pedir cita</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.contact">Contacto</h5>
+          <div class="footer-contact-item"><span class="icon">📞</span><a href="tel:+34965000000">+34 965 000 000</a></div>
+          <div class="footer-contact-item"><span class="icon">✉️</span><a href="mailto:contacto@clinicalascalas.com">contacto@clinicalascalas.com</a></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Clínica Las Calas.</span>
+        <div style="display:flex;gap:1.5rem;"><a href="mentions.html" data-i18n="footer.legal">Aviso legal</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="chat-fab" id="chatFab">💬<div class="chat-fab-pulse"></div></div>
+  <div class="chat-window hidden" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-header-avatar">🏥</div>
+      <div class="chat-header-info"><strong data-i18n="chat.title">Asistente</strong><div class="chat-header-online"><div class="dot"></div><span data-i18n="chat.online">En línea</span></div></div>
+      <button class="chat-close" id="chatClose">✕</button>
+    </div>
+    <div class="chat-disclaimer"><span class="icon">⚠️</span><span data-i18n="chat.disclaimer">Este asistente no realiza diagnósticos.</span></div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-quick-btns" id="quickBtns">
+      <button class="chat-quick-btn" data-i18n="chat.quick.rdv">📅 Pedir cita</button>
+      <button class="chat-quick-btn" data-i18n="chat.quick.price">💶 Tarifas</button>
+    </div>
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="chatInput" rows="1" data-i18n-placeholder="chat.placeholder"></textarea>
+      <button class="chat-send" id="chatSend">➤</button>
+    </div>
+  </div>
+  <a href="https://wa.me/34965000000" target="_blank" rel="noopener" class="whatsapp-fab">💬</a>
+
+  <script src="js/chat.js" type="module"></script>
+  <script src="js/main.js" type="module"></script>
+  </body>
+</html>

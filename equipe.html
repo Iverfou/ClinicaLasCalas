@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr" data-theme="c">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Equipo — Clínica Las Calas</title>
+  <meta name="description" content="Conozca al equipo médico de Clínica Las Calas. Especialistas con amplia experiencia en Alicante." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo.svg" alt="Clínica Las Calas" onerror="this.style.display='none'" />
+        <span class="nav-logo-text">Clínica <span>Las Calas</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" data-i18n="nav.home">Inicio</a>
+        <a href="services.html" data-i18n="nav.services">Servicios</a>
+        <a href="equipe.html" class="active" data-i18n="nav.team">Equipo</a>
+        <a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a>
+        <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+        <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+      </div>
+      <div class="nav-right">
+        <div class="lang-selector" id="langSelector">
+          <button class="lang-btn" id="langBtn"><span id="currentLang">ES</span><span>▾</span></button>
+          <div class="lang-dropdown" id="langDropdown">
+            <div class="lang-option active" data-lang="es"><span class="flag">🇪🇸</span> Español</div>
+            <div class="lang-option" data-lang="en"><span class="flag">🇬🇧</span> English</div>
+            <div class="lang-option" data-lang="fr"><span class="flag">🇫🇷</span> Français</div>
+            <div class="lang-option" data-lang="de"><span class="flag">🇩🇪</span> Deutsch</div>
+            <div class="lang-option" data-lang="it"><span class="flag">🇮🇹</span> Italiano</div>
+            <div class="lang-option" data-lang="ru"><span class="flag">🇷🇺</span> Русский</div>
+            <div class="lang-option" data-lang="uk"><span class="flag">🇺🇦</span> Українська</div>
+            <div class="lang-option" data-lang="zh"><span class="flag">🇨🇳</span> 中文</div>
+            <div class="lang-divider"></div>
+            <div class="lang-option" data-lang="ar-dz"><span class="flag">🇩🇿</span> العربية (DZ)</div>
+            <div class="lang-option" data-lang="ar-ma"><span class="flag">🇲🇦</span> العربية (MA)</div>
+            <div class="lang-option" data-lang="ar-tn"><span class="flag">🇹🇳</span> العربية (TN)</div>
+          </div>
+        </div>
+        <a href="rdv.html" class="btn btn-primary btn-sm" data-i18n="nav.rdv">Pedir cita</a>
+        <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html" data-i18n="nav.home">Inicio</a>
+    <a href="services.html" data-i18n="nav.services">Servicios</a>
+    <a href="equipe.html" data-i18n="nav.team">Equipo</a>
+    <a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a>
+    <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+    <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+    <a href="rdv.html" class="btn btn-primary" data-i18n="nav.rdv">Pedir cita</a>
+  </div>
+
+  <div class="page-header center">
+    <div class="container">
+      <span class="badge" data-i18n="team.badge">Equipo médico</span>
+      <h1 data-i18n="team.title">Conozca a nuestros especialistas</h1>
+      <p data-i18n="team.subtitle">Profesionales con amplia experiencia y vocación de servicio en Alicante.</p>
+    </div>
+  </div>
+
+  <!-- MÉDICOS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header" data-aos>
+        <span class="badge" data-i18n="team.doctors.badge">Médicos</span>
+        <h2 data-i18n="team.doctors.title">Especialistas médicos</h2>
+      </div>
+      <!-- Medicina General -->
+      <h3 style="text-align:center;margin:2rem 0 1rem;color:var(--primary);font-size:1rem;text-transform:uppercase;letter-spacing:.1em;" data-i18n="svc.general.name">Medicina General</h3>
+      <div class="team-grid">
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=80" alt="Dr. Carlos Herrera Montoya" loading="lazy" />
+          <div class="team-info">
+            <h4>Dr. Carlos Herrera Montoya</h4>
+            <div class="team-specialty" data-i18n="svc.general.name">Medicina General</div>
+            <p style="font-size:.8rem;color:var(--text-light);margin:.4rem 0 .6rem;">15 años de experiencia. Especialista en patología crónica y medicina preventiva.</p>
+            <div class="team-lang">🇪🇸 🇬🇧</div>
+          </div>
+        </div>
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80" alt="Dr. Sophie Marchand" loading="lazy" />
+          <div class="team-info">
+            <h4>Dr. Sophie Marchand</h4>
+            <div class="team-specialty" data-i18n="svc.general.name">Medicina General</div>
+            <p style="font-size:.8rem;color:var(--text-light);margin:.4rem 0 .6rem;">Médica generalista franco-española. Experiencia con pacientes expatriados y familias internacionales.</p>
+            <div class="team-lang">🇫🇷 🇪🇸 🇬🇧</div>
+          </div>
+        </div>
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&q=80" alt="Dr. Olena Kovalenko" loading="lazy" />
+          <div class="team-info">
+            <h4>Dr. Olena Kovalenko</h4>
+            <div class="team-specialty" data-i18n="svc.general.name">Medicina General</div>
+            <p style="font-size:.8rem;color:var(--text-light);margin:.4rem 0 .6rem;">Médica de familia especializada en atención a comunidades ucraniana y rusa en España.</p>
+            <div class="team-lang">🇺🇦 🇷🇺 🇪🇸 🇬🇧</div>
+          </div>
+        </div>
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&q=80" alt="Dr. Amir Benali" loading="lazy" />
+          <div class="team-info">
+            <h4>Dr. Amir Benali</h4>
+            <div class="team-specialty" data-i18n="svc.general.name">Medicina General</div>
+            <p style="font-size:.8rem;color:var(--text-light);margin:.4rem 0 .6rem;">Médico generalista trilingüe. Atención especializada para pacientes arabófonos del Mediterráneo.</p>
+            <div class="team-lang">🇩🇿 🇫🇷 🇪🇸 🇬🇧</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cardiología -->
+      <h3 style="text-align:center;margin:2.5rem 0 1rem;color:var(--primary);font-size:1rem;text-transform:uppercase;letter-spacing:.1em;" data-i18n="svc.cardio.name">Cardiología</h3>
+      <div class="team-grid">
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=400&q=80" alt="Dra. Elena Vásquez Ruiz" loading="lazy" />
+          <div class="team-info">
+            <h4>Dra. Elena Vásquez Ruiz</h4>
+            <div class="team-specialty" data-i18n="svc.cardio.name">Cardiología</div>
+            <p style="font-size:.8rem;color:var(--text-light);margin:.4rem 0 .6rem;">Especialista en ecocardiografía y enfermedades cardiovasculares. Miembro de la SEC.</p>
+            <div class="team-lang">🇪🇸 🇬🇧</div>
+          </div>
+        </div>
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=400&q=80" alt="Dr. Thomas Müller" loading="lazy" />
+          <div class="team-info">
+            <h4>Dr. Thomas Müller</h4>
+            <div class="team-specialty" data-i18n="svc.cardio.name">Cardiología</div>
+            <p style="font-size:.8rem;color:var(--text-light);margin:.4rem 0 .6rem;">Cardiólogo especialista en monitorización Holter y patología coronaria. Referente para pacientes alemanes.</p>
+            <div class="team-lang">🇩🇪 🇬🇧 🇪🇸</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ginecología -->
+      <h3 style="text-align:center;margin:2.5rem 0 1rem;color:var(--primary);font-size:1rem;text-transform:uppercase;letter-spacing:.1em;" data-i18n="svc.gyneco.name">Ginecología</h3>
+      <div class="team-grid">
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Dra. Natalia Petrenko" loading="lazy" />
+          <div class="team-info">
+            <h4>Dra. Natalia Petrenko</h4>
+            <div class="team-specialty" data-i18n="svc.gyneco.name">Ginecología</div>
+            <p style="font-size:.8rem;color:var(--text-light);margin:.4rem 0 .6rem;">Especialista en salud femenina y ecografía obstétrica. Atención en ucraniano, ruso y español.</p>
+            <div class="team-lang">🇺🇦 🇷🇺 🇪🇸 🇬🇧</div>
+          </div>
+        </div>
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Dra. Yasmine Cherif" loading="lazy" />
+          <div class="team-info">
+            <h4>Dra. Yasmine Cherif</h4>
+            <div class="team-specialty" data-i18n="svc.gyneco.name">Ginecología</div>
+            <p style="font-size:.8rem;color:var(--text-light);margin:.4rem 0 .6rem;">Ginecóloga especializada en planificación familiar y citología. Consultas en árabe y francés.</p>
+            <div class="team-lang">🇩🇿 🇫🇷 🇪🇸 🇬🇧</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Diabetología -->
+      <h3 style="text-align:center;margin:2.5rem 0 1rem;color:var(--primary);font-size:1rem;text-transform:uppercase;letter-spacing:.1em;">Diabetología</h3>
+      <div class="team-grid">
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Dr. Marco Ferretti" loading="lazy" />
+          <div class="team-info">
+            <h4>Dr. Marco Ferretti</h4>
+            <div class="team-specialty">Diabetología</div>
+            <p style="font-size:.8rem;color:var(--text-light);margin:.4rem 0 .6rem;">Especialista en diabetes tipo 1 y 2, síndrome metabólico y nutrición clínica. Consultas en italiano.</p>
+            <div class="team-lang">🇮🇹 🇪🇸 🇬🇧</div>
+          </div>
+        </div>
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&q=80" alt="Dr. Lin Wei" loading="lazy" />
+          <div class="team-info">
+            <h4>Dr. Lin Wei</h4>
+            <div class="team-specialty">Diabetología</div>
+            <p style="font-size:.8rem;color:var(--text-light);margin:.4rem 0 .6rem;">Diabetólogo con enfoque en educación terapéutica y control glucémico. Atención en chino y español.</p>
+            <div class="team-lang">🇨🇳 🇪🇸 🇬🇧</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Otras especialidades -->
+      <h3 style="text-align:center;margin:2.5rem 0 1rem;color:var(--primary);font-size:1rem;text-transform:uppercase;letter-spacing:.1em;">Otras especialidades</h3>
+      <div class="team-grid">
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=80" alt="Pediatría" loading="lazy" />
+          <div class="team-info">
+            <h4>—</h4>
+            <div class="team-specialty" data-i18n="svc.pediatric.name">Pediatría</div>
+            <p style="font-size:.8rem;color:var(--text-light);margin:.4rem 0 .6rem;">Pediatra con formación en neonatología. Experiencia con familias expatriadas y multilingües.</p>
+            <div class="team-lang">🇪🇸 🇬🇧 🇷🇺</div>
+          </div>
+        </div>
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80" alt="Dermatología" loading="lazy" />
+          <div class="team-info">
+            <h4>—</h4>
+            <div class="team-specialty" data-i18n="svc.dermato.name">Dermatología</div>
+            <p style="font-size:.8rem;color:var(--text-light);margin:.4rem 0 .6rem;">Especialista en dermatología clínica y cosmética. Experto en lesiones pigmentadas.</p>
+            <div class="team-lang">🇪🇸 🇫🇷 🇮🇹</div>
+          </div>
+        </div>
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=400&q=80" alt="Traumatología" loading="lazy" />
+          <div class="team-info">
+            <h4>—</h4>
+            <div class="team-specialty" data-i18n="svc.trauma.name">Traumatología</div>
+            <p style="font-size:.8rem;color:var(--text-light);margin:.4rem 0 .6rem;">Traumatólogo con especialización en lesiones deportivas y cirugía artroscópica.</p>
+            <div class="team-lang">🇪🇸 🇬🇧 🇷🇺 🇺🇦</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADMIN -->
+  <section class="section" style="background:var(--gray-50);">
+    <div class="container">
+      <div class="section-header" data-aos>
+        <span class="badge gold" data-i18n="team.admin.badge">Administración</span>
+        <h2 data-i18n="team.admin.title">Equipo administrativo</h2>
+        <p data-i18n="team.admin.subtitle">Siempre a su disposición para facilitar su experiencia en la clínica.</p>
+      </div>
+      <div class="team-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr));">
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="María Sánchez" loading="lazy" />
+          <div class="team-info">
+            <h4>María Sánchez</h4>
+            <div class="team-specialty" data-i18n="team.role.reception">Recepción</div>
+            <div class="team-lang">🇪🇸 🇬🇧 🇫🇷 🇩🇿</div>
+          </div>
+        </div>
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Elena Torres" loading="lazy" />
+          <div class="team-info">
+            <h4>Elena Torres</h4>
+            <div class="team-specialty" data-i18n="team.role.secretary">Secretaría</div>
+            <div class="team-lang">🇪🇸 🇬🇧 🇷🇺</div>
+          </div>
+        </div>
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Karim Benali" loading="lazy" />
+          <div class="team-info">
+            <h4>Karim Benali</h4>
+            <div class="team-specialty" data-i18n="team.role.comm">Comunicación</div>
+            <div class="team-lang">🇪🇸 🇫🇷 🇩🇿 🇲🇦</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container">
+      <h2 data-i18n="cta.title">¿Necesitas atención médica?</h2>
+      <p data-i18n="cta.subtitle">Reserva tu consulta en menos de 2 minutos.</p>
+      <div class="cta-band-actions">
+        <a href="rdv.html" class="btn btn-gold btn-lg" data-i18n="cta.btn.rdv">Pedir cita ahora</a>
+        <a href="contact.html" class="btn btn-outline-white btn-lg" data-i18n="cta.btn.contact">Contactar</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo"><span class="nav-logo-text">Clínica <span>Las Calas</span></span></div>
+          <p data-i18n="footer.desc">Clínica médica multiespecialidad en Alicante, Cap de las Huertas.</p>
+          <div class="footer-social"><a href="#" class="footer-social-link">📸</a><a href="#" class="footer-social-link">📘</a><a href="#" class="footer-social-link">💬</a></div>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.services">Servicios</h5>
+          <ul>
+            <li><a href="services.html" data-i18n="svc.general.name">Medicina General</a></li>
+            <li><a href="services.html" data-i18n="svc.cardio.name">Cardiología</a></li>
+            <li><a href="services.html" data-i18n="svc.pediatric.name">Pediatría</a></li>
+            <li><a href="services.html" data-i18n="svc.tele.name">Teleconsulta</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.clinic">Clínica</h5>
+          <ul>
+            <li><a href="equipe.html" data-i18n="nav.team">Equipo</a></li>
+            <li><a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a></li>
+            <li><a href="rdv.html" data-i18n="nav.rdv">Pedir cita</a></li>
+            <li><a href="mentions.html" data-i18n="nav.mentions">Aviso legal</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.contact">Contacto</h5>
+          <div class="footer-contact-item"><span class="icon">📍</span><span>Cap de las Huertas, Alicante</span></div>
+          <div class="footer-contact-item"><span class="icon">📞</span><a href="tel:+34965000000">+34 965 000 000</a></div>
+          <div class="footer-contact-item"><span class="icon">🕐</span><span data-i18n="footer.hours">Lun–Vie 9:00–20:00</span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Clínica Las Calas.</span>
+        <div style="display:flex;gap:1.5rem;"><a href="mentions.html" data-i18n="footer.legal">Aviso legal</a><a href="mentions.html#privacy" data-i18n="footer.privacy">Privacidad</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="chat-fab" id="chatFab">💬<div class="chat-fab-pulse"></div></div>
+  <div class="chat-window hidden" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-header-avatar">🏥</div>
+      <div class="chat-header-info"><strong data-i18n="chat.title">Asistente</strong><div class="chat-header-online"><div class="dot"></div><span data-i18n="chat.online">En línea</span></div></div>
+      <button class="chat-close" id="chatClose">✕</button>
+    </div>
+    <div class="chat-disclaimer"><span class="icon">⚠️</span><span data-i18n="chat.disclaimer">Este asistente no realiza diagnósticos.</span></div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-quick-btns" id="quickBtns">
+      <button class="chat-quick-btn" data-i18n="chat.quick.rdv">📅 Pedir cita</button>
+      <button class="chat-quick-btn" data-i18n="chat.quick.services">🩺 Servicios</button>
+    </div>
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="chatInput" rows="1" data-i18n-placeholder="chat.placeholder"></textarea>
+      <button class="chat-send" id="chatSend">➤</button>
+    </div>
+  </div>
+  <a href="https://wa.me/34965000000" target="_blank" rel="noopener" class="whatsapp-fab">💬</a>
+
+  <script src="js/chat.js" type="module"></script>
+  <script src="js/main.js" type="module"></script>
+  </body>
+</html>

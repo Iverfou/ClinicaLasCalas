@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr" data-theme="c">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pedir Cita — Clínica Las Calas</title>
+  <meta name="description" content="Reserve su consulta médica en Clínica Las Calas. Cita presencial o teleconsulta Teams. Confirmación inmediata por email." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo.svg" alt="Clínica Las Calas" onerror="this.style.display='none'" />
+        <span class="nav-logo-text">Clínica <span>Las Calas</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" data-i18n="nav.home">Inicio</a>
+        <a href="services.html" data-i18n="nav.services">Servicios</a>
+        <a href="equipe.html" data-i18n="nav.team">Equipo</a>
+        <a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a>
+        <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+        <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+      </div>
+      <div class="nav-right">
+        <div class="lang-selector" id="langSelector">
+          <button class="lang-btn" id="langBtn"><span id="currentLang">ES</span><span>▾</span></button>
+          <div class="lang-dropdown" id="langDropdown">
+            <div class="lang-option active" data-lang="es"><span class="flag">🇪🇸</span> Español</div>
+            <div class="lang-option" data-lang="en"><span class="flag">🇬🇧</span> English</div>
+            <div class="lang-option" data-lang="fr"><span class="flag">🇫🇷</span> Français</div>
+            <div class="lang-option" data-lang="de"><span class="flag">🇩🇪</span> Deutsch</div>
+            <div class="lang-option" data-lang="it"><span class="flag">🇮🇹</span> Italiano</div>
+            <div class="lang-option" data-lang="ru"><span class="flag">🇷🇺</span> Русский</div>
+            <div class="lang-option" data-lang="uk"><span class="flag">🇺🇦</span> Українська</div>
+            <div class="lang-option" data-lang="zh"><span class="flag">🇨🇳</span> 中文</div>
+            <div class="lang-divider"></div>
+            <div class="lang-option" data-lang="ar-dz"><span class="flag">🇩🇿</span> العربية (DZ)</div>
+            <div class="lang-option" data-lang="ar-ma"><span class="flag">🇲🇦</span> العربية (MA)</div>
+            <div class="lang-option" data-lang="ar-tn"><span class="flag">🇹🇳</span> العربية (TN)</div>
+          </div>
+        </div>
+        <a href="rdv.html" class="btn btn-primary btn-sm active" data-i18n="nav.rdv">Pedir cita</a>
+        <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html" data-i18n="nav.home">Inicio</a>
+    <a href="services.html" data-i18n="nav.services">Servicios</a>
+    <a href="equipe.html" data-i18n="nav.team">Equipo</a>
+    <a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a>
+    <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+    <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+  </div>
+
+  <div class="page-header center">
+    <div class="container">
+      <span class="badge" data-i18n="rdv.badge">Reserva online</span>
+      <h1 data-i18n="rdv.title">Pedir una cita</h1>
+      <p data-i18n="rdv.subtitle">Rellene el formulario y recibirá confirmación por email en menos de 2 horas.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="rdv-layout">
+
+        <!-- Info panel -->
+        <div>
+          <div class="rdv-info-card" style="margin-bottom:1.5rem;">
+            <h3 data-i18n="rdv.info.title">Información útil</h3>
+            <div class="rdv-info-item">
+              <span class="icon">📅</span>
+              <p><strong data-i18n="rdv.info.confirm">Confirmación automática</strong><br /><span data-i18n="rdv.info.confirm.desc">Recibirá email de confirmación con el nombre del médico, fecha, hora y enlace de acceso (teleconsulta).</span></p>
+            </div>
+            <div class="rdv-info-item">
+              <span class="icon">🕐</span>
+              <p><strong data-i18n="rdv.info.hours">Horario</strong><br /><span data-i18n="footer.hours">Lun–Vie: 9:00–20:00 · Sáb: 9:00–14:00</span></p>
+            </div>
+            <div class="rdv-info-item">
+              <span class="icon">💻</span>
+              <p><strong data-i18n="rdv.info.tele">Teleconsulta Teams</strong><br /><span data-i18n="rdv.info.tele.desc">El enlace de videollamada se envía 15 min antes de la cita.</span></p>
+            </div>
+            <div class="rdv-info-item">
+              <span class="icon">❌</span>
+              <p><strong data-i18n="rdv.info.cancel">Cancelación</strong><br /><span data-i18n="rdv.info.cancel.desc">Puede cancelar desde el email de confirmación o vía chatbot con al menos 2h de antelación.</span></p>
+            </div>
+            <div class="rdv-info-item">
+              <span class="icon">📄</span>
+              <p><strong data-i18n="rdv.info.docs">Documentos</strong><br /><span data-i18n="rdv.info.docs.desc">Puede enviar sus documentos médicos previamente a través del enlace incluido en la confirmación.</span></p>
+            </div>
+          </div>
+
+          <!-- Contact rapide -->
+          <div style="background:rgba(255,255,255,.1);border-radius:var(--radius-lg);padding:1.25rem;border:1.5px solid var(--gray-200);">
+            <p style="font-size:.88rem;color:var(--text-light);margin-bottom:.75rem;font-weight:600;" data-i18n="rdv.contact.alt">¿Prefiere contactar directamente?</p>
+            <div style="display:flex;flex-direction:column;gap:.6rem;">
+              <a href="tel:+34965000000" style="display:flex;align-items:center;gap:.5rem;font-size:.88rem;color:var(--primary);font-weight:600;">📞 +34 965 000 000</a>
+              <a href="https://wa.me/34965000000" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.5rem;font-size:.88rem;color:#25D366;font-weight:600;">💬 WhatsApp</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulaire RDV -->
+        <div class="rdv-form-card">
+          <!-- Steps -->
+          <div class="rdv-steps" id="rdvSteps">
+            <div class="rdv-step active" data-step="1" data-i18n="rdv.step1">1 · Datos personales</div>
+            <div class="rdv-step" data-step="2" data-i18n="rdv.step2">2 · Tipo de consulta</div>
+            <div class="rdv-step" data-step="3" data-i18n="rdv.step3">3 · Confirmación</div>
+          </div>
+
+          <!-- Alerte succès -->
+          <div id="rdvSuccess" class="alert alert-success" style="display:none;">
+            <span class="alert-icon">✅</span>
+            <div>
+              <strong data-i18n="rdv.success.title">¡Solicitud enviada!</strong><br />
+              <span data-i18n="rdv.success.desc">Le contactaremos en menos de 2 horas para confirmar su cita. Revise su email.</span>
+            </div>
+          </div>
+
+          <form id="rdvForm" novalidate>
+
+            <!-- ÉTAPE 1 : Données personnelles -->
+            <div id="step1">
+              <h3 style="margin-bottom:1.5rem;font-size:1.1rem;" data-i18n="rdv.step1.title">Datos personales</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="rFirstName" data-i18n="form.firstname">Nombre <span class="required">*</span></label>
+                  <input type="text" id="rFirstName" class="form-control" required placeholder="Juan" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="rLastName" data-i18n="form.lastname">Apellido <span class="required">*</span></label>
+                  <input type="text" id="rLastName" class="form-control" required placeholder="García" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="rEmail" data-i18n="form.email">Email <span class="required">*</span></label>
+                  <input type="email" id="rEmail" class="form-control" required placeholder="juan@email.com" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="rPhone" data-i18n="form.phone">Teléfono <span class="required">*</span></label>
+                  <input type="tel" id="rPhone" class="form-control" required placeholder="+34 600 000 000" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="rLang" data-i18n="form.lang">Idioma preferido <span class="required">*</span></label>
+                  <select id="rLang" class="form-control" required>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="en">🇬🇧 English</option>
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="de">🇩🇪 Deutsch</option>
+                    <option value="it">🇮🇹 Italiano</option>
+                    <option value="ru">🇷🇺 Русский</option>
+                    <option value="uk">🇺🇦 Українська</option>
+                    <option value="zh">🇨🇳 中文</option>
+                    <option value="ar-dz">🇩🇿 العربية (DZ)</option>
+                    <option value="ar-ma">🇲🇦 العربية (MA)</option>
+                    <option value="ar-tn">🇹🇳 العربية (TN)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="rDoc" data-i18n="rdv.doc.type">Documento de identidad</label>
+                  <select id="rDoc" class="form-control">
+                    <option value="passport" data-i18n="rdv.doc.passport">Pasaporte</option>
+                    <option value="nie" data-i18n="rdv.doc.nie">NIE</option>
+                    <option value="dni" data-i18n="rdv.doc.dni">DNI</option>
+                    <option value="other" data-i18n="rdv.doc.other">Otro</option>
+                  </select>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary" style="width:100%;" onclick="goStep(2)" data-i18n="rdv.next">Siguiente →</button>
+            </div>
+
+            <!-- ÉTAPE 2 : Type de consultation -->
+            <div id="step2" style="display:none;">
+              <h3 style="margin-bottom:1.5rem;font-size:1.1rem;" data-i18n="rdv.step2.title">Tipo de consulta</h3>
+              <div class="form-group">
+                <label class="form-label" data-i18n="rdv.type.label">Tipo de cita <span class="required">*</span></label>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.5rem;">
+                  <label style="display:flex;align-items:center;gap:.75rem;padding:1rem;border:2px solid var(--gray-200);border-radius:var(--radius-md);cursor:pointer;transition:var(--transition);" id="typePresLabel">
+                    <input type="radio" name="rdvType" value="presential" id="typePresential" style="accent-color:var(--primary);" checked />
+                    <div><strong style="display:block;font-size:.9rem;" data-i18n="rdv.type.presential">Presencial</strong><span style="font-size:.78rem;color:var(--text-light);" data-i18n="rdv.type.presential.sub">En clínica</span></div>
+                  </label>
+                  <label style="display:flex;align-items:center;gap:.75rem;padding:1rem;border:2px solid var(--gray-200);border-radius:var(--radius-md);cursor:pointer;transition:var(--transition);" id="typeTeamsLabel">
+                    <input type="radio" name="rdvType" value="teleconsulta" id="typeTeams" style="accent-color:var(--primary);" />
+                    <div><strong style="display:block;font-size:.9rem;" data-i18n="rdv.type.tele">Teleconsulta</strong><span style="font-size:.78rem;color:var(--text-light);" data-i18n="rdv.type.tele.sub">Microsoft Teams</span></div>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="rSpecialty" data-i18n="rdv.specialty">Especialidad <span class="required">*</span></label>
+                <select id="rSpecialty" class="form-control" required>
+                  <option value="" data-i18n="rdv.specialty.select">Seleccionar especialidad</option>
+                  <option value="general" data-i18n="svc.general.name">Medicina General</option>
+                  <option value="cardio" data-i18n="svc.cardio.name">Cardiología</option>
+                  <option value="pediatric" data-i18n="svc.pediatric.name">Pediatría</option>
+                  <option value="dermato" data-i18n="svc.dermato.name">Dermatología</option>
+                  <option value="gyneco" data-i18n="svc.gyneco.name">Ginecología</option>
+                  <option value="diabeto">Diabetología</option>
+                  <option value="trauma" data-i18n="svc.trauma.name">Traumatología</option>
+                  <option value="travel" data-i18n="svc.travel.name">Medicina del Viajero</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="rMotive" data-i18n="rdv.motive">Motivo de consulta <span class="required">*</span></label>
+                <textarea id="rMotive" class="form-control" rows="3" required data-i18n-placeholder="rdv.motive.placeholder" placeholder="Describa brevemente el motivo de su consulta..."></textarea>
+                <div class="form-hint" data-i18n="rdv.motive.hint">Esta información ayuda al médico a preparar su consulta. No reemplaza la consulta médica.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="rPreference" data-i18n="rdv.pref.date">Preferencia de fecha</label>
+                <input type="date" id="rPreference" class="form-control" />
+                <div class="form-hint" data-i18n="rdv.pref.hint">Le propondremos 2 opciones disponibles en esta fecha o próximas.</div>
+              </div>
+              <div class="medical-disclaimer" style="margin-bottom:1.25rem;">
+                <span class="icon">⚕️</span>
+                <span data-i18n="rdv.disclaimer">Este formulario no es para urgencias médicas. En caso de urgencia llame al 112 o acuda al servicio de urgencias más cercano.</span>
+              </div>
+              <div style="display:flex;gap:.75rem;">
+                <button type="button" class="btn btn-outline" style="flex:1;" onclick="goStep(1)" data-i18n="rdv.back">← Atrás</button>
+                <button type="button" class="btn btn-primary" style="flex:2;" onclick="goStep(3)" data-i18n="rdv.next">Siguiente →</button>
+              </div>
+            </div>
+
+            <!-- ÉTAPE 3 : Confirmation -->
+            <div id="step3" style="display:none;">
+              <h3 style="margin-bottom:1.5rem;font-size:1.1rem;" data-i18n="rdv.step3.title">Confirmar su solicitud</h3>
+              <div id="rdvSummary" style="background:var(--gray-50);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1.5rem;border:1.5px solid var(--gray-200);">
+                <!-- Rempli dynamiquement par JS -->
+              </div>
+              <div class="form-group">
+                <label style="display:flex;align-items:flex-start;gap:.6rem;font-size:.85rem;color:var(--gray-600);cursor:pointer;">
+                  <input type="checkbox" id="rConsent" required style="margin-top:.15rem;flex-shrink:0;" />
+                  <span data-i18n="form.consent">Acepto que mis datos sean tratados para gestionar mi cita. <a href="mentions.html#privacy" style="color:var(--primary);">Política de privacidad</a>.</span>
+                </label>
+              </div>
+              <div style="display:flex;gap:.75rem;">
+                <button type="button" class="btn btn-outline" style="flex:1;" onclick="goStep(2)" data-i18n="rdv.back">← Atrás</button>
+                <button type="submit" class="btn btn-primary" style="flex:2;" id="rdvSubmit">
+                  <span data-i18n="rdv.submit">Confirmar cita</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo"><span class="nav-logo-text">Clínica <span>Las Calas</span></span></div>
+          <p data-i18n="footer.desc">Clínica médica multiespecialidad en Alicante.</p>
+          <div class="footer-social"><a href="#" class="footer-social-link">📸</a><a href="#" class="footer-social-link">📘</a></div>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.services">Servicios</h5>
+          <ul>
+            <li><a href="services.html" data-i18n="svc.general.name">Medicina General</a></li>
+            <li><a href="services.html" data-i18n="svc.tele.name">Teleconsulta</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.clinic">Clínica</h5>
+          <ul>
+            <li><a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a></li>
+            <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+            <li><a href="mentions.html" data-i18n="nav.mentions">Aviso legal</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.contact">Contacto</h5>
+          <div class="footer-contact-item"><span class="icon">📞</span><a href="tel:+34965000000">+34 965 000 000</a></div>
+          <div class="footer-contact-item"><span class="icon">🕐</span><span data-i18n="footer.hours">Lun–Vie 9:00–20:00</span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Clínica Las Calas.</span>
+        <div style="display:flex;gap:1.5rem;"><a href="mentions.html" data-i18n="footer.legal">Aviso legal</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="chat-fab" id="chatFab">💬<div class="chat-fab-pulse"></div></div>
+  <div class="chat-window hidden" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-header-avatar">🏥</div>
+      <div class="chat-header-info"><strong data-i18n="chat.title">Asistente</strong><div class="chat-header-online"><div class="dot"></div><span data-i18n="chat.online">En línea</span></div></div>
+      <button class="chat-close" id="chatClose">✕</button>
+    </div>
+    <div class="chat-disclaimer"><span class="icon">⚠️</span><span data-i18n="chat.disclaimer">Este asistente no realiza diagnósticos.</span></div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-quick-btns" id="quickBtns">
+      <button class="chat-quick-btn" data-i18n="chat.quick.horario">🕐 Horarios</button>
+      <button class="chat-quick-btn" data-i18n="chat.quick.price">💶 Tarifas</button>
+    </div>
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="chatInput" rows="1" data-i18n-placeholder="chat.placeholder"></textarea>
+      <button class="chat-send" id="chatSend">➤</button>
+    </div>
+  </div>
+  <a href="https://wa.me/34965000000" target="_blank" rel="noopener" class="whatsapp-fab">💬</a>
+
+  <script src="js/chat.js" type="module"></script>
+  <script src="js/main.js" type="module"></script>
+    <script src="js/rdv.js" type="module"></script>
+</body>
+</html>

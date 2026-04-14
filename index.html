@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr" data-theme="c">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clínica Las Calas — Alicante, Cap de las Huertas</title>
+  <meta name="description" content="Clínica médica multiespecialidad en Alicante, Playa San Juan. Atención a residentes, turistas y expatriados. Consulta presencial y telemedicina." />
+  <link rel="canonical" href="https://clinicalascalas.vercel.app/" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo.svg" alt="Clínica Las Calas" onerror="this.style.display='none'" />
+        <span class="nav-logo-text">Clínica <span>Las Calas</span></span>
+      </a>
+
+      <div class="nav-links">
+        <a href="index.html" class="active" data-i18n="nav.home">Inicio</a>
+        <a href="services.html" data-i18n="nav.services">Servicios</a>
+        <a href="equipe.html" data-i18n="nav.team">Equipo</a>
+        <a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a>
+        <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+        <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+      </div>
+
+      <div class="nav-right">
+        <!-- Language Selector -->
+        <div class="lang-selector" id="langSelector">
+          <button class="lang-btn" id="langBtn" aria-expanded="false">
+            <span id="currentLang">ES</span>
+            <span>▾</span>
+          </button>
+          <div class="lang-dropdown" id="langDropdown">
+            <div class="lang-option active" data-lang="es"><span class="flag">🇪🇸</span> Español</div>
+            <div class="lang-option" data-lang="en"><span class="flag">🇬🇧</span> English</div>
+            <div class="lang-option" data-lang="fr"><span class="flag">🇫🇷</span> Français</div>
+            <div class="lang-option" data-lang="de"><span class="flag">🇩🇪</span> Deutsch</div>
+            <div class="lang-option" data-lang="it"><span class="flag">🇮🇹</span> Italiano</div>
+            <div class="lang-option" data-lang="ru"><span class="flag">🇷🇺</span> Русский</div>
+            <div class="lang-option" data-lang="uk"><span class="flag">🇺🇦</span> Українська</div>
+            <div class="lang-option" data-lang="zh"><span class="flag">🇨🇳</span> 中文</div>
+            <div class="lang-divider"></div>
+            <div class="lang-option" data-lang="ar-dz"><span class="flag">🇩🇿</span> العربية (DZ)</div>
+            <div class="lang-option" data-lang="ar-ma"><span class="flag">🇲🇦</span> العربية (MA)</div>
+            <div class="lang-option" data-lang="ar-tn"><span class="flag">🇹🇳</span> العربية (TN)</div>
+          </div>
+        </div>
+
+        <a href="rdv.html" class="btn btn-primary btn-sm" data-i18n="nav.rdv">Pedir cita</a>
+
+        <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html" data-i18n="nav.home">Inicio</a>
+    <a href="services.html" data-i18n="nav.services">Servicios</a>
+    <a href="equipe.html" data-i18n="nav.team">Equipo</a>
+    <a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a>
+    <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+    <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+    <a href="rdv.html" class="btn btn-primary" data-i18n="nav.rdv">Pedir cita</a>
+  </div>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-content animate-fade-up">
+          <span class="badge" data-i18n="hero.badge">📍 Alicante · Cap de las Huertas</span>
+          <h1 data-i18n="hero.title">Tu salud,<br><span>nuestra prioridad</span></h1>
+          <p data-i18n="hero.subtitle">Clínica multiespecialidad en Playa San Juan. Atención médica de calidad para residentes, turistas y expatriados en 11 idiomas.</p>
+          <div class="hero-actions">
+            <a href="rdv.html" class="btn btn-primary btn-lg" data-i18n="hero.cta.rdv">Pedir cita ahora</a>
+            <a href="services.html" class="btn btn-outline btn-lg" data-i18n="hero.cta.services">Nuestros servicios</a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <strong>+2000</strong>
+              <span data-i18n="hero.stats.patients">Pacientes</span>
+            </div>
+            <div class="hero-stat">
+              <strong>8</strong>
+              <span data-i18n="hero.stats.specialists">Especialidades</span>
+            </div>
+            <div class="hero-stat">
+              <strong>9</strong>
+              <span data-i18n="hero.stats.languages">Idiomas</span>
+            </div>
+            <div class="hero-stat">
+              <strong>24h</strong>
+              <span data-i18n="hero.stats.response">Respuesta</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-image animate-fade-up delay-2">
+          <img
+            src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=700&q=80"
+            alt="Clínica Las Calas"
+            loading="lazy"
+          />
+          <div class="hero-image-badge">
+            <div class="icon-wrap">🩺</div>
+            <div>
+              <strong data-i18n="hero.badge2.title">Médicos certificados</strong>
+              <span data-i18n="hero.badge2.sub">Colegiados en España</span>
+            </div>
+          </div>
+          <div class="hero-trust">
+            <div class="hero-trust-stars">★★★★★</div>
+            <div style="font-size:.8rem;font-weight:600;">4.9/5</div>
+            <div style="font-size:.73rem;color:var(--text-light)" data-i18n="hero.trust">Google Reviews</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SERVICES APERÇU ═══ -->
+  <section class="section" style="background:var(--gray-50);">
+    <div class="container">
+      <div class="section-header" data-aos>
+        <span class="badge" data-i18n="services.badge">Especialidades</span>
+        <h2 data-i18n="services.title">Nuestros servicios médicos</h2>
+        <p data-i18n="services.subtitle">Atención integral con los mejores profesionales de la zona de Playa San Juan.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card" data-aos>
+          <div class="service-icon">🩺</div>
+          <h3 data-i18n="svc.general.name">Medicina General</h3>
+          <p data-i18n="svc.general.desc">Consultas generales, revisiones anuales, certificados médicos y atención primaria integral.</p>
+          <a href="services.html" data-i18n="svc.more">Saber más →</a>
+        </div>
+        <div class="service-card" data-aos>
+          <div class="service-icon">❤️</div>
+          <h3 data-i18n="svc.cardio.name">Cardiología</h3>
+          <p data-i18n="svc.cardio.desc">Electrocardiograma, ecocardiografía, seguimiento de hipertensión y enfermedades cardiovasculares.</p>
+          <a href="services.html" data-i18n="svc.more">Saber más →</a>
+        </div>
+        <div class="service-card" data-aos>
+          <div class="service-icon">👶</div>
+          <h3 data-i18n="svc.pediatric.name">Pediatría</h3>
+          <p data-i18n="svc.pediatric.desc">Control del crecimiento, vacunaciones, atención pediátrica de urgencia para familias y turistas.</p>
+          <a href="services.html" data-i18n="svc.more">Saber más →</a>
+        </div>
+        <div class="service-card" data-aos>
+          <div class="service-icon">🌿</div>
+          <h3 data-i18n="svc.dermato.name">Dermatología</h3>
+          <p data-i18n="svc.dermato.desc">Diagnóstico y tratamiento de enfermedades cutáneas, alergias dérmicas y control de lunares.</p>
+          <a href="services.html" data-i18n="svc.more">Saber más →</a>
+        </div>
+        <div class="service-card" data-aos>
+          <div class="service-icon">🌸</div>
+          <h3 data-i18n="svc.gyneco.name">Ginecología</h3>
+          <p data-i18n="svc.gyneco.desc">Revisiones ginecológicas, ecografía obstétrica, planificación familiar y salud femenina.</p>
+          <a href="services.html" data-i18n="svc.more">Saber más →</a>
+        </div>
+        <div class="service-card" data-aos>
+          <div class="service-icon">💻</div>
+          <h3 data-i18n="svc.tele.name">Teleconsulta</h3>
+          <p data-i18n="svc.tele.desc">Consulta médica por videollamada Teams, desde cualquier lugar. Prescripción y seguimiento online.</p>
+          <a href="rdv.html" data-i18n="svc.more">Saber más →</a>
+        </div>
+        <div class="service-card" data-aos>
+          <div class="service-icon">✈️</div>
+          <h3 data-i18n="svc.travel.name">Medicina del Viajero</h3>
+          <p data-i18n="svc.travel.desc">Vacunas internacionales, consejos sanitarios y certificados de viaje para turistas y expatriados.</p>
+          <a href="services.html" data-i18n="svc.more">Saber más →</a>
+        </div>
+        <div class="service-card" data-aos>
+          <div class="service-icon">🦴</div>
+          <h3 data-i18n="svc.trauma.name">Traumatología</h3>
+          <p data-i18n="svc.trauma.desc">Lesiones deportivas, fracturas, esguinces y patología musculoesquelética. Atención urgente disponible.</p>
+          <a href="services.html" data-i18n="svc.more">Saber más →</a>
+        </div>
+      </div>
+      <div class="text-center" style="margin-top:2.5rem;">
+        <a href="services.html" class="btn btn-outline" data-i18n="services.all">Ver todos los servicios</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ WHY US ═══ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header" data-aos>
+        <span class="badge gold" data-i18n="why.badge">¿Por qué elegirnos?</span>
+        <h2 data-i18n="why.title">La clínica de confianza en Playa San Juan</h2>
+        <p data-i18n="why.subtitle">Combinamos experiencia médica y atención personalizada para cada paciente.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card" data-aos>
+          <div class="why-icon">🌍</div>
+          <h4 data-i18n="why.multi.title">11 Idiomas</h4>
+          <p data-i18n="why.multi.desc">Atendemos en español, inglés, francés, árabe, ruso, ucraniano, alemán, italiano y chino.</p>
+        </div>
+        <div class="why-card" data-aos>
+          <div class="why-icon">📅</div>
+          <h4 data-i18n="why.rdv.title">Cita en 24h</h4>
+          <p data-i18n="why.rdv.desc">Reserva tu consulta online en minutos. Confirmación automática por email.</p>
+        </div>
+        <div class="why-card" data-aos>
+          <div class="why-icon">💊</div>
+          <h4 data-i18n="why.multi2.title">Multiespecialidad</h4>
+          <p data-i18n="why.multi2.desc">Todas las especialidades bajo un mismo techo, sin esperas ni desplazamientos innecesarios.</p>
+        </div>
+        <div class="why-card" data-aos>
+          <div class="why-icon">🔒</div>
+          <h4 data-i18n="why.priv.title">Privacidad total</h4>
+          <p data-i18n="why.priv.desc">Historial médico digital seguro. Cumplimiento RGPD. Sus datos siempre protegidos.</p>
+        </div>
+        <div class="why-card" data-aos>
+          <div class="why-icon">📱</div>
+          <h4 data-i18n="why.tele.title">Teleconsulta Teams</h4>
+          <p data-i18n="why.tele.desc">Consulta desde casa, hotel o trabajo. Sin desplazamiento, con la misma calidad.</p>
+        </div>
+        <div class="why-card" data-aos>
+          <div class="why-icon">📍</div>
+          <h4 data-i18n="why.loc.title">Ubicación ideal</h4>
+          <p data-i18n="why.loc.desc">En el corazón de Cap de las Huertas, junto a Playa San Juan. Fácil acceso y aparcamiento.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TEAM APERÇU ═══ -->
+  <section class="section" style="background:var(--gray-50);">
+    <div class="container">
+      <div class="section-header" data-aos>
+        <span class="badge" data-i18n="team.badge">Equipo médico</span>
+        <h2 data-i18n="team.title">Conozca a nuestros especialistas</h2>
+        <p data-i18n="team.subtitle">Profesionales con amplia experiencia y vocación de servicio.</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=80" alt="Dr. Carlos Herrera Montoya" loading="lazy" />
+          <div class="team-info">
+            <h4>Dr. Carlos Herrera Montoya</h4>
+            <div class="team-specialty" data-i18n="svc.general.name">Medicina General</div>
+            <div class="team-lang">🇪🇸 🇬🇧</div>
+          </div>
+        </div>
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=400&q=80" alt="Dra. Elena Vásquez Ruiz" loading="lazy" />
+          <div class="team-info">
+            <h4>Dra. Elena Vásquez Ruiz</h4>
+            <div class="team-specialty" data-i18n="svc.cardio.name">Cardiología</div>
+            <div class="team-lang">🇪🇸 🇬🇧</div>
+          </div>
+        </div>
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Dra. Natalia Petrenko" loading="lazy" />
+          <div class="team-info">
+            <h4>Dra. Natalia Petrenko</h4>
+            <div class="team-specialty" data-i18n="svc.gyneco.name">Ginecología</div>
+            <div class="team-lang">🇺🇦 🇷🇺 🇪🇸 🇬🇧</div>
+          </div>
+        </div>
+        <div class="team-card" data-aos>
+          <img class="team-photo" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Dr. Marco Ferretti" loading="lazy" />
+          <div class="team-info">
+            <h4>Dr. Marco Ferretti</h4>
+            <div class="team-specialty">Diabetología</div>
+            <div class="team-lang">🇮🇹 🇪🇸 🇬🇧</div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center" style="margin-top:2.5rem;">
+        <a href="equipe.html" class="btn btn-outline" data-i18n="team.all">Ver todo el equipo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA BAND ═══ -->
+  <section class="cta-band">
+    <div class="container">
+      <span class="badge gold" style="margin-bottom:1rem;" data-i18n="cta.badge">Cita disponible hoy</span>
+      <h2 data-i18n="cta.title">¿Necesitas atención médica?</h2>
+      <p data-i18n="cta.subtitle">Reserva tu consulta en menos de 2 minutos. Presencial o teleconsulta Teams.</p>
+      <div class="cta-band-actions">
+        <a href="rdv.html" class="btn btn-gold btn-lg" data-i18n="cta.btn.rdv">Pedir cita ahora</a>
+        <a href="contact.html" class="btn btn-outline-white btn-lg" data-i18n="cta.btn.contact">Contactar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <span class="nav-logo-text">Clínica <span>Las Calas</span></span>
+          </div>
+          <p data-i18n="footer.desc">Clínica médica multiespecialidad en Alicante, Cap de las Huertas. Atención de calidad para residentes, turistas y expatriados.</p>
+          <div class="footer-social">
+            <a href="#" class="footer-social-link" aria-label="Instagram">📸</a>
+            <a href="#" class="footer-social-link" aria-label="Facebook">📘</a>
+            <a href="#" class="footer-social-link" aria-label="WhatsApp">💬</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.services">Servicios</h5>
+          <ul>
+            <li><a href="services.html" data-i18n="svc.general.name">Medicina General</a></li>
+            <li><a href="services.html" data-i18n="svc.cardio.name">Cardiología</a></li>
+            <li><a href="services.html" data-i18n="svc.pediatric.name">Pediatría</a></li>
+            <li><a href="services.html" data-i18n="svc.dermato.name">Dermatología</a></li>
+            <li><a href="services.html" data-i18n="svc.gyneco.name">Ginecología</a></li>
+            <li><a href="services.html" data-i18n="svc.tele.name">Teleconsulta</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.clinic">Clínica</h5>
+          <ul>
+            <li><a href="equipe.html" data-i18n="nav.team">Equipo</a></li>
+            <li><a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a></li>
+            <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+            <li><a href="rdv.html" data-i18n="nav.rdv">Pedir cita</a></li>
+            <li><a href="upload.html" data-i18n="nav.upload">Enviar documentos</a></li>
+            <li><a href="mentions.html" data-i18n="nav.mentions">Aviso legal</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.contact">Contacto</h5>
+          <div class="footer-contact-item">
+            <span class="icon">📍</span>
+            <span>Cap de las Huertas, Alicante, España</span>
+          </div>
+          <div class="footer-contact-item">
+            <span class="icon">📞</span>
+            <a href="tel:+34965000000">+34 965 000 000</a>
+          </div>
+          <div class="footer-contact-item">
+            <span class="icon">✉️</span>
+            <a href="mailto:contacto@clinicalascalas.com">contacto@clinicalascalas.com</a>
+          </div>
+          <div class="footer-contact-item">
+            <span class="icon">🕐</span>
+            <span data-i18n="footer.hours">Lun–Vie 9:00–20:00 · Sáb 9:00–14:00</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Clínica Las Calas. <span data-i18n="footer.rights">Todos los derechos reservados.</span></span>
+        <div style="display:flex;gap:1.5rem;">
+          <a href="mentions.html" data-i18n="footer.legal">Aviso legal</a>
+          <a href="mentions.html#privacy" data-i18n="footer.privacy">Privacidad</a>
+          <a href="mentions.html#cookies" data-i18n="footer.cookies">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══ CHATBOT FAB ═══ -->
+  <div class="chat-fab" id="chatFab" title="Chat con nosotros">
+    💬
+    <div class="chat-fab-pulse"></div>
+  </div>
+
+  <!-- ═══ CHAT WINDOW ═══ -->
+  <div class="chat-window hidden" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-header-avatar">🏥</div>
+      <div class="chat-header-info">
+        <strong data-i18n="chat.title">Asistente Clínica Las Calas</strong>
+        <div class="chat-header-online">
+          <div class="dot"></div>
+          <span data-i18n="chat.online">En línea ahora</span>
+        </div>
+      </div>
+      <button class="chat-close" id="chatClose">✕</button>
+    </div>
+    <div class="chat-disclaimer">
+      <span class="icon">⚠️</span>
+      <span data-i18n="chat.disclaimer">Este asistente no realiza diagnósticos. Para atención médica, reserve una consulta.</span>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-quick-btns" id="quickBtns">
+      <button class="chat-quick-btn" data-i18n="chat.quick.rdv">📅 Pedir cita</button>
+      <button class="chat-quick-btn" data-i18n="chat.quick.services">🩺 Servicios</button>
+      <button class="chat-quick-btn" data-i18n="chat.quick.horario">🕐 Horarios</button>
+      <button class="chat-quick-btn" data-i18n="chat.quick.price">💶 Tarifas</button>
+    </div>
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="chatInput" rows="1" placeholder="Escribe tu mensaje..." data-i18n-placeholder="chat.placeholder"></textarea>
+      <button class="chat-send" id="chatSend">➤</button>
+    </div>
+  </div>
+
+  <!-- ═══ WHATSAPP FAB ═══ -->
+  <a href="https://wa.me/34965000000" target="_blank" rel="noopener" class="whatsapp-fab" aria-label="WhatsApp">
+    💬
+  </a>
+
+  <script src="js/chat.js" type="module"></script>
+  <script src="js/main.js" type="module"></script>
+  </body>
+</html>

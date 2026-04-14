@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr" data-theme="c">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enviar Documentos — Clínica Las Calas</title>
+  <meta name="description" content="Envíe sus documentos médicos de forma segura a Clínica Las Calas antes de su consulta." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo.svg" alt="Clínica Las Calas" onerror="this.style.display='none'" />
+        <span class="nav-logo-text">Clínica <span>Las Calas</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" data-i18n="nav.home">Inicio</a>
+        <a href="services.html" data-i18n="nav.services">Servicios</a>
+        <a href="equipe.html" data-i18n="nav.team">Equipo</a>
+        <a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a>
+        <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+        <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+      </div>
+      <div class="nav-right">
+        <div class="lang-selector" id="langSelector">
+          <button class="lang-btn" id="langBtn"><span id="currentLang">ES</span><span>▾</span></button>
+          <div class="lang-dropdown" id="langDropdown">
+            <div class="lang-option active" data-lang="es"><span class="flag">🇪🇸</span> Español</div>
+            <div class="lang-option" data-lang="en"><span class="flag">🇬🇧</span> English</div>
+            <div class="lang-option" data-lang="fr"><span class="flag">🇫🇷</span> Français</div>
+            <div class="lang-option" data-lang="de"><span class="flag">🇩🇪</span> Deutsch</div>
+            <div class="lang-option" data-lang="it"><span class="flag">🇮🇹</span> Italiano</div>
+            <div class="lang-option" data-lang="ru"><span class="flag">🇷🇺</span> Русский</div>
+            <div class="lang-option" data-lang="uk"><span class="flag">🇺🇦</span> Українська</div>
+            <div class="lang-option" data-lang="zh"><span class="flag">🇨🇳</span> 中文</div>
+            <div class="lang-divider"></div>
+            <div class="lang-option" data-lang="ar-dz"><span class="flag">🇩🇿</span> العربية (DZ)</div>
+            <div class="lang-option" data-lang="ar-ma"><span class="flag">🇲🇦</span> العربية (MA)</div>
+            <div class="lang-option" data-lang="ar-tn"><span class="flag">🇹🇳</span> العربية (TN)</div>
+          </div>
+        </div>
+        <a href="rdv.html" class="btn btn-primary btn-sm" data-i18n="nav.rdv">Pedir cita</a>
+        <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html" data-i18n="nav.home">Inicio</a>
+    <a href="services.html" data-i18n="nav.services">Servicios</a>
+    <a href="equipe.html" data-i18n="nav.team">Equipo</a>
+    <a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a>
+    <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+    <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+    <a href="rdv.html" class="btn btn-primary" data-i18n="nav.rdv">Pedir cita</a>
+  </div>
+
+  <div class="page-header center">
+    <div class="container">
+      <span class="badge" data-i18n="upload.badge">Documentos seguros</span>
+      <h1 data-i18n="upload.title">Enviar documentos</h1>
+      <p data-i18n="upload.subtitle">Transmita sus documentos médicos de forma segura antes de su consulta.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container-sm">
+
+      <!-- Dossier ID -->
+      <div style="background:var(--primary-light);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;margin-bottom:2rem;display:flex;align-items:center;gap:1rem;" id="dossierBanner">
+        <span style="font-size:1.5rem;">📁</span>
+        <div>
+          <strong data-i18n="upload.dossier.label">Dossier:</strong>
+          <span id="dossierId" style="font-family:monospace;font-weight:700;color:var(--primary);font-size:1.05rem;">ClC-001</span>
+          <p style="font-size:.8rem;color:var(--text-light);margin-top:.15rem;" data-i18n="upload.dossier.hint">Su número de dossier. Si no lo tiene, déjelo en blanco.</p>
+        </div>
+        <input type="text" id="dossierInput" class="form-control" style="max-width:160px;margin-left:auto;font-family:monospace;font-weight:700;" placeholder="ClC-001" />
+      </div>
+
+      <!-- Infos patient -->
+      <div style="background:var(--white);border:1.5px solid var(--gray-200);border-radius:var(--radius-xl);padding:2rem;margin-bottom:2rem;" data-aos>
+        <h3 style="margin-bottom:1.25rem;font-size:1.05rem;" data-i18n="upload.patient.title">Información del paciente</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" data-i18n="form.name">Nombre completo <span class="required">*</span></label>
+            <input type="text" id="uName" class="form-control" required placeholder="Nombre Apellido" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="form.email">Email <span class="required">*</span></label>
+            <input type="email" id="uEmail" class="form-control" required placeholder="su@email.com" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="upload.doc.category">Categoría de documentos</label>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.75rem;margin-top:.5rem;">
+            <label style="display:flex;align-items:center;gap:.6rem;padding:.75rem;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);cursor:pointer;font-size:.88rem;transition:var(--transition);">
+              <input type="checkbox" name="docCat" value="identity" style="accent-color:var(--primary);" checked /> <span data-i18n="upload.cat.identity">🪪 Identidad</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:.6rem;padding:.75rem;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);cursor:pointer;font-size:.88rem;transition:var(--transition);">
+              <input type="checkbox" name="docCat" value="medical" style="accent-color:var(--primary);" /> <span data-i18n="upload.cat.medical">🏥 Médicos</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:.6rem;padding:.75rem;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);cursor:pointer;font-size:.88rem;transition:var(--transition);">
+              <input type="checkbox" name="docCat" value="insurance" style="accent-color:var(--primary);" /> <span data-i18n="upload.cat.insurance">💳 Seguro</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:.6rem;padding:.75rem;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);cursor:pointer;font-size:.88rem;transition:var(--transition);">
+              <input type="checkbox" name="docCat" value="other" style="accent-color:var(--primary);" /> <span data-i18n="upload.cat.other">📄 Otros</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zone upload -->
+      <div style="background:var(--white);border:1.5px solid var(--gray-200);border-radius:var(--radius-xl);padding:2rem;margin-bottom:2rem;" data-aos>
+        <h3 style="margin-bottom:1.25rem;font-size:1.05rem;" data-i18n="upload.zone.title">Archivos a enviar</h3>
+
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.heic,.doc,.docx" />
+          <div class="upload-zone-icon">☁️</div>
+          <h3 data-i18n="upload.zone.drag">Arrastre sus archivos aquí</h3>
+          <p data-i18n="upload.zone.or">o haga clic para seleccionar</p>
+          <p style="font-size:.75rem;color:var(--gray-400);margin-top:.5rem;" data-i18n="upload.zone.formats">PDF, JPG, PNG, HEIC, DOC — Máx. 10 MB por archivo</p>
+        </div>
+
+        <div class="upload-file-list" id="fileList"></div>
+
+        <!-- Analyse Claude Vision -->
+        <div id="visionResult" style="display:none;margin-top:1.5rem;">
+          <div class="alert alert-info">
+            <span class="alert-icon">🤖</span>
+            <div>
+              <strong data-i18n="upload.vision.title">Análisis automático de documentos</strong>
+              <div id="visionContent" style="margin-top:.4rem;font-size:.88rem;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div style="background:var(--white);border:1.5px solid var(--gray-200);border-radius:var(--radius-xl);padding:2rem;margin-bottom:2rem;" data-aos>
+        <h3 style="margin-bottom:1rem;font-size:1.05rem;" data-i18n="upload.notes.title">Notas adicionales</h3>
+        <textarea id="uNotes" class="form-control" rows="3" data-i18n-placeholder="upload.notes.placeholder" placeholder="Información adicional para el médico..."></textarea>
+      </div>
+
+      <!-- Sécurité -->
+      <div class="alert alert-info" style="margin-bottom:1.5rem;" data-aos>
+        <span class="alert-icon">🔒</span>
+        <div>
+          <strong data-i18n="upload.security.title">Transmisión segura</strong>
+          <p style="font-size:.82rem;margin-top:.2rem;" data-i18n="upload.security.desc">Sus documentos se transmiten de forma cifrada (HTTPS) y se almacenan en un servidor seguro. Solo el personal médico autorizado tiene acceso. Cumplimos con el RGPD.</p>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div id="uploadSuccess" class="alert alert-success" style="display:none;margin-bottom:1.5rem;">
+        <span class="alert-icon">✅</span>
+        <div>
+          <strong data-i18n="upload.success.title">¡Documentos enviados correctamente!</strong><br />
+          <span data-i18n="upload.success.desc">Sus documentos han sido recibidos y analizados. El médico los revisará antes de su consulta. Recibirá un email de confirmación.</span>
+        </div>
+      </div>
+
+      <div id="uploadError" class="alert alert-error" style="display:none;margin-bottom:1.5rem;">
+        <span class="alert-icon">❌</span>
+        <span data-i18n="upload.error">Error al enviar los documentos. Por favor inténtelo de nuevo o contáctenos.</span>
+      </div>
+
+      <div style="display:flex;gap:1rem;">
+        <label class="form-label" style="display:flex;align-items:flex-start;gap:.6rem;font-size:.85rem;color:var(--gray-600);cursor:pointer;flex:1;">
+          <input type="checkbox" id="uConsent" required style="margin-top:.15rem;flex-shrink:0;" />
+          <span data-i18n="form.consent">Acepto que mis datos y documentos sean tratados para la gestión de mi expediente médico. <a href="mentions.html#privacy" style="color:var(--primary);">Política de privacidad</a>.</span>
+        </label>
+      </div>
+
+      <button type="button" class="btn btn-primary btn-lg" style="width:100%;margin-top:1.25rem;justify-content:center;" id="uploadSubmit">
+        <span data-i18n="upload.submit">📤 Enviar documentos</span>
+      </button>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo"><span class="nav-logo-text">Clínica <span>Las Calas</span></span></div>
+          <p data-i18n="footer.desc">Clínica médica multiespecialidad en Alicante.</p>
+          <div class="footer-social"><a href="#" class="footer-social-link">📸</a><a href="#" class="footer-social-link">📘</a></div>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.services">Servicios</h5>
+          <ul><li><a href="services.html" data-i18n="svc.general.name">Medicina General</a></li><li><a href="services.html" data-i18n="svc.tele.name">Teleconsulta</a></li></ul>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.clinic">Clínica</h5>
+          <ul><li><a href="rdv.html" data-i18n="nav.rdv">Pedir cita</a></li><li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li><li><a href="mentions.html" data-i18n="nav.mentions">Aviso legal</a></li></ul>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.contact">Contacto</h5>
+          <div class="footer-contact-item"><span class="icon">📞</span><a href="tel:+34965000000">+34 965 000 000</a></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Clínica Las Calas.</span>
+        <div style="display:flex;gap:1.5rem;"><a href="mentions.html" data-i18n="footer.legal">Aviso legal</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="chat-fab" id="chatFab">💬<div class="chat-fab-pulse"></div></div>
+  <div class="chat-window hidden" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-header-avatar">🏥</div>
+      <div class="chat-header-info"><strong data-i18n="chat.title">Asistente</strong><div class="chat-header-online"><div class="dot"></div><span data-i18n="chat.online">En línea</span></div></div>
+      <button class="chat-close" id="chatClose">✕</button>
+    </div>
+    <div class="chat-disclaimer"><span class="icon">⚠️</span><span data-i18n="chat.disclaimer">Este asistente no realiza diagnósticos.</span></div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-quick-btns" id="quickBtns">
+      <button class="chat-quick-btn" data-i18n="chat.quick.rdv">📅 Pedir cita</button>
+    </div>
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="chatInput" rows="1" data-i18n-placeholder="chat.placeholder"></textarea>
+      <button class="chat-send" id="chatSend">➤</button>
+    </div>
+  </div>
+  <a href="https://wa.me/34965000000" target="_blank" rel="noopener" class="whatsapp-fab">💬</a>
+
+  <script src="js/chat.js" type="module"></script>
+  <script src="js/main.js" type="module"></script>
+    <script src="js/upload.js" type="module"></script>
+</body>
+</html>

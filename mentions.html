@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr" data-theme="c">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aviso Legal — Clínica Las Calas</title>
+  <meta name="description" content="Aviso legal, política de privacidad y cookies de Clínica Las Calas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo.svg" alt="Clínica Las Calas" onerror="this.style.display='none'" />
+        <span class="nav-logo-text">Clínica <span>Las Calas</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" data-i18n="nav.home">Inicio</a>
+        <a href="services.html" data-i18n="nav.services">Servicios</a>
+        <a href="equipe.html" data-i18n="nav.team">Equipo</a>
+        <a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a>
+        <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+        <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+      </div>
+      <div class="nav-right">
+        <div class="lang-selector" id="langSelector">
+          <button class="lang-btn" id="langBtn"><span id="currentLang">ES</span><span>▾</span></button>
+          <div class="lang-dropdown" id="langDropdown">
+            <div class="lang-option active" data-lang="es"><span class="flag">🇪🇸</span> Español</div>
+            <div class="lang-option" data-lang="en"><span class="flag">🇬🇧</span> English</div>
+            <div class="lang-option" data-lang="fr"><span class="flag">🇫🇷</span> Français</div>
+            <div class="lang-option" data-lang="de"><span class="flag">🇩🇪</span> Deutsch</div>
+            <div class="lang-option" data-lang="it"><span class="flag">🇮🇹</span> Italiano</div>
+            <div class="lang-option" data-lang="ru"><span class="flag">🇷🇺</span> Русский</div>
+            <div class="lang-option" data-lang="uk"><span class="flag">🇺🇦</span> Українська</div>
+            <div class="lang-option" data-lang="zh"><span class="flag">🇨🇳</span> 中文</div>
+            <div class="lang-divider"></div>
+            <div class="lang-option" data-lang="ar-dz"><span class="flag">🇩🇿</span> العربية (DZ)</div>
+            <div class="lang-option" data-lang="ar-ma"><span class="flag">🇲🇦</span> العربية (MA)</div>
+            <div class="lang-option" data-lang="ar-tn"><span class="flag">🇹🇳</span> العربية (TN)</div>
+          </div>
+        </div>
+        <a href="rdv.html" class="btn btn-primary btn-sm" data-i18n="nav.rdv">Pedir cita</a>
+        <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html" data-i18n="nav.home">Inicio</a>
+    <a href="services.html" data-i18n="nav.services">Servicios</a>
+    <a href="equipe.html" data-i18n="nav.team">Equipo</a>
+    <a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a>
+    <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+    <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+    <a href="rdv.html" class="btn btn-primary" data-i18n="nav.rdv">Pedir cita</a>
+  </div>
+
+  <div class="page-header">
+    <div class="container">
+      <span class="badge">⚖️</span>
+      <h1 style="margin-top:.75rem;" data-i18n="mentions.title">Aviso Legal</h1>
+      <p data-i18n="mentions.subtitle">Última actualización: Enero 2025</p>
+      <div style="display:flex;gap:1rem;margin-top:1.25rem;flex-wrap:wrap;">
+        <a href="#legal" style="font-size:.88rem;color:var(--primary);font-weight:600;">Aviso legal</a>
+        <a href="#privacy" style="font-size:.88rem;color:var(--primary);font-weight:600;">Privacidad</a>
+        <a href="#cookies" style="font-size:.88rem;color:var(--primary);font-weight:600;">Cookies</a>
+        <a href="#disclaimer" style="font-size:.88rem;color:var(--primary);font-weight:600;">Disclaimer médico</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container-sm">
+
+      <style>
+        .legal-section { margin-bottom: 3rem; }
+        .legal-section h2 { font-size: 1.4rem; margin-bottom: 1.25rem; padding-bottom: .75rem; border-bottom: 2px solid var(--primary-light); color: var(--primary); }
+        .legal-section h3 { font-size: 1.05rem; margin: 1.5rem 0 .6rem; color: var(--gray-800); }
+        .legal-section p { font-size: .93rem; color: var(--gray-600); line-height: 1.8; margin-bottom: .75rem; }
+        .legal-section ul { padding-left: 1.5rem; margin-bottom: .75rem; }
+        .legal-section ul li { font-size: .93rem; color: var(--gray-600); line-height: 1.8; margin-bottom: .3rem; list-style: disc; }
+        .legal-section a { color: var(--primary); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .9rem; }
+        th { background: var(--primary-light); color: var(--primary-dark); padding: .75rem 1rem; text-align: left; font-weight: 600; }
+        td { padding: .75rem 1rem; border-bottom: 1px solid var(--gray-200); color: var(--gray-600); vertical-align: top; }
+        tr:last-child td { border-bottom: none; }
+      </style>
+
+      <!-- 1. AVISO LEGAL -->
+      <div class="legal-section" id="legal">
+        <h2>1. Aviso Legal — Información del Titular</h2>
+        <p>En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y del Comercio Electrónico (LSSI-CE), se informa:</p>
+        <ul>
+          <li><strong>Denominación social:</strong> Clínica Las Calas S.L.</li>
+          <li><strong>Nombre comercial:</strong> Clínica Las Calas</li>
+          <li><strong>Domicilio social:</strong> Cap de las Huertas, Alicante, España</li>
+          <li><strong>CIF:</strong> B-XXXXXXXX (a completar)</li>
+          <li><strong>Email:</strong> <a href="mailto:contacto@clinicalascalas.com">contacto@clinicalascalas.com</a></li>
+          <li><strong>Teléfono:</strong> +34 965 000 000</li>
+          <li><strong>Registro Sanitario:</strong> N.º XXXXXXXX — Conselleria de Sanitat, Comunitat Valenciana</li>
+        </ul>
+        <h3>Condiciones de uso</h3>
+        <p>El acceso y uso de este sitio web implica la aceptación plena y sin reservas de las presentes condiciones. Clínica Las Calas se reserva el derecho de modificar estas condiciones en cualquier momento. La información publicada en este sitio web tiene carácter meramente informativo y no constituye en ningún caso un consejo médico o diagnóstico.</p>
+        <h3>Propiedad intelectual</h3>
+        <p>Todos los contenidos de este sitio web (textos, imágenes, diseños, logotipos) son propiedad de Clínica Las Calas o de sus proveedores de contenido y están protegidos por las leyes de propiedad intelectual. Queda prohibida su reproducción sin autorización expresa.</p>
+      </div>
+
+      <!-- 2. POLÍTICA DE PRIVACIDAD -->
+      <div class="legal-section" id="privacy">
+        <h2>2. Política de Privacidad</h2>
+        <p>De conformidad con el Reglamento (UE) 2016/679 del Parlamento Europeo (RGPD) y la Ley Orgánica 3/2018 de Protección de Datos Personales (LOPDGDD), le informamos sobre el tratamiento de sus datos.</p>
+
+        <h3>Responsable del tratamiento</h3>
+        <ul>
+          <li><strong>Responsable:</strong> Clínica Las Calas S.L.</li>
+          <li><strong>Contacto DPO:</strong> <a href="mailto:privacidad@clinicalascalas.com">privacidad@clinicalascalas.com</a></li>
+        </ul>
+
+        <h3>Finalidades y base jurídica</h3>
+        <table>
+          <thead><tr><th>Finalidad</th><th>Base jurídica</th><th>Conservación</th></tr></thead>
+          <tbody>
+            <tr><td>Gestión de citas médicas</td><td>Ejecución de contrato</td><td>5 años tras última visita</td></tr>
+            <tr><td>Historial médico</td><td>Obligación legal (Ley de Sanidad)</td><td>15 años mínimo</td></tr>
+            <tr><td>Teleconsulta Teams</td><td>Consentimiento explícito</td><td>Duración del tratamiento</td></tr>
+            <tr><td>Envío documentos</td><td>Consentimiento explícito</td><td>5 años</td></tr>
+            <tr><td>Formulario contacto</td><td>Interés legítimo</td><td>2 años</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Sus derechos</h3>
+        <p>Puede ejercer sus derechos de acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a <a href="mailto:privacidad@clinicalascalas.com">privacidad@clinicalascalas.com</a> con copia de su documento de identidad. También puede presentar reclamación ante la Agencia Española de Protección de Datos (<a href="https://www.aepd.es" target="_blank" rel="noopener">www.aepd.es</a>).</p>
+
+        <h3>Transferencias internacionales</h3>
+        <p>Sus datos pueden ser procesados por proveedores de servicios cloud (Microsoft Azure, Airtable) que ofrecen garantías adecuadas mediante cláusulas contractuales tipo aprobadas por la Comisión Europea.</p>
+
+        <h3>Seguridad</h3>
+        <p>Aplicamos medidas técnicas y organizativas apropiadas: cifrado HTTPS, control de accesos, auditorías regulares, servidores en la UE. Los documentos médicos se almacenan en Microsoft OneDrive con cifrado en reposo y en tránsito.</p>
+      </div>
+
+      <!-- 3. COOKIES -->
+      <div class="legal-section" id="cookies">
+        <h2>3. Política de Cookies</h2>
+        <p>Este sitio web utiliza cookies para mejorar la experiencia de navegación. En virtud del artículo 22.2 de la LSSI-CE, le informamos de su uso.</p>
+
+        <h3>Cookies utilizadas</h3>
+        <table>
+          <thead><tr><th>Cookie</th><th>Tipo</th><th>Finalidad</th><th>Duración</th></tr></thead>
+          <tbody>
+            <tr><td>clc_lang</td><td>Técnica</td><td>Idioma seleccionado</td><td>1 año</td></tr>
+            <tr><td>clc_session</td><td>Técnica</td><td>Sesión del chatbot</td><td>Sesión</td></tr>
+            <tr><td>_ga</td><td>Analítica</td><td>Google Analytics (anónimo)</td><td>2 años</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Gestión de cookies</h3>
+        <p>Puede configurar su navegador para rechazar o eliminar cookies. Sin embargo, algunas funcionalidades del sitio pueden dejar de funcionar correctamente. Para más información, consulte la ayuda de su navegador.</p>
+      </div>
+
+      <!-- 4. DISCLAIMER MÉDICO -->
+      <div class="legal-section" id="disclaimer">
+        <h2>4. Disclaimer Médico</h2>
+
+        <div class="medical-disclaimer" style="margin-bottom:1.5rem;padding:1.25rem;font-size:.9rem;">
+          <span class="icon">⚕️</span>
+          <div>
+            <strong style="display:block;margin-bottom:.4rem;">Aviso importante sobre el asistente virtual</strong>
+            El chatbot de Clínica Las Calas es un asistente informativo. <strong>No realiza diagnósticos médicos, no prescribe medicamentos y no reemplaza la consulta con un profesional de la salud.</strong> Toda la información proporcionada tiene carácter orientativo y general.
+          </div>
+        </div>
+
+        <h3>Limitación de responsabilidad</h3>
+        <p>La información contenida en este sitio web y proporcionada por el asistente virtual tiene exclusivamente finalidad informativa. Clínica Las Calas no se responsabiliza de las decisiones tomadas por los usuarios basándose únicamente en esta información sin consultar a un médico.</p>
+
+        <h3>Urgencias médicas</h3>
+        <div class="alert alert-error" style="margin-bottom:1rem;">
+          <span class="alert-icon">🚨</span>
+          <div><strong>En caso de emergencia médica:</strong> Llame al <strong>112</strong> (emergencias) o acuda al servicio de urgencias más cercano. Este sitio web no es un servicio de atención de urgencias.</div>
+        </div>
+
+        <h3>Colegiación y habilitación profesional</h3>
+        <p>Todos los profesionales médicos de Clínica Las Calas están debidamente colegiados en el Colegio de Médicos de Alicante y habilitados para el ejercicio de la medicina en España conforme a la legislación vigente.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo"><span class="nav-logo-text">Clínica <span>Las Calas</span></span></div>
+          <p data-i18n="footer.desc">Clínica médica multiespecialidad en Alicante.</p>
+          <div class="footer-social"><a href="#" class="footer-social-link">📸</a><a href="#" class="footer-social-link">📘</a></div>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.services">Servicios</h5>
+          <ul><li><a href="services.html" data-i18n="svc.general.name">Medicina General</a></li><li><a href="services.html" data-i18n="svc.tele.name">Teleconsulta</a></li></ul>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.clinic">Clínica</h5>
+          <ul><li><a href="rdv.html" data-i18n="nav.rdv">Pedir cita</a></li><li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li></ul>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.contact">Contacto</h5>
+          <div class="footer-contact-item"><span class="icon">📞</span><a href="tel:+34965000000">+34 965 000 000</a></div>
+          <div class="footer-contact-item"><span class="icon">✉️</span><a href="mailto:contacto@clinicalascalas.com">contacto@clinicalascalas.com</a></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Clínica Las Calas. <span data-i18n="footer.rights">Todos los derechos reservados.</span></span>
+        <div style="display:flex;gap:1.5rem;">
+          <a href="#legal">Aviso legal</a>
+          <a href="#privacy" data-i18n="footer.privacy">Privacidad</a>
+          <a href="#cookies" data-i18n="footer.cookies">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="chat-fab" id="chatFab">💬<div class="chat-fab-pulse"></div></div>
+  <div class="chat-window hidden" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-header-avatar">🏥</div>
+      <div class="chat-header-info"><strong data-i18n="chat.title">Asistente</strong><div class="chat-header-online"><div class="dot"></div><span data-i18n="chat.online">En línea</span></div></div>
+      <button class="chat-close" id="chatClose">✕</button>
+    </div>
+    <div class="chat-disclaimer"><span class="icon">⚠️</span><span data-i18n="chat.disclaimer">Este asistente no realiza diagnósticos.</span></div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-quick-btns" id="quickBtns"><button class="chat-quick-btn" data-i18n="chat.quick.rdv">📅 Pedir cita</button></div>
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="chatInput" rows="1" data-i18n-placeholder="chat.placeholder"></textarea>
+      <button class="chat-send" id="chatSend">➤</button>
+    </div>
+  </div>
+  <a href="https://wa.me/34965000000" target="_blank" rel="noopener" class="whatsapp-fab">💬</a>
+
+  <script src="js/chat.js" type="module"></script>
+  <script src="js/main.js" type="module"></script>
+  </body>
+</html>

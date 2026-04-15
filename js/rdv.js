@@ -19,17 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
 // ─── Step navigation ──────────────────────────────────────────────────────────
 function showStep(step) {
   currentStep = step;
-  document.querySelectorAll('.rdv-step-content').forEach(el => {
-    el.classList.toggle('active', parseInt(el.dataset.step) === step);
+  // Show/hide step content divs by ID (step1, step2, step3)
+  [1, 2, 3].forEach(n => {
+    const el = document.getElementById('step' + n);
+    if (el) el.style.display = n === step ? 'block' : 'none';
   });
-  document.querySelectorAll('.step-indicator').forEach(ind => {
+  // Update step indicators (.rdv-step elements)
+  document.querySelectorAll('.rdv-step').forEach(ind => {
     const s = parseInt(ind.dataset.step);
     ind.classList.remove('active', 'completed');
-    if (s === step)  ind.classList.add('active');
-    if (s < step)    ind.classList.add('completed');
+    if (s === step) ind.classList.add('active');
+    if (s < step)   ind.classList.add('completed');
   });
   // Scroll top of form
-  const form = document.querySelector('.rdv-form-container');
+  const form = document.querySelector('.rdv-form-card');
   if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -127,21 +130,23 @@ function bindPhoneFormat() {
 
 // ─── Step buttons ─────────────────────────────────────────────────────────────
 function bindStepButtons() {
-  // Step 1 → 2
-  const next1 = document.getElementById('step1-next');
-  if (next1) next1.addEventListener('click', () => goStep('next'));
-
-  // Step 2 → 1 / 3
-  const back2 = document.getElementById('step2-back');
-  const next2 = document.getElementById('step2-next');
-  if (back2) back2.addEventListener('click', () => goStep('back'));
-  if (next2) next2.addEventListener('click', () => goStep('next'));
-
-  // Step 3 → 2 / submit
-  const back3  = document.getElementById('step3-back');
-  const submit = document.getElementById('rdv-submit');
-  if (back3)  back3.addEventListener('click', () => goStep('back'));
-  if (submit) submit.addEventListener('click', submitRDV);
+  // Buttons use inline onclick="goStep('next'/'back')" — no binding needed for nav
+  // Only the submit button needs explicit binding (id="rdvSubmit", type="submit")
+  const submitBtn = document.getElementById('rdvSubmit');
+  if (submitBtn) {
+    submitBtn.addEventListener('click', e => {
+      e.preventDefault();
+      submitRDV();
+    });
+  }
+  // Also intercept form submit event as safety net
+  const form = document.getElementById('rdvForm');
+  if (form) {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      submitRDV();
+    });
+  }
 }
 
 // ─── Build summary (step 3) ───────────────────────────────────────────────────

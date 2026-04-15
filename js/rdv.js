@@ -49,29 +49,19 @@ function validateStep(step) {
   let valid = true;
 
   if (step === 1) {
-    valid = validateField('rdv-firstname', v => v.length >= 2, 'Mínimo 2 caracteres') && valid;
-    valid = validateField('rdv-lastname',  v => v.length >= 2, 'Mínimo 2 caracteres') && valid;
-    valid = validateField('rdv-email',     v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'Email inválido') && valid;
-    valid = validateField('rdv-phone',     v => v.replace(/\s/g,'').length >= 9, 'Teléfono inválido') && valid;
-    const docType = document.querySelector('input[name="doc_type"]:checked');
-    if (!docType) {
-      showError('doc-type-group', 'Selecciona un tipo de documento');
-      valid = false;
-    }
-    valid = validateField('rdv-docnum', v => v.length >= 6, 'Número de documento inválido') && valid;
+    valid = validateField('rFirstName', v => v.length >= 2, 'Mínimo 2 caracteres') && valid;
+    valid = validateField('rLastName',  v => v.length >= 2, 'Mínimo 2 caracteres') && valid;
+    valid = validateField('rEmail',     v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'Email inválido') && valid;
+    valid = validateField('rPhone',     v => v.replace(/\s/g,'').length >= 9, 'Teléfono inválido') && valid;
+    // rDoc is a <select> with default — always has a value
+    // rLang is a <select> with default — always has a value
   }
 
   if (step === 2) {
-    const type = document.querySelector('input[name="rdv_type"]:checked');
-    if (!type) {
-      showError('rdv-type-group', 'Selecciona el tipo de consulta');
-      valid = false;
-    }
-    valid = validateField('rdv-specialty', v => v !== '', 'Selecciona una especialidad') && valid;
-    valid = validateField('rdv-motive',    v => v.length >= 10, 'Describe brevemente el motivo (mín. 10 caracteres)') && valid;
-    valid = validateField('rdv-date',      v => v !== '', 'Selecciona una fecha preferida') && valid;
-    const lang = document.getElementById('rdv-lang');
-    if (lang) valid = validateField('rdv-lang', v => v !== '', 'Selecciona un idioma') && valid;
+    // rdvType radios — one is checked by default (presential)
+    valid = validateField('rSpecialty', v => v !== '', 'Selecciona una especialidad') && valid;
+    valid = validateField('rMotive',    v => v.length >= 10, 'Describe brevemente el motivo (mín. 10 caracteres)') && valid;
+    // rPreference (date) is optional — no validation required
   }
 
   return valid;
@@ -109,7 +99,7 @@ function clearErrors() {
 
 // ─── Consultation type toggle ─────────────────────────────────────────────────
 function bindConsultTypeToggle() {
-  document.querySelectorAll('input[name="rdv_type"]').forEach(radio => {
+  document.querySelectorAll('input[name="rdvType"]').forEach(radio => {
     radio.addEventListener('change', () => {
       const isTele = radio.value === 'teleconsulta';
       const telemsg = document.getElementById('tele-info-msg');
@@ -120,7 +110,7 @@ function bindConsultTypeToggle() {
 
 // ─── Date minimum (today) ─────────────────────────────────────────────────────
 function bindDateMin() {
-  const dateInput = document.getElementById('rdv-date');
+  const dateInput = document.getElementById('rPreference');
   if (!dateInput) return;
   const today = new Date().toISOString().split('T')[0];
   dateInput.min = today;
@@ -128,7 +118,7 @@ function bindDateMin() {
 
 // ─── Phone format ─────────────────────────────────────────────────────────────
 function bindPhoneFormat() {
-  const phone = document.getElementById('rdv-phone');
+  const phone = document.getElementById('rPhone');
   if (!phone) return;
   phone.addEventListener('input', () => {
     phone.value = phone.value.replace(/[^\d\s\+\-\(\)]/g, '');
@@ -157,25 +147,23 @@ function bindStepButtons() {
 // ─── Build summary (step 3) ───────────────────────────────────────────────────
 function buildSummary() {
   const g = id => (document.getElementById(id)?.value || '').trim();
-  const checkedDoc  = document.querySelector('input[name="doc_type"]:checked');
-  const checkedType = document.querySelector('input[name="rdv_type"]:checked');
+  const checkedType = document.querySelector('input[name="rdvType"]:checked');
 
   const summary = {
-    firstname : g('rdv-firstname'),
-    lastname  : g('rdv-lastname'),
-    email     : g('rdv-email'),
-    phone     : g('rdv-phone'),
-    docType   : checkedDoc?.value  || '',
-    docNum    : g('rdv-docnum'),
-    lang      : g('rdv-lang'),
-    type      : checkedType?.value || '',
-    specialty : g('rdv-specialty'),
-    motive    : g('rdv-motive'),
-    date      : g('rdv-date')
+    firstname : g('rFirstName'),
+    lastname  : g('rLastName'),
+    email     : g('rEmail'),
+    phone     : g('rPhone'),
+    docType   : g('rDoc'),
+    lang      : g('rLang'),
+    type      : checkedType?.value || 'presential',
+    specialty : g('rSpecialty'),
+    motive    : g('rMotive'),
+    date      : g('rPreference')
   };
 
   // Render in summary box
-  const box = document.getElementById('summary-box');
+  const box = document.getElementById('rdvSummary');
   if (!box) return;
 
   box.innerHTML = `
@@ -185,7 +173,7 @@ function buildSummary() {
         <p><strong>Nombre:</strong> ${summary.firstname} ${summary.lastname}</p>
         <p><strong>Email:</strong> ${summary.email}</p>
         <p><strong>Teléfono:</strong> ${summary.phone}</p>
-        <p><strong>Documento:</strong> ${summary.docType} – ${summary.docNum}</p>
+        <p><strong>Documento:</strong> ${summary.docType}</p>
         ${summary.lang ? `<p><strong>Idioma:</strong> ${summary.lang}</p>` : ''}
       </div>
       <div class="summary-section">
@@ -199,7 +187,7 @@ function buildSummary() {
   `;
 
   // Store for submit
-  box.dataset.payload = JSON.stringify(summary);
+  box.dataset.rdvPayload = JSON.stringify(summary);
 }
 
 function formatDate(iso) {
@@ -212,18 +200,18 @@ function formatDate(iso) {
 
 // ─── Submit ───────────────────────────────────────────────────────────────────
 async function submitRDV() {
-  const consent = document.getElementById('rdv-consent');
+  const consent = document.getElementById('rConsent');
   if (!consent?.checked) {
-    showError('rdv-consent', 'Debes aceptar el consentimiento para continuar');
+    showError('rConsent', 'Debes aceptar el consentimiento para continuar');
     return;
   }
 
-  const box = document.getElementById('summary-box');
-  if (!box?.dataset.payload) return;
-  const payload = JSON.parse(box.dataset.payload);
+  const box = document.getElementById('rdvSummary');
+  if (!box?.dataset.rdvPayload) return;
+  const payload = JSON.parse(box.dataset.rdvPayload);
   payload.lang = window.getCurrentLang?.() || 'es';
 
-  const submitBtn = document.getElementById('rdv-submit');
+  const submitBtn = document.getElementById('rdvSubmit');
   if (submitBtn) {
     submitBtn.disabled = true;
     submitBtn.textContent = '⏳ Enviando...';
@@ -263,7 +251,7 @@ async function submitRDV() {
       submitBtn.disabled = false;
       submitBtn.textContent = window.t('rdv.submit') || 'Confirmar cita';
     }
-    const errorEl = document.getElementById('rdv-error');
+    const errorEl = document.getElementById('rdvError');
     if (errorEl) {
       errorEl.textContent = 'Error al enviar la solicitud. Por favor, llámanos directamente.';
       errorEl.style.display = 'block';

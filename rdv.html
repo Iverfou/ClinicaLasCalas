@@ -176,7 +176,7 @@
                   </select>
                 </div>
               </div>
-              <button type="button" class="btn btn-primary" style="width:100%;" onclick="goStep(2)" data-i18n="rdv.next">Siguiente →</button>
+              <button type="button" class="btn btn-primary" style="width:100%;" onclick="goStep('next')" data-i18n="rdv.next">Siguiente →</button>
             </div>
 
             <!-- ÉTAPE 2 : Type de consultation -->
@@ -224,8 +224,8 @@
                 <span data-i18n="rdv.disclaimer">Este formulario no es para urgencias médicas. En caso de urgencia llame al 112 o acuda al servicio de urgencias más cercano.</span>
               </div>
               <div style="display:flex;gap:.75rem;">
-                <button type="button" class="btn btn-outline" style="flex:1;" onclick="goStep(1)" data-i18n="rdv.back">← Atrás</button>
-                <button type="button" class="btn btn-primary" style="flex:2;" onclick="goStep(3)" data-i18n="rdv.next">Siguiente →</button>
+                <button type="button" class="btn btn-outline" style="flex:1;" onclick="goStep('back')" data-i18n="rdv.back">← Atrás</button>
+                <button type="button" class="btn btn-primary" style="flex:2;" onclick="goStep('next')" data-i18n="rdv.next">Siguiente →</button>
               </div>
             </div>
 
@@ -242,7 +242,7 @@
                 </label>
               </div>
               <div style="display:flex;gap:.75rem;">
-                <button type="button" class="btn btn-outline" style="flex:1;" onclick="goStep(2)" data-i18n="rdv.back">← Atrás</button>
+                <button type="button" class="btn btn-outline" style="flex:1;" onclick="goStep('back')" data-i18n="rdv.back">← Atrás</button>
                 <button type="submit" class="btn btn-primary" style="flex:2;" id="rdvSubmit">
                   <span data-i18n="rdv.submit">Confirmar cita</span>
                 </button>

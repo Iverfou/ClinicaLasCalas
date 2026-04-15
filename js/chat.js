@@ -67,13 +67,10 @@ function toggleChat() {
 
 function openChat() {
   isOpen = true;
-  const widget = document.querySelector('.chat-widget');
-  const fab    = document.querySelector('.chat-fab');
-  if (widget) widget.classList.add('open');
-  if (fab)    fab.classList.add('hidden');
-  // Clear badge
-  const badge = document.querySelector('.chat-badge');
-  if (badge) badge.style.display = 'none';
+  const chatWin = document.querySelector('.chat-window');
+  const fab     = document.querySelector('.chat-fab');
+  if (chatWin) chatWin.classList.remove('hidden');
+  if (fab)     fab.classList.add('is-open');
   // Focus input
   setTimeout(() => {
     const input = document.querySelector('.chat-input');
@@ -83,10 +80,10 @@ function openChat() {
 
 function closeChat() {
   isOpen = false;
-  const widget = document.querySelector('.chat-widget');
-  const fab    = document.querySelector('.chat-fab');
-  if (widget) widget.classList.remove('open');
-  if (fab)    fab.classList.remove('hidden');
+  const chatWin = document.querySelector('.chat-window');
+  const fab     = document.querySelector('.chat-fab');
+  if (chatWin) chatWin.classList.add('hidden');
+  if (fab)     fab.classList.remove('is-open');
 }
 
 // ─── Welcome message ─────────────────────────────────────────────────────────

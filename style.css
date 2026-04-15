@@ -743,6 +743,8 @@ select.form-control { cursor: pointer; }
   border: 3px solid var(--white);
 }
 .chat-fab:hover { transform: scale(1.08); background: var(--primary-dark); }
+.chat-fab.is-open { background: var(--primary-dark); }
+.chat-fab.is-open::after { content: '✕'; position: absolute; font-size: 1.2rem; }
 .chat-fab-pulse {
   position: absolute; top: 0; right: 0;
   width: 14px; height: 14px;

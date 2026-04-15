@@ -16,6 +16,15 @@ let history   = [];
 // ─── Init ────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   localStorage.setItem(SESSION_KEY, sessionId);
+
+  // Force initial closed state regardless of HTML class
+  const chatWin = document.querySelector('.chat-window');
+  if (chatWin) {
+    chatWin.classList.remove('hidden');      // clean up old class
+    chatWin.classList.add('chat-closed');    // always start closed
+  }
+  isOpen = false;
+
   bindEvents();
   showWelcome();
 });
@@ -69,7 +78,7 @@ function openChat() {
   isOpen = true;
   const chatWin = document.querySelector('.chat-window');
   const fab     = document.querySelector('.chat-fab');
-  if (chatWin) chatWin.classList.remove('hidden');
+  if (chatWin) chatWin.classList.remove('chat-closed');
   if (fab)     fab.classList.add('is-open');
   // Focus input
   setTimeout(() => {
@@ -82,7 +91,7 @@ function closeChat() {
   isOpen = false;
   const chatWin = document.querySelector('.chat-window');
   const fab     = document.querySelector('.chat-fab');
-  if (chatWin) chatWin.classList.add('hidden');
+  if (chatWin) chatWin.classList.add('chat-closed');
   if (fab)     fab.classList.remove('is-open');
 }
 

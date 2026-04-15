@@ -765,11 +765,12 @@ select.form-control { cursor: pointer; }
   overflow: hidden;
   z-index: 900;
   transform-origin: bottom left;
-  transition: transform .25s ease, opacity .25s ease;
+  transition: transform .25s ease, opacity .25s ease, visibility .25s;
+  opacity: 1; transform: scale(1) translateY(0); visibility: visible;
 }
-.chat-window.hidden {
+.chat-window.chat-closed {
   transform: scale(.85) translateY(20px);
-  opacity: 0; pointer-events: none;
+  opacity: 0; pointer-events: none; visibility: hidden;
 }
 
 .chat-header {
@@ -1009,7 +1010,7 @@ select.form-control { cursor: pointer; }
 [dir="rtl"] .hero-trust { right: auto; left: -1rem; }
 [dir="rtl"] .chat-fab { left: auto; right: 1.75rem; }
 [dir="rtl"] .chat-window { left: auto; right: 1.75rem; transform-origin: bottom right; }
-[dir="rtl"] .chat-window.hidden { transform: scale(.85) translateY(20px); }
+[dir="rtl"] .chat-window.chat-closed { transform: scale(.85) translateY(20px); }
 [dir="rtl"] .whatsapp-fab { right: auto; left: 1.75rem; }
 [dir="rtl"] .chat-msg.bot { align-self: flex-start; flex-direction: row; }
 [dir="rtl"] .chat-msg.user { align-self: flex-end; flex-direction: row-reverse; }

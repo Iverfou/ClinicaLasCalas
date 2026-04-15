@@ -1,11 +1,51 @@
 /**
  * rdv.js — Clínica Las Calas
  * 3-step appointment booking form: navigation, validation, summary, submit
+ * Sends to N8N: nom, email, telephone, langue, specialite, medecin,
+ *               date_souhaitee, type_rdv, motif, doc_type
  */
 
 const RDV_API = 'https://kenzel2122.app.n8n.cloud/webhook/clinica-rdv';
 let currentStep = 1;
 const TOTAL_STEPS = 3;
+
+// ─── Doctor map by specialty ──────────────────────────────────────────────────
+const DOCTORS_BY_SPECIALTY = {
+  general:  [
+    'Dr. Carlos Herrera Montoya',
+    'Dr. Sophie Marchand',
+    'Dr. Olena Kovalenko',
+    'Dr. Amir Benali'
+  ],
+  cardio:   [
+    'Dra. Elena Vásquez Ruiz',
+    'Dr. Thomas Müller'
+  ],
+  gyneco:   [
+    'Dra. Natalia Petrenko',
+    'Dra. Yasmine Cherif'
+  ],
+  diabeto:  [
+    'Dr. Marco Ferretti',
+    'Dr. Lin Wei'
+  ],
+  pediatric: [],
+  dermato:   [],
+  trauma:    [],
+  travel:    []
+};
+
+// Specialty display labels (fallback if i18n not loaded)
+const SPECIALTY_LABELS = {
+  general:   'Medicina General',
+  cardio:    'Cardiología',
+  pediatric: 'Pediatría',
+  dermato:   'Dermatología',
+  gyneco:    'Ginecología',
+  diabeto:   'Diabetología',
+  trauma:    'Traumatología',
+  travel:    'Medicina del Viajero'
+};
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,24 +54,22 @@ document.addEventListener('DOMContentLoaded', () => {
   bindConsultTypeToggle();
   bindDateMin();
   bindPhoneFormat();
+  bindSpecialtyChange();
 });
 
 // ─── Step navigation ──────────────────────────────────────────────────────────
 function showStep(step) {
   currentStep = step;
-  // Show/hide step content divs by ID (step1, step2, step3)
   [1, 2, 3].forEach(n => {
     const el = document.getElementById('step' + n);
     if (el) el.style.display = n === step ? 'block' : 'none';
   });
-  // Update step indicators (.rdv-step elements)
   document.querySelectorAll('.rdv-step').forEach(ind => {
     const s = parseInt(ind.dataset.step);
     ind.classList.remove('active', 'completed');
     if (s === step) ind.classList.add('active');
     if (s < step)   ind.classList.add('completed');
   });
-  // Scroll top of form
   const form = document.querySelector('.rdv-form-card');
   if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -56,15 +94,11 @@ function validateStep(step) {
     valid = validateField('rLastName',  v => v.length >= 2, 'Mínimo 2 caracteres') && valid;
     valid = validateField('rEmail',     v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'Email inválido') && valid;
     valid = validateField('rPhone',     v => v.replace(/\s/g,'').length >= 9, 'Teléfono inválido') && valid;
-    // rDoc is a <select> with default — always has a value
-    // rLang is a <select> with default — always has a value
   }
 
   if (step === 2) {
-    // rdvType radios — one is checked by default (presential)
     valid = validateField('rSpecialty', v => v !== '', 'Selecciona una especialidad') && valid;
     valid = validateField('rMotive',    v => v.length >= 10, 'Describe brevemente el motivo (mín. 10 caracteres)') && valid;
-    // rPreference (date) is optional — no validation required
   }
 
   return valid;
@@ -130,8 +164,6 @@ function bindPhoneFormat() {
 
 // ─── Step buttons ─────────────────────────────────────────────────────────────
 function bindStepButtons() {
-  // Buttons use inline onclick="goStep('next'/'back')" — no binding needed for nav
-  // Only the submit button needs explicit binding (id="rdvSubmit", type="submit")
   const submitBtn = document.getElementById('rdvSubmit');
   if (submitBtn) {
     submitBtn.addEventListener('click', e => {
@@ -139,7 +171,6 @@ function bindStepButtons() {
       submitRDV();
     });
   }
-  // Also intercept form submit event as safety net
   const form = document.getElementById('rdvForm');
   if (form) {
     form.addEventListener('submit', e => {
@@ -149,49 +180,82 @@ function bindStepButtons() {
   }
 }
 
+// ─── Dynamic doctor list ──────────────────────────────────────────────────────
+function bindSpecialtyChange() {
+  const specialty = document.getElementById('rSpecialty');
+  if (!specialty) return;
+  specialty.addEventListener('change', () => updateDoctorList(specialty.value));
+}
+
+function updateDoctorList(specialtyValue) {
+  const select = document.getElementById('rDoctor');
+  if (!select) return;
+
+  const doctors = DOCTORS_BY_SPECIALTY[specialtyValue] || [];
+  const noPreference = window.t ? window.t('rdv.doctor.none') || '— Sin preferencia —' : '— Sin preferencia —';
+
+  select.innerHTML = `<option value="">${noPreference}</option>`;
+  doctors.forEach(name => {
+    const opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name;
+    select.appendChild(opt);
+  });
+
+  // Show/hide group if no doctors available
+  const group = document.getElementById('rDoctorGroup');
+  if (group) group.style.display = doctors.length === 0 ? 'none' : 'block';
+}
+
 // ─── Build summary (step 3) ───────────────────────────────────────────────────
 function buildSummary() {
-  const g = id => (document.getElementById(id)?.value || '').trim();
+  const g  = id => (document.getElementById(id)?.value || '').trim();
   const checkedType = document.querySelector('input[name="rdvType"]:checked');
+  const specialtyEl = document.getElementById('rSpecialty');
+  const specialtyLabel = specialtyEl?.options[specialtyEl.selectedIndex]?.text || g('rSpecialty');
 
   const summary = {
-    firstname : g('rFirstName'),
-    lastname  : g('rLastName'),
-    email     : g('rEmail'),
-    phone     : g('rPhone'),
-    docType   : g('rDoc'),
-    lang      : g('rLang'),
-    type      : checkedType?.value || 'presential',
-    specialty : g('rSpecialty'),
-    motive    : g('rMotive'),
-    date      : g('rPreference')
+    // N8N field names
+    nom            : `${g('rFirstName')} ${g('rLastName')}`.trim(),
+    email          : g('rEmail'),
+    telephone      : g('rPhone'),
+    langue         : g('rLang'),
+    specialite     : specialtyLabel,
+    specialite_key : g('rSpecialty'),
+    medecin        : g('rDoctor') || '— Sin preferencia —',
+    date_souhaitee : g('rPreference'),
+    type_rdv       : checkedType?.value || 'presential',
+    motif          : g('rMotive'),
+    doc_type       : g('rDoc')
   };
 
-  // Render in summary box
   const box = document.getElementById('rdvSummary');
   if (!box) return;
+
+  const typeLabel = summary.type_rdv === 'teleconsulta' ? '💻 Teleconsulta (Teams)' : '🏥 Presencial';
 
   box.innerHTML = `
     <div class="summary-grid">
       <div class="summary-section">
-        <h4>👤 ${window.t('rdv.step1.title') || 'Datos personales'}</h4>
-        <p><strong>Nombre:</strong> ${summary.firstname} ${summary.lastname}</p>
+        <h4>👤 ${window.t?.('rdv.step1.title') || 'Datos personales'}</h4>
+        <p><strong>Nombre:</strong> ${summary.nom}</p>
         <p><strong>Email:</strong> ${summary.email}</p>
-        <p><strong>Teléfono:</strong> ${summary.phone}</p>
-        <p><strong>Documento:</strong> ${summary.docType}</p>
-        ${summary.lang ? `<p><strong>Idioma:</strong> ${summary.lang}</p>` : ''}
+        <p><strong>Teléfono:</strong> ${summary.telephone}</p>
+        <p><strong>Idioma:</strong> ${summary.langue.toUpperCase()}</p>
+        <p><strong>Documento:</strong> ${summary.doc_type}</p>
       </div>
       <div class="summary-section">
-        <h4>🏥 ${window.t('rdv.step2.title') || 'Consulta'}</h4>
-        <p><strong>Tipo:</strong> ${summary.type === 'presencial' ? '🏥 Presencial' : '💻 Teleconsulta'}</p>
-        <p><strong>Especialidad:</strong> ${summary.specialty}</p>
-        <p><strong>Motivo:</strong> ${summary.motive}</p>
-        <p><strong>Fecha deseada:</strong> ${formatDate(summary.date)}</p>
+        <h4>🏥 ${window.t?.('rdv.step2.title') || 'Consulta'}</h4>
+        <p><strong>Tipo:</strong> ${typeLabel}</p>
+        <p><strong>Especialidad:</strong> ${summary.specialite}</p>
+        <p><strong>Médico:</strong> ${summary.medecin}</p>
+        ${summary.date_souhaitee ? `<p><strong>Fecha deseada:</strong> ${formatDate(summary.date_souhaitee)}</p>` : ''}
+        <p><strong>Motivo:</strong> ${summary.motif}</p>
       </div>
     </div>
   `;
 
-  // Store for submit
+  // Store payload for submit
   box.dataset.rdvPayload = JSON.stringify(summary);
 }
 
@@ -213,20 +277,24 @@ async function submitRDV() {
 
   const box = document.getElementById('rdvSummary');
   if (!box?.dataset.rdvPayload) return;
+
   const payload = JSON.parse(box.dataset.rdvPayload);
-  payload.lang = window.getCurrentLang?.() || 'es';
+  // Enrich with page language
+  payload.langue_interface = window.getCurrentLang?.() || 'es';
+  payload.source = 'web-form';
+  payload.timestamp = new Date().toISOString();
 
   const submitBtn = document.getElementById('rdvSubmit');
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.textContent = '⏳ Enviando...';
+    submitBtn.innerHTML = '⏳ ' + (window.t?.('rdv.sending') || 'Enviando...');
   }
 
   try {
     const res = await fetch(RDV_API, {
-      method: 'POST',
+      method : 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body   : JSON.stringify(payload)
     });
 
     if (!res.ok) {
@@ -234,32 +302,40 @@ async function submitRDV() {
       throw new Error(err.error || `HTTP ${res.status}`);
     }
 
-    const data = await res.json();
+    const data = await res.json().catch(() => ({}));
 
-    // Show success state
-    const form = document.querySelector('.rdv-form-container');
-    if (form) {
-      form.innerHTML = `
-        <div class="rdv-success">
-          <div class="success-icon">✅</div>
-          <h2>${window.t('rdv.success.title') || '¡Solicitud enviada!'}</h2>
-          <p>${window.t('rdv.success.desc') || 'Te contactaremos en menos de 2 horas para confirmar tu cita.'}</p>
-          ${data.dossier ? `<p class="dossier-ref">📋 Expediente: <strong>${data.dossier}</strong></p>` : ''}
-          <a href="/index.html" class="btn btn-primary">← Volver al inicio</a>
-        </div>
-      `;
+    // ── Success: hide form, show confirmation ──────────────────────────────
+    const formEl = document.getElementById('rdvForm');
+    const stepsEl = document.getElementById('rdvSteps');
+    if (formEl)  formEl.style.display  = 'none';
+    if (stepsEl) stepsEl.style.display = 'none';
+
+    const successEl = document.getElementById('rdvSuccess');
+    if (successEl) {
+      // Enrich the success message with dossier ref if returned
+      if (data.dossier) {
+        const refEl = document.createElement('p');
+        refEl.style.cssText = 'margin-top:.6rem;font-size:.9rem;font-weight:600;';
+        refEl.innerHTML = `📋 ${window.t?.('rdv.dossier') || 'Expediente'}: <strong>${data.dossier}</strong>`;
+        successEl.querySelector('div')?.appendChild(refEl);
+      }
+      successEl.style.display = 'flex';
+      successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
   } catch (err) {
     console.error('RDV submit error:', err);
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.textContent = window.t('rdv.submit') || 'Confirmar cita';
+      submitBtn.innerHTML = `<span data-i18n="rdv.submit">${window.t?.('rdv.submit') || 'Confirmar cita'}</span>`;
     }
     const errorEl = document.getElementById('rdvError');
     if (errorEl) {
-      errorEl.textContent = 'Error al enviar la solicitud. Por favor, llámanos directamente.';
+      errorEl.textContent = window.t?.('rdv.error') || 'Error al enviar la solicitud. Por favor, llámanos directamente al +34 965 000 000.';
       errorEl.style.display = 'block';
+    } else {
+      // Fallback: show inline under submit button
+      showError('rdvSubmit', 'Error al enviar. Por favor, llámanos al +34 965 000 000.');
     }
   }
 }

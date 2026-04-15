@@ -116,13 +116,18 @@
           </div>
 
           <!-- Alerte succès -->
-          <div id="rdvSuccess" class="alert alert-success" style="display:none;">
-            <span class="alert-icon">✅</span>
+          <div id="rdvSuccess" class="alert alert-success" style="display:none;align-items:flex-start;gap:1rem;padding:1.5rem;margin-bottom:1.5rem;">
+            <span class="alert-icon" style="font-size:2rem;line-height:1;">✅</span>
             <div>
-              <strong data-i18n="rdv.success.title">¡Solicitud enviada!</strong><br />
+              <strong style="font-size:1.1rem;" data-i18n="rdv.success.title">¡Solicitud enviada!</strong><br />
               <span data-i18n="rdv.success.desc">Le contactaremos en menos de 2 horas para confirmar su cita. Revise su email.</span>
+              <div style="margin-top:1.2rem;">
+                <a href="index.html" class="btn btn-outline btn-sm">← Volver al inicio</a>
+              </div>
             </div>
           </div>
+          <!-- Alerte erreur -->
+          <div id="rdvError" class="alert alert-error" style="display:none;margin-bottom:1rem;"></div>
 
           <form id="rdvForm" novalidate>
 
@@ -208,6 +213,13 @@
                   <option value="trauma" data-i18n="svc.trauma.name">Traumatología</option>
                   <option value="travel" data-i18n="svc.travel.name">Medicina del Viajero</option>
                 </select>
+              </div>
+              <div class="form-group" id="rDoctorGroup">
+                <label class="form-label" for="rDoctor" data-i18n="rdv.doctor">Médico preferido</label>
+                <select id="rDoctor" class="form-control">
+                  <option value="">— Sin preferencia —</option>
+                </select>
+                <div class="form-hint" data-i18n="rdv.doctor.hint">El médico asignado puede variar según disponibilidad.</div>
               </div>
               <div class="form-group">
                 <label class="form-label" for="rMotive" data-i18n="rdv.motive">Motivo de consulta <span class="required">*</span></label>

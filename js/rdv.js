@@ -6,13 +6,34 @@
  *   3. Slot selection (fetched from N8N)
  *   4. Confirmation + submit
  *
- * N8N get-slots payload: { action:'get_slots', specialite, medecin, langue, date_souhaitee }
- * N8N submit  payload:   { action:'submit', nom, email, telephone, langue, specialite,
- *                          medecin, date_souhaitee, creneau_date, creneau_heure,
- *                          creneau_label, type_rdv, motif, doc_type, ... }
+ * ── N8N get-slots payload ────────────────────────────────────────────────────
+ * {
+ *   action         : "get_slots",
+ *   specialite     : "Cardiología",      // display label
+ *   specialite_key : "cardio",           // internal key
+ *   medecin        : "Dr. Thomas Müller" // or null = no preference
+ *   langue         : "fr",
+ *   date_from      : "2026-04-15",       // today (ISO)
+ *   date_to        : "2026-05-30",       // today + 45 days (ISO)
+ *   search_days    : 45,                 // explicit window
+ *   nb_slots       : 2,                  // how many slots to return
+ *   date_souhaitee : "2026-04-20"        // patient preferred date (optional)
+ * }
  *
- * Expected N8N slots response:
- *   { "slots": [{ "date":"2026-04-20", "heure":"10:00", "medecin":"Dr. ...", "duree":30 }, ...] }
+ * ── N8N expected slots response ─────────────────────────────────────────────
+ * {
+ *   "slots": [
+ *     { "date":"2026-04-20", "heure":"10:00", "medecin":"Dr. Thomas Müller", "duree":30 },
+ *     { "date":"2026-04-22", "heure":"15:30", "medecin":"Dr. Thomas Müller", "duree":30 }
+ *   ]
+ * }
+ * Accepted aliases: slots | creneaux | disponibilites | top-level array
+ * Slot field aliases: heure|hora|time  /  medecin|doctor|médico  /  duree|duracion|duration
+ *
+ * ── N8N submit payload ───────────────────────────────────────────────────────
+ * { action:'submit', nom, email, telephone, langue, specialite, specialite_key,
+ *   medecin, creneau_date, creneau_heure, creneau_label, date_souhaitee,
+ *   type_rdv, motif, doc_type, langue_interface, source, timestamp }
  */
 
 const RDV_API = 'https://kenzel2122.app.n8n.cloud/webhook/clinica-rdv';
@@ -147,6 +168,13 @@ async function fetchSlots() {
   const specialtyEl = document.getElementById('rSpecialty');
   const specialtyLabel = specialtyEl?.options[specialtyEl.selectedIndex]?.text || specialty;
 
+  // Build 45-day search window from today
+  const SEARCH_DAYS = 45;
+  const today   = new Date();
+  const dateEnd = new Date(today);
+  dateEnd.setDate(today.getDate() + SEARCH_DAYS);
+  const toISO = d => d.toISOString().split('T')[0];
+
   try {
     const res = await fetch(RDV_API, {
       method : 'POST',
@@ -157,15 +185,25 @@ async function fetchSlots() {
         specialite_key: specialty,
         medecin       : doctor || null,
         langue        : lang,
-        date_souhaitee: prefDate || null
+        date_from     : toISO(today),       // today  (e.g. "2026-04-15")
+        date_to       : toISO(dateEnd),     // +45 d  (e.g. "2026-05-30")
+        search_days   : SEARCH_DAYS,        // explicit window for N8N
+        nb_slots      : 2,                  // return 2 best slots
+        date_souhaitee: prefDate || null    // patient preferred date (optional hint)
       })
     });
 
+    // N8N can return 200 with empty body on misconfiguration — handle gracefully
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-    const data  = await res.json().catch(() => ({}));
-    // Accept both { slots: [...] } and direct array
-    const slots = data.slots || data.creneaux || data.disponibilites
+    const text = await res.text();
+    const data = text ? JSON.parse(text) : {};
+
+    // Accept multiple response shapes from N8N
+    const slots = data.slots
+                  || data.creneaux
+                  || data.disponibilites
+                  || data.results
                   || (Array.isArray(data) ? data : []);
 
     if (loadEl) loadEl.style.display = 'none';

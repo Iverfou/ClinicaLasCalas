@@ -3,7 +3,7 @@
  * 3-step appointment booking form: navigation, validation, summary, submit
  */
 
-const RDV_API = '/api/rdv';
+const RDV_API = 'https://kenzel2122.app.n8n.cloud/webhook/clinica-rdv';
 let currentStep = 1;
 const TOTAL_STEPS = 3;
 

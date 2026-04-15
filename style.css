@@ -1164,8 +1164,11 @@ select.form-control { cursor: pointer; }
 [data-theme="c"] .chat-message { color: #F1F5F9 !important; }
 [data-theme="c"] .chat-message.bot  .chat-bubble,
 [data-theme="c"] .chat-msg.bot      .chat-msg-bubble {
-  background: #1E3A5F !important;
+  background: transparent !important;
   color: #F1F5F9 !important;
+  border-left: 3px solid #D4AF7A;
+  border-radius: 0 10px 10px 0 !important;
+  padding-left: 1rem !important;
 }
 [data-theme="c"] .chat-message.user .chat-bubble,
 [data-theme="c"] .chat-msg.user     .chat-msg-bubble {

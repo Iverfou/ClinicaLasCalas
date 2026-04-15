@@ -110,9 +110,10 @@
         <div class="rdv-form-card">
           <!-- Steps -->
           <div class="rdv-steps" id="rdvSteps">
-            <div class="rdv-step active" data-step="1" data-i18n="rdv.step1">1 · Datos personales</div>
-            <div class="rdv-step" data-step="2" data-i18n="rdv.step2">2 · Tipo de consulta</div>
-            <div class="rdv-step" data-step="3" data-i18n="rdv.step3">3 · Confirmación</div>
+            <div class="rdv-step active" data-step="1" data-i18n="rdv.step1">1 · Datos</div>
+            <div class="rdv-step" data-step="2" data-i18n="rdv.step2">2 · Consulta</div>
+            <div class="rdv-step" data-step="3" data-i18n="rdv.step3">3 · Horario</div>
+            <div class="rdv-step" data-step="4" data-i18n="rdv.step4">4 · Confirmación</div>
           </div>
 
           <!-- Alerte succès -->
@@ -241,9 +242,45 @@
               </div>
             </div>
 
-            <!-- ÉTAPE 3 : Confirmation -->
+            <!-- ÉTAPE 3 : Sélection du créneau -->
             <div id="step3" style="display:none;">
-              <h3 style="margin-bottom:1.5rem;font-size:1.1rem;" data-i18n="rdv.step3.title">Confirmar su solicitud</h3>
+              <h3 style="margin-bottom:.5rem;font-size:1.1rem;" data-i18n="rdv.step3.title">Elige tu horario</h3>
+              <p style="font-size:.88rem;color:var(--text-light);margin-bottom:1.5rem;" data-i18n="rdv.step3.sub">Hemos buscado los próximos huecos disponibles para tu especialidad.</p>
+
+              <!-- Loading -->
+              <div id="slotsLoading" style="display:none;flex-direction:column;align-items:center;gap:1rem;padding:2.5rem 0;">
+                <div class="slots-spinner"></div>
+                <p style="color:var(--text-light);font-size:.9rem;" data-i18n="rdv.slots.loading">Buscando horarios disponibles…</p>
+              </div>
+
+              <!-- Slot cards -->
+              <div id="slotsContainer" style="display:none;">
+                <p style="font-size:.85rem;font-weight:600;color:var(--text-light);margin-bottom:1rem;text-transform:uppercase;letter-spacing:.04em;" data-i18n="rdv.slots.choose">Selecciona un horario</p>
+                <div id="slotsList" class="slots-list"></div>
+              </div>
+
+              <!-- Error / no slots -->
+              <div id="slotsError" class="alert alert-error" style="display:none;">
+                <span class="alert-icon">⚠️</span>
+                <div>
+                  <strong data-i18n="rdv.slots.error.title">No hay horarios disponibles en este momento</strong><br />
+                  <span data-i18n="rdv.slots.error.desc">Por favor, llámenos directamente o envíe un WhatsApp.</span>
+                  <div style="display:flex;gap:.75rem;margin-top:.75rem;flex-wrap:wrap;">
+                    <a href="tel:+34965000000" class="btn btn-outline btn-sm">📞 +34 965 000 000</a>
+                    <a href="https://wa.me/34965000000" target="_blank" class="btn btn-outline btn-sm">💬 WhatsApp</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Back button -->
+              <div style="margin-top:1.5rem;">
+                <button type="button" class="btn btn-outline" onclick="goStep('back')" data-i18n="rdv.back">← Atrás</button>
+              </div>
+            </div>
+
+            <!-- ÉTAPE 4 : Confirmation -->
+            <div id="step4" style="display:none;">
+              <h3 style="margin-bottom:1.5rem;font-size:1.1rem;" data-i18n="rdv.step4.title">Confirmar su solicitud</h3>
               <div id="rdvSummary" style="background:var(--gray-50);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1.5rem;border:1.5px solid var(--gray-200);">
                 <!-- Rempli dynamiquement par JS -->
               </div>

@@ -613,8 +613,148 @@ select.form-control { cursor: pointer; }
   background: var(--gray-50);
   transition: var(--transition);
 }
-.rdv-step.active { background: var(--primary); color: var(--white); }
-.rdv-step.done { background: var(--green); color: var(--white); }
+.rdv-step.active    { background: var(--primary); color: var(--white); }
+.rdv-step.completed { background: var(--green,#22c55e); color: var(--white); }
+.rdv-step.done      { background: var(--green,#22c55e); color: var(--white); }
+
+/* ─── SLOT CARDS ─────────────────────────────────────────── */
+.slots-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.slot-card {
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.25rem;
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s, transform .15s;
+  background: var(--white);
+  user-select: none;
+}
+.slot-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 18px rgba(26,143,209,.12);
+  transform: translateY(-2px);
+}
+.slot-card.selected {
+  border-color: var(--primary);
+  background: var(--primary-xlight,#eaf5fc);
+  box-shadow: 0 0 0 3px rgba(26,143,209,.2);
+}
+.slot-card-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.slot-card-left {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+}
+.slot-icon { font-size: 1.6rem; flex-shrink: 0; }
+.slot-date-label {
+  font-weight: 700;
+  font-size: .95rem;
+  color: var(--text);
+  text-transform: capitalize;
+}
+.slot-doctor-name {
+  font-size: .83rem;
+  color: var(--primary);
+  font-weight: 600;
+  margin-top: .15rem;
+}
+.slot-meta {
+  font-size: .78rem;
+  color: var(--text-light);
+  margin-top: .15rem;
+}
+.slot-card-right {
+  text-align: right;
+  flex-shrink: 0;
+}
+.slot-time-big {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--primary);
+  font-family: var(--font-heading, 'Outfit', sans-serif);
+  line-height: 1;
+}
+.slot-select-badge {
+  font-size: .75rem;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-top: .3rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  transition: color .2s;
+}
+.slot-card:hover .slot-select-badge,
+.slot-card.selected .slot-select-badge {
+  color: var(--primary);
+}
+.slot-card.selected .slot-select-badge::before { content: '✓ '; }
+
+/* Loading spinner */
+.slots-spinner {
+  width: 2.5rem; height: 2.5rem;
+  border: 3px solid var(--gray-200);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── SUMMARY SLOT HIGHLIGHT ─────────────────────────────── */
+.summary-slot-highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: var(--primary);
+  color: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.summary-slot-icon { font-size: 1.6rem; flex-shrink: 0; }
+.summary-slot-date  { font-weight: 700; font-size: 1rem; text-transform: capitalize; }
+.summary-slot-time  { font-size: .88rem; margin-top: .2rem; opacity: .9; }
+.summary-slot-doctor{ font-size: .88rem; margin-top: .15rem; opacity: .9; }
+.summary-slot-meta  { font-size: .78rem; margin-top: .2rem; opacity: .75; }
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 540px) {
+  .summary-grid { grid-template-columns: 1fr; }
+}
+.summary-section h4 {
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-light);
+  font-weight: 700;
+  margin-bottom: .5rem;
+}
+.summary-section p {
+  font-size: .85rem;
+  color: var(--text);
+  margin-bottom: .3rem;
+}
+
+/* Dark theme overrides for slot cards */
+[data-theme="c"] .slot-card             { background: #1a2e4a; border-color: #1E3A5F; }
+[data-theme="c"] .slot-card:hover       { border-color: #D4AF7A; box-shadow: 0 4px 18px rgba(212,175,122,.12); }
+[data-theme="c"] .slot-card.selected    { background: #1E3A5F; border-color: #D4AF7A; }
+[data-theme="c"] .slot-date-label       { color: #F1F5F9; }
+[data-theme="c"] .slot-time-big         { color: #D4AF7A; }
+[data-theme="c"] .slot-doctor-name      { color: #D4AF7A; }
+[data-theme="c"] .summary-slot-highlight{ background: linear-gradient(135deg, #1E3A5F, #152C4A); }
+[data-theme="c"] .rdv-step.active       { background: #1E3A5F; }
 
 /* ─── UPLOAD PAGE ───────────────────────────────────────── */
 .upload-zone {

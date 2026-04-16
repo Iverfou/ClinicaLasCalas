@@ -31,9 +31,28 @@
  * Slot field aliases: heure|hora|time  /  medecin|doctor|médico  /  duree|duracion|duration
  *
  * ── N8N submit payload ───────────────────────────────────────────────────────
- * { action:'submit', nom, email, telephone, langue, specialite, specialite_key,
- *   medecin, creneau_date, creneau_heure, creneau_label, date_souhaitee,
- *   type_rdv, motif, doc_type, langue_interface, source, timestamp }
+ * {
+ *   action            : "submit",
+ *   nom               : "Juan García",
+ *   email             : "juan@email.com",
+ *   telephone         : "+34 600 000 000",
+ *   langue            : "fr",
+ *   doc_type          : "passport",
+ *   type_rdv          : "presential" | "teleconsulta",
+ *   specialite        : "Cardiología",
+ *   specialite_key    : "cardio",
+ *   medecin           : "Dr. Thomas Müller",
+ *   motif             : "Dolor en el pecho...",
+ *   creneau_date      : "2026-04-20",   ← ISO date of appointment
+ *   creneau_heure     : "10:00",        ← START time (HH:MM)
+ *   creneau_heure_fin : "10:30",        ← END time   (HH:MM, start + 30 min)
+ *   creneau_duree_min : 30,             ← duration in minutes
+ *   creneau_label     : "Lunes 20 de abril",
+ *   date_souhaitee    : "2026-04-20",   ← patient's original preferred date
+ *   langue_interface  : "fr",           ← UI language at submit time
+ *   source            : "web-form",
+ *   timestamp         : "2026-04-15T10:32:00.000Z"
+ * }
  */
 
 const RDV_API = 'https://kenzel2122.app.n8n.cloud/webhook/clinica-rdv';
@@ -354,23 +373,39 @@ function buildSummary() {
     </div>
   `;
 
+  // Compute end time: start + duration (default 30 min)
+  const duree         = selectedSlot?.duree || 30;
+  const creneau_debut = selectedSlot?.heure || null;
+  const creneau_fin   = creneau_debut ? addMinutes(creneau_debut, duree) : null;
+
   // Store full payload for submit
   box.dataset.rdvPayload = JSON.stringify({
-    nom            : `${g('rFirstName')} ${g('rLastName')}`.trim(),
-    email          : g('rEmail'),
-    telephone      : g('rPhone'),
-    langue         : g('rLang'),
-    specialite     : specialtyLabel,
-    specialite_key : g('rSpecialty'),
-    medecin        : selectedSlot?.medecin || g('rDoctor') || null,
-    creneau_date   : selectedSlot?.date    || null,
-    creneau_heure  : selectedSlot?.heure   || null,
-    creneau_label  : selectedSlot?.label   || null,
-    date_souhaitee : selectedSlot?.date    || g('rPreference') || null,
-    type_rdv       : checkedType?.value    || 'presential',
-    motif          : g('rMotive'),
-    doc_type       : g('rDoc'),
-    action         : 'submit'
+    // ── Action ──────────────────────────────────────────────
+    action             : 'submit',
+
+    // ── Patient ─────────────────────────────────────────────
+    nom                : `${g('rFirstName')} ${g('rLastName')}`.trim(),
+    email              : g('rEmail'),
+    telephone          : g('rPhone'),
+    langue             : g('rLang'),
+    doc_type           : g('rDoc'),
+
+    // ── Consultation ─────────────────────────────────────────
+    type_rdv           : checkedType?.value || 'presential',
+    specialite         : specialtyLabel,
+    specialite_key     : g('rSpecialty'),
+    medecin            : selectedSlot?.medecin || g('rDoctor') || null,
+    motif              : g('rMotive'),
+
+    // ── Selected slot ────────────────────────────────────────
+    creneau_date       : selectedSlot?.date  || null,   // "2026-04-20"
+    creneau_heure      : creneau_debut,                 // "10:00"  (start)
+    creneau_heure_fin  : creneau_fin,                   // "10:30"  (end)
+    creneau_duree_min  : duree,                         // 30
+    creneau_label      : selectedSlot?.label || null,   // "Lunes 20 de abril"
+
+    // ── Preferred date (patient's original wish, may differ) ─
+    date_souhaitee     : selectedSlot?.date || g('rPreference') || null
   });
 }
 
@@ -489,6 +524,16 @@ function updateDoctorList(specialtyValue) {
     select.appendChild(opt);
   });
   if (group) group.style.display = doctors.length === 0 ? 'none' : 'block';
+}
+
+// ─── Time helper ──────────────────────────────────────────────────────────────
+// addMinutes("10:00", 30) → "10:30"  |  addMinutes("23:45", 30) → "00:15"
+function addMinutes(timeStr, minutes) {
+  const [h, m]   = timeStr.split(':').map(Number);
+  const total    = h * 60 + m + minutes;
+  const hh       = String(Math.floor(total / 60) % 24).padStart(2, '0');
+  const mm       = String(total % 60).padStart(2, '0');
+  return `${hh}:${mm}`;
 }
 
 // ─── i18n helper (safe wrapper) ───────────────────────────────────────────────

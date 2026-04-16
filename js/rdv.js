@@ -258,14 +258,21 @@ function renderSlots(slots, specialtyLabel, lang) {
   const displayed = slots.slice(0, 4);
 
   displayed.forEach((slot, i) => {
-    // Normalize field names (handle different N8N output conventions)
-    const date    = slot.date   || slot.fecha || '';
-    const heure   = slot.heure  || slot.hora  || slot.time  || '';
-    const medecin = slot.medecin|| slot.doctor|| slot.médico|| '';
-    const duree   = slot.duree  || slot.duracion || slot.duration || 30;
+    // ── ISO source fields (what N8N typically returns) ───────────────────────
+    const startISO = slot.start     || slot.startTime || slot.debut    ||
+                     slot.dateDebut || slot.startAt   || '';
+    const endISO   = slot.end       || slot.endTime   || slot.fin      ||
+                     slot.dateFin   || slot.endAt     || '';
 
-    const isoDate  = date;
-    const label    = slot.label || buildSlotLabel(isoDate, heure, lang);
+    // ── Normalise: direct fields first, then parse from ISO strings ─────────
+    const duree    = slot.duree     || slot.duracion  || slot.duration || 30;
+    const date     = slot.date      || slot.fecha     || isoToDate(startISO) || '';
+    const heure    = slot.heure     || slot.hora      || slot.time     || isoToTime(startISO) || '';
+    const heureFin = slot.heure_fin || slot.hora_fin  || isoToTime(endISO)   ||
+                     (heure ? addMinutes(heure, duree) : '');
+    const medecin  = slot.medecin   || slot.doctor    || slot.médico   || '';
+
+    const label    = slot.label || buildSlotLabel(date, heure, lang);
     const doctorDisplay = medecin || document.getElementById('rDoctor')?.value || '';
 
     const card = document.createElement('div');
@@ -289,7 +296,7 @@ function renderSlots(slots, specialtyLabel, lang) {
     `;
 
     card.addEventListener('click', () => {
-      selectSlot({ date: isoDate, heure, medecin: doctorDisplay, duree, label, specialite: specialtyLabel });
+      selectSlot({ date, heure, heure_fin: heureFin, medecin: doctorDisplay, duree, label, specialite: specialtyLabel });
     });
 
     listEl.appendChild(card);
@@ -373,10 +380,10 @@ function buildSummary() {
     </div>
   `;
 
-  // Compute end time: start + duration (default 30 min)
-  const duree         = selectedSlot?.duree || 30;
-  const creneau_debut = selectedSlot?.heure || null;
-  const creneau_fin   = creneau_debut ? addMinutes(creneau_debut, duree) : null;
+  // Use stored end time (parsed from ISO or computed in renderSlots)
+  const duree         = selectedSlot?.duree     || 30;
+  const creneau_debut = selectedSlot?.heure     || null;
+  const creneau_fin   = selectedSlot?.heure_fin || (creneau_debut ? addMinutes(creneau_debut, duree) : null);
 
   // Store full payload for submit
   box.dataset.rdvPayload = JSON.stringify({
@@ -526,14 +533,29 @@ function updateDoctorList(specialtyValue) {
   if (group) group.style.display = doctors.length === 0 ? 'none' : 'block';
 }
 
-// ─── Time helper ──────────────────────────────────────────────────────────────
+// ─── Time / ISO helpers ───────────────────────────────────────────────────────
+
 // addMinutes("10:00", 30) → "10:30"  |  addMinutes("23:45", 30) → "00:15"
 function addMinutes(timeStr, minutes) {
-  const [h, m]   = timeStr.split(':').map(Number);
-  const total    = h * 60 + m + minutes;
-  const hh       = String(Math.floor(total / 60) % 24).padStart(2, '0');
-  const mm       = String(total % 60).padStart(2, '0');
-  return `${hh}:${mm}`;
+  const [h, m] = timeStr.split(':').map(Number);
+  const total  = h * 60 + m + minutes;
+  return `${String(Math.floor(total / 60) % 24).padStart(2,'0')}:${String(total % 60).padStart(2,'0')}`;
+}
+
+// isoToDate("2026-04-20T10:00:00")        → "2026-04-20"
+// isoToDate("2026-04-20T10:00:00+02:00")  → "2026-04-20"
+function isoToDate(iso) {
+  if (!iso) return null;
+  const m = String(iso).match(/^(\d{4}-\d{2}-\d{2})/);
+  return m ? m[1] : null;
+}
+
+// isoToTime("2026-04-20T10:00:00")        → "10:00"
+// isoToTime("2026-04-20T10:00:00+02:00")  → "10:00"
+function isoToTime(iso) {
+  if (!iso) return null;
+  const m = String(iso).match(/T(\d{2}:\d{2})/);
+  return m ? m[1] : null;
 }
 
 // ─── i18n helper (safe wrapper) ───────────────────────────────────────────────

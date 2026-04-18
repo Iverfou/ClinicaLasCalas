@@ -11,7 +11,11 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const body = req.body;
+    const body = await new Promise((resolve) => {
+      let data = '';
+      req.on('data', chunk => data += chunk);
+      req.on('end', () => resolve(JSON.parse(data)));
+    });
 
     if (!body.email || !body.docType || !body.fileData) {
       return res.status(400).json({ error: 'Missing required fields' });

@@ -78,7 +78,7 @@
           <span id="dossierId" style="font-family:monospace;font-weight:700;color:var(--primary);font-size:1.05rem;">ClC-001</span>
           <p style="font-size:.8rem;color:var(--text-light);margin-top:.15rem;" data-i18n="upload.dossier.hint">Su número de dossier. Si no lo tiene, déjelo en blanco.</p>
         </div>
-        <input type="text" id="dossierInput" class="form-control" style="max-width:160px;margin-left:auto;font-family:monospace;font-weight:700;" placeholder="ClC-001" />
+        <input type="text" id="upload-dossier" class="form-control" style="max-width:160px;margin-left:auto;font-family:monospace;font-weight:700;" placeholder="ClC-001" />
       </div>
 
       <!-- Infos patient -->
@@ -86,28 +86,32 @@
         <h3 style="margin-bottom:1.25rem;font-size:1.05rem;" data-i18n="upload.patient.title">Información del paciente</h3>
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label" data-i18n="form.name">Nombre completo <span class="required">*</span></label>
-            <input type="text" id="uName" class="form-control" required placeholder="Nombre Apellido" />
+            <label class="form-label" data-i18n="form.firstname">Nombre <span class="required">*</span></label>
+            <input type="text" id="upload-firstname" class="form-control" required placeholder="Nombre" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="form.lastname">Apellido <span class="required">*</span></label>
+            <input type="text" id="upload-lastname" class="form-control" required placeholder="Apellido" />
           </div>
           <div class="form-group">
             <label class="form-label" data-i18n="form.email">Email <span class="required">*</span></label>
-            <input type="email" id="uEmail" class="form-control" required placeholder="su@email.com" />
+            <input type="email" id="upload-email" class="form-control" required placeholder="su@email.com" />
           </div>
         </div>
         <div class="form-group">
           <label class="form-label" data-i18n="upload.doc.category">Categoría de documentos</label>
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.75rem;margin-top:.5rem;">
             <label style="display:flex;align-items:center;gap:.6rem;padding:.75rem;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);cursor:pointer;font-size:.88rem;transition:var(--transition);">
-              <input type="checkbox" name="docCat" value="identity" style="accent-color:var(--primary);" checked /> <span data-i18n="upload.cat.identity">🪪 Identidad</span>
+              <input type="checkbox" name="doc_cat" value="identity" style="accent-color:var(--primary);" checked /> <span data-i18n="upload.cat.identity">🪪 Identidad</span>
             </label>
             <label style="display:flex;align-items:center;gap:.6rem;padding:.75rem;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);cursor:pointer;font-size:.88rem;transition:var(--transition);">
-              <input type="checkbox" name="docCat" value="medical" style="accent-color:var(--primary);" /> <span data-i18n="upload.cat.medical">🏥 Médicos</span>
+              <input type="checkbox" name="doc_cat" value="medical" style="accent-color:var(--primary);" /> <span data-i18n="upload.cat.medical">🏥 Médicos</span>
             </label>
             <label style="display:flex;align-items:center;gap:.6rem;padding:.75rem;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);cursor:pointer;font-size:.88rem;transition:var(--transition);">
-              <input type="checkbox" name="docCat" value="insurance" style="accent-color:var(--primary);" /> <span data-i18n="upload.cat.insurance">💳 Seguro</span>
+              <input type="checkbox" name="doc_cat" value="insurance" style="accent-color:var(--primary);" /> <span data-i18n="upload.cat.insurance">💳 Seguro</span>
             </label>
             <label style="display:flex;align-items:center;gap:.6rem;padding:.75rem;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);cursor:pointer;font-size:.88rem;transition:var(--transition);">
-              <input type="checkbox" name="docCat" value="other" style="accent-color:var(--primary);" /> <span data-i18n="upload.cat.other">📄 Otros</span>
+              <input type="checkbox" name="doc_cat" value="other" style="accent-color:var(--primary);" /> <span data-i18n="upload.cat.other">📄 Otros</span>
             </label>
           </div>
         </div>
@@ -117,23 +121,30 @@
       <div style="background:var(--white);border:1.5px solid var(--gray-200);border-radius:var(--radius-xl);padding:2rem;margin-bottom:2rem;" data-aos>
         <h3 style="margin-bottom:1.25rem;font-size:1.05rem;" data-i18n="upload.zone.title">Archivos a enviar</h3>
 
-        <div class="upload-zone" id="uploadZone">
-          <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.heic,.doc,.docx" />
+        <div class="upload-zone" id="drop-zone">
+          <input type="file" id="file-input" multiple accept=".pdf,.jpg,.jpeg,.png,.heic,.doc,.docx" style="display:none" />
           <div class="upload-zone-icon">☁️</div>
           <h3 data-i18n="upload.zone.drag">Arrastre sus archivos aquí</h3>
           <p data-i18n="upload.zone.or">o haga clic para seleccionar</p>
           <p style="font-size:.75rem;color:var(--gray-400);margin-top:.5rem;" data-i18n="upload.zone.formats">PDF, JPG, PNG, HEIC, DOC — Máx. 10 MB por archivo</p>
         </div>
 
-        <div class="upload-file-list" id="fileList"></div>
+        <div class="upload-file-list" id="file-list"></div>
+
+        <!-- Progress bar -->
+        <div id="upload-progress" style="display:none;margin-top:1rem;">
+          <div style="height:4px;background:var(--gray-200);border-radius:2px;overflow:hidden;">
+            <div class="progress-fill" style="height:100%;background:var(--primary);border-radius:2px;transition:width .3s;width:0%"></div>
+          </div>
+        </div>
 
         <!-- Analyse Claude Vision -->
-        <div id="visionResult" style="display:none;margin-top:1.5rem;">
+        <div id="vision-result" style="display:none;margin-top:1.5rem;">
           <div class="alert alert-info">
             <span class="alert-icon">🤖</span>
             <div>
               <strong data-i18n="upload.vision.title">Análisis automático de documentos</strong>
-              <div id="visionContent" style="margin-top:.4rem;font-size:.88rem;"></div>
+              <div class="vision-content" style="margin-top:.4rem;font-size:.88rem;"></div>
             </div>
           </div>
         </div>
@@ -142,7 +153,7 @@
       <!-- Notes -->
       <div style="background:var(--white);border:1.5px solid var(--gray-200);border-radius:var(--radius-xl);padding:2rem;margin-bottom:2rem;" data-aos>
         <h3 style="margin-bottom:1rem;font-size:1.05rem;" data-i18n="upload.notes.title">Notas adicionales</h3>
-        <textarea id="uNotes" class="form-control" rows="3" data-i18n-placeholder="upload.notes.placeholder" placeholder="Información adicional para el médico..."></textarea>
+        <textarea id="upload-notes" class="form-control" rows="3" data-i18n-placeholder="upload.notes.placeholder" placeholder="Información adicional para el médico..."></textarea>
       </div>
 
       <!-- Sécurité -->
@@ -155,7 +166,7 @@
       </div>
 
       <!-- Submit -->
-      <div id="uploadSuccess" class="alert alert-success" style="display:none;margin-bottom:1.5rem;">
+      <div id="upload-success" class="alert alert-success" style="display:none;margin-bottom:1.5rem;">
         <span class="alert-icon">✅</span>
         <div>
           <strong data-i18n="upload.success.title">¡Documentos enviados correctamente!</strong><br />
@@ -163,7 +174,7 @@
         </div>
       </div>
 
-      <div id="uploadError" class="alert alert-error" style="display:none;margin-bottom:1.5rem;">
+      <div id="upload-error" class="alert alert-error" style="display:none;margin-bottom:1.5rem;">
         <span class="alert-icon">❌</span>
         <span data-i18n="upload.error">Error al enviar los documentos. Por favor inténtelo de nuevo o contáctenos.</span>
       </div>
@@ -175,7 +186,7 @@
         </label>
       </div>
 
-      <button type="button" class="btn btn-primary btn-lg" style="width:100%;margin-top:1.25rem;justify-content:center;" id="uploadSubmit">
+      <button type="button" class="btn btn-primary btn-lg" style="width:100%;margin-top:1.25rem;justify-content:center;" id="upload-submit">
         <span data-i18n="upload.submit">📤 Enviar documentos</span>
       </button>
 

@@ -169,22 +169,46 @@ async function submitUpload() {
   showProgressBar(0);
 
   try {
-    const formData = new FormData();
-    if (dossier)   formData.append('dossier', dossier);
-    if (firstname) formData.append('firstname', firstname);
-    if (lastname)  formData.append('lastname', lastname);
-    if (email)     formData.append('email', email);
-    if (notes)     formData.append('notes', notes);
-    formData.append('categories', JSON.stringify(categories));
-    formData.append('lang', document.documentElement.lang || 'es');
+    // Convert all files to base64
+    showProgressBar(10);
+    const filesBase64 = await Promise.all(selectedFiles.map(async file => ({
+      fileName: file.name,
+      fileType: file.type,
+      fileSize: file.size,
+      fileData: await fileToBase64(file)
+    })));
 
-    selectedFiles.forEach(file => formData.append('files', file));
+    showProgressBar(30);
 
-    showProgressBar(20);
+    const lang = document.documentElement.lang || 'es';
+    const docType = categories[0] || 'other';
+
+    // Build JSON payload — one entry per file, N8N receives fileData + metadata
+    const payload = {
+      dossier   : dossier || null,
+      fullName  : `${firstname} ${lastname}`.trim(),
+      firstname,
+      lastname,
+      email,
+      notes     : notes || null,
+      lang,
+      docType,
+      categories,
+      timestamp : new Date().toISOString(),
+      // Primary file (first) for N8N single-file workflows
+      fileName  : filesBase64[0]?.fileName || null,
+      fileType  : filesBase64[0]?.fileType || null,
+      fileData  : filesBase64[0]?.fileData || null,
+      // All files for N8N multi-file workflows
+      files     : filesBase64
+    };
+
+    showProgressBar(50);
 
     const res = await fetch(UPLOAD_API, {
-      method: 'POST',
-      body  : formData
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body   : JSON.stringify(payload)
     });
 
     showProgressBar(80);
@@ -294,6 +318,15 @@ function renderMarkdown(text) {
 }
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = () => resolve(reader.result.split(',')[1]); // strip data:...;base64,
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
 function escapeHtml(text) {
   return String(text)
     .replace(/&/g, '&amp;')

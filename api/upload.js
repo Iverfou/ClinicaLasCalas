@@ -13,8 +13,14 @@ export default async function handler(req, res) {
   try {
     const body = await new Promise((resolve) => {
       let data = '';
-      req.on('data', chunk => data += chunk);
-      req.on('end', () => resolve(JSON.parse(data)));
+      req.on('data', chunk => data += chunk.toString());
+      req.on('end', () => {
+        try {
+          resolve(JSON.parse(data));
+        } catch(e) {
+          resolve({});
+        }
+      });
     });
 
     if (!body.email || !body.docType || !body.fileData) {

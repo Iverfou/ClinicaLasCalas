@@ -139,7 +139,16 @@ function bindSubmit() {
 }
 
 async function submitUpload() {
-  if (!selectedFiles.length) return;
+  if (!selectedFiles.length) {
+    showUploadError('Por favor seleccione al menos un archivo.');
+    return;
+  }
+
+  const consent = document.getElementById('uConsent');
+  if (consent && !consent.checked) {
+    showUploadError('Por favor acepte las condiciones de uso.');
+    return;
+  }
 
   const dossier  = (document.getElementById('upload-dossier')?.value || '').trim();
   const firstname= (document.getElementById('upload-firstname')?.value || '').trim();
@@ -151,9 +160,10 @@ async function submitUpload() {
   document.querySelectorAll('input[name="doc_cat"]:checked').forEach(cb => categories.push(cb.value));
 
   const btn = document.getElementById('upload-submit');
+  const originalText = btn?.innerHTML || '📤 Enviar documentos';
   if (btn) {
     btn.disabled = true;
-    btn.textContent = '⏳ Enviando...';
+    btn.innerHTML = '⏳ Enviando…';
   }
 
   showProgressBar(0);
@@ -166,7 +176,7 @@ async function submitUpload() {
     if (email)     formData.append('email', email);
     if (notes)     formData.append('notes', notes);
     formData.append('categories', JSON.stringify(categories));
-    formData.append('lang', window.getCurrentLang?.() || 'es');
+    formData.append('lang', document.documentElement.lang || 'es');
 
     selectedFiles.forEach(file => formData.append('files', file));
 
@@ -181,15 +191,13 @@ async function submitUpload() {
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || `HTTP ${res.status}`);
+      throw new Error(err.error || `Error del servidor (${res.status})`);
     }
 
     const data = await res.json();
     showProgressBar(100);
 
-    setTimeout(() => {
-      showUploadSuccess(data);
-    }, 400);
+    showUploadSuccess(data);
 
     // Show Vision analysis result
     if (data.analysis) {
@@ -198,11 +206,13 @@ async function submitUpload() {
 
   } catch (err) {
     console.error('Upload error:', err);
-    showUploadError(window.t('upload.error') || 'Error al enviar los documentos. Inténtalo de nuevo o contáctanos.');
+    showUploadError(err.message || 'Error al enviar los documentos. Inténtalo de nuevo o contáctanos.');
     hideProgressBar();
+  } finally {
+    // Always restore button
     if (btn) {
       btn.disabled = false;
-      btn.textContent = window.t('upload.submit') || '📤 Enviar documentos';
+      btn.innerHTML = originalText;
     }
   }
 }
@@ -223,19 +233,28 @@ function hideProgressBar() {
 
 // ─── Success / Error states ───────────────────────────────────────────────────
 function showUploadSuccess(data) {
-  const section = document.querySelector('.upload-main');
-  if (!section) return;
-  section.innerHTML = `
-    <div class="upload-success">
-      <div class="success-icon">✅</div>
-      <h2>${window.t('upload.success.title') || '¡Documentos enviados!'}</h2>
-      <p>${window.t('upload.success.desc') || 'El médico revisará tus documentos antes de la consulta.'}</p>
-      ${data.dossier ? `<p class="dossier-ref">📋 Expediente: <strong>${data.dossier}</strong></p>` : ''}
-      ${data.filesCount ? `<p>📎 ${data.filesCount} archivo(s) recibidos</p>` : ''}
-      <a href="/profil.html${data.dossier ? '?dossier=' + data.dossier : ''}" class="btn btn-primary">Ver mi expediente</a>
-      <a href="/index.html" class="btn btn-outline">← Inicio</a>
-    </div>
-  `;
+  // Show the success alert already in the HTML
+  const successEl = document.getElementById('upload-success');
+  if (successEl) {
+    successEl.style.display = 'block';
+    successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // Hide the submit button area and file zone
+  const submitBtn = document.getElementById('upload-submit');
+  if (submitBtn) submitBtn.style.display = 'none';
+
+  const dropZone = document.getElementById('drop-zone');
+  if (dropZone) dropZone.style.display = 'none';
+
+  const fileList = document.getElementById('file-list');
+  if (fileList) fileList.style.display = 'none';
+
+  // Show dossier ref if returned by API
+  if (data?.dossier) {
+    const dossierEl = document.getElementById('upload-dossier');
+    if (dossierEl) dossierEl.value = data.dossier;
+  }
 }
 
 function showUploadError(msg) {
@@ -243,7 +262,8 @@ function showUploadError(msg) {
   if (errorEl) {
     errorEl.textContent = msg;
     errorEl.style.display = 'block';
-    setTimeout(() => errorEl.style.display = 'none', 8000);
+    errorEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => { errorEl.style.display = 'none'; }, 8000);
   }
 }
 

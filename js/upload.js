@@ -254,10 +254,23 @@ function showVisionResult(analysis) {
   box.style.display = 'block';
   const content = box.querySelector('.vision-content');
   if (content) {
-    content.innerHTML = analysis
-      .replace(/\n/g, '<br>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    content.innerHTML = renderMarkdown(analysis);
   }
+}
+
+function renderMarkdown(text) {
+  return text
+    // Headers ## and # → bold labels
+    .replace(/^#{1,3}\s+(.+)$/gm, '<strong style="font-size:.95rem;display:block;margin:.6rem 0 .2rem">$1</strong>')
+    // Bold **text**
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    // Italic *text*
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    // List items - item
+    .replace(/^[-•]\s+(.+)$/gm, '<span style="display:block;padding-left:.8rem">• $1</span>')
+    // Line breaks
+    .replace(/\n\n/g, '<br/><br/>')
+    .replace(/\n/g, '<br/>');
 }
 
 // ─── Utilities ────────────────────────────────────────────────────────────────

@@ -56,7 +56,7 @@ export default async function handler(req, res) {
       ['image/jpeg','image/png','image/heic','application/pdf'].includes(f.mimetype)
     );
     if (analysisCandidates.length > 0) {
-      analysis = await analyzeWithVision(analysisCandidates[0]).catch(err => {
+      analysis = await analyzeWithVision(analysisCandidates[0], categories, lang).catch(err => {
         console.error('Vision error:', err);
         return null;
       });
@@ -141,19 +141,47 @@ async function parseMultipart(req) {
 }
 
 // ─── Claude Vision ────────────────────────────────────────────────────────────
-async function analyzeWithVision(file) {
+async function analyzeWithVision(file, categories = [], lang = 'es') {
   const base64 = file.buffer.toString('base64');
   const mediaType = file.mimetype.startsWith('image/') ? file.mimetype : 'image/jpeg';
 
   // Only images supported by vision; skip PDFs for now
   if (!file.mimetype.startsWith('image/')) {
-    return `📄 Documento recibido: ${file.filename}\n\nAnálisis PDF disponible tras revisión médica.`;
+    const pdfMsg = {
+      es: `📄 Documento PDF recibido: **${file.filename}**\n\nEl análisis automático está disponible solo para imágenes. El equipo médico revisará el documento.`,
+      en: `📄 PDF document received: **${file.filename}**\n\nAutomatic analysis is only available for images. The medical team will review the document.`,
+      fr: `📄 Document PDF reçu : **${file.filename}**\n\nL'analyse automatique n'est disponible que pour les images. L'équipe médicale examinera le document.`,
+    };
+    return pdfMsg[lang] || pdfMsg.es;
   }
+
+  // Build prompt based on selected category
+  const cat = categories[0] || 'other';
+  const prompts = {
+    identity: {
+      system: 'Eres un asistente de clínica médica. Analiza este documento de identidad (pasaporte, DNI, NIE, tarjeta de residencia, etc.) y extrae la información visible: tipo de documento, nombre completo, fecha de nacimiento, fecha de emisión, fecha de caducidad, número de documento, país emisor. Responde de forma estructurada y concisa, en el mismo idioma del documento o en español si no está claro.',
+      user  : 'Analiza este documento de identidad y extrae todos los datos visibles de forma estructurada.'
+    },
+    insurance: {
+      system: 'Eres un asistente de clínica médica. Analiza este documento de seguro médico (tarjeta sanitaria, póliza, EHIC, mutua) y extrae la información relevante: aseguradora, nombre del asegurado, número de póliza o tarjeta, fechas de validez, cobertura si visible. Responde de forma estructurada.',
+      user  : 'Analiza este documento de seguro médico y extrae todos los datos relevantes de forma estructurada.'
+    },
+    medical: {
+      system: 'Eres un asistente médico especializado. Analiza este documento médico (analítica, informe, receta, historial) y resume su contenido: tipo de documento, fecha, médico emisor, diagnóstico o motivo, valores relevantes si es una analítica, medicación si es una receta. NO hagas diagnósticos propios. Responde de forma estructurada.',
+      user  : 'Analiza este documento médico y resume su contenido de forma estructurada.'
+    },
+    other: {
+      system: 'Eres un asistente de clínica médica. Analiza este documento e identifica su tipo y extrae la información relevante que contiene. Responde de forma concisa y estructurada.',
+      user  : 'Identifica el tipo de documento y extrae la información relevante.'
+    }
+  };
+
+  const prompt = prompts[cat] || prompts.other;
 
   const response = await anthropic.messages.create({
     model    : 'claude-haiku-4-5-20251001',
-    max_tokens: 400,
-    system   : 'Eres un asistente médico. Analiza este documento médico y resume brevemente su contenido: tipo de documento, fecha si visible, información relevante. NO hagas diagnósticos. Responde en el idioma del documento.',
+    max_tokens: 500,
+    system   : prompt.system,
     messages : [{
       role   : 'user',
       content: [{
@@ -161,7 +189,7 @@ async function analyzeWithVision(file) {
         source: { type: 'base64', media_type: mediaType, data: base64 }
       }, {
         type: 'text',
-        text: 'Analiza este documento médico brevemente.'
+        text: prompt.user
       }]
     }]
   });

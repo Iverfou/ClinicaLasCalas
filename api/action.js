@@ -85,21 +85,39 @@ export default async function handler(req, res) {
         return res.status(200).json({ error: 'invalid' });
       }
 
-      const raw = await r.json().catch(() => null);
-
-      // Token invalide ou non trouvé
-      if (!raw || raw.error || raw.valid === false || raw.found === false) {
-        return res.status(200).json({ error: 'invalid' });
-      }
+      const data = await r.json().catch(() => null);
+      const fields = data?.fields || {};
 
       // Token déjà utilisé
-      if (raw.used === true || raw.fields?.['Token utilisé'] === true) {
+      if (fields['Token utilisé'] === true) {
         return res.status(200).json({ used: true });
       }
 
-      // Mapper les champs Airtable → champs action.html
-      const mapped = mapAirtableFields(raw);
-      return res.status(200).json(mapped);
+      // Record non trouvé
+      if (!fields['Nº Client']) {
+        return res.status(200).json({ error: 'invalid' });
+      }
+
+      const docTypeMap = {
+        identidad: 'Documento de identidad',
+        seguro   : 'Seguro médico',
+        medico   : 'Documento médico',
+      };
+      const docType = fields['Documents reçus'] || '';
+
+      return res.status(200).json({
+        dossier     : fields['Nº Client'],
+        patientName : fields['Nom Complet'],
+        patientEmail: fields['Email'],
+        patientLang : (fields['Langue'] || 'es').trim(),
+        docType     : docType.toLowerCase(),
+        docTypeLabel: docTypeMap[docType.toLowerCase()] || docType,
+        fileName    : fields['Nom sur document']     || '',
+        uploadDate  : fields['Date premier contact'] || '',
+        oneDriveUrl : fields['OneDrive URL']         || '',
+        airtableUrl : fields['Airtable URL']         || '',
+        analysis    : fields['Analyse'] ? JSON.parse(fields['Analyse']) : null,
+      });
 
     } catch(e) {
       console.error('GET error:', e.message);

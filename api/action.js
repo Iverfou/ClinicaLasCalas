@@ -86,7 +86,8 @@ export default async function handler(req, res) {
       }
 
       const data = await r.json().catch(() => null);
-      const fields = data?.fields || {};
+      const record = Array.isArray(data) ? data[0] : data;
+      const fields = record?.fields || {};
 
       // Token déjà utilisé
       if (fields['Token utilisé'] === true) {

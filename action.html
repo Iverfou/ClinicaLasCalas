@@ -406,11 +406,12 @@ async function loadActionData(t) {
     const res = await fetch(`/api/action?token=${t}`);
     if (!res.ok) throw new Error('invalid');
     const data = await res.json();
-    if (!data || data.error || data.used) {
+    console.log('action data received:', JSON.stringify(data));
+    if (!data || data.error) {
       showError(
-        data.used ? 'Acción ya realizada' : 'Enlace inválido',
-        data.used
-          ? 'Esta acción ya ha sido procesada anteriormente. Consulte Airtable para ver el estado actual.'
+        data?.used ? 'Acción ya realizada' : 'Enlace inválido',
+        data?.used
+          ? 'Esta acción ya ha sido procesada.'
           : 'El enlace no es válido o ha expirado.'
       );
       return;

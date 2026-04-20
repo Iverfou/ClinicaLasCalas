@@ -341,7 +341,9 @@
           (data.patientName || 'XX').split(' ').map(function(w){ return w[0]; }).join('').substring(0,2).toUpperCase();
 
         // ── Stats ──
-        document.getElementById('statDocs').textContent = data.docCount || (data.docType ? 1 : 0);
+        document.getElementById('statDocs').textContent =
+          data.docCount || (data.docType || data.fileName ? 1 : 0) ||
+          (data.dossier ? 1 : 0);
         document.getElementById('statRdv').textContent  = data.rdvCount    || 0;
         document.getElementById('statNext').textContent = data.rdvUpcoming || 0;
 

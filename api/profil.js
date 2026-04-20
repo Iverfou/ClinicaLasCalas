@@ -16,20 +16,20 @@ function parseBody(req) {
 
 // ── Helper: normaliser la réponse N8N → champs plats attendus par profil.html
 function mapPatient(raw) {
-  // N8N peut retourner [{ fields }] ou { patient } ou { fields } directement
+  // N8N peut retourner [{ fields }] ou { patient } ou objet plat
   const record = Array.isArray(raw) ? raw[0] : raw;
   const f = record?.fields || record?.patient || record || {};
 
-  const firstName  = f['Prénom']     || f['firstName']  || f['nombre']   || '';
-  const lastName   = f['Nom']        || f['lastName']   || f['apellido'] || '';
+  const firstName   = f['Prénom']      || f['firstName']   || f['nombre']   || '';
+  const lastName    = f['Nom']         || f['lastName']    || f['apellido'] || '';
   const patientName = f['Nom Complet'] || f['patientName'] ||
-                      `${firstName} ${lastName}`.trim() || null;
+                      `${firstName} ${lastName}`.trim()    || null;
 
-  // Docs count : tableau ou nombre brut
-  const docsRaw  = f['Documents reçus'] || f['docs_received'] || f['docs_sent'] || [];
-  const docsCount = typeof docsRaw === 'number' ? docsRaw
-                  : Array.isArray(docsRaw)      ? docsRaw.length
-                  : 0;
+  // docCount : tableau ou nombre brut
+  const docsRaw = f['Documents reçus'] || f['docs_received'] || f['docs_sent'] || [];
+  const docCount = typeof docsRaw === 'number' ? docsRaw
+                 : Array.isArray(docsRaw)      ? docsRaw.length
+                 : 0;
 
   // RDV counts
   const rdvHistory  = f['Historique RDV'] || f['rdv_history'] || [];
@@ -37,24 +37,18 @@ function mapPatient(raw) {
   const rdvCount    = Array.isArray(rdvHistory) ? rdvHistory.length : 0;
   const rdvUpcoming = Array.isArray(rdvList)    ? rdvList.length    : 0;
 
+  // Champs plats — noms exacts attendus par profil.html
   return {
-    // Champs utilisés directement par profil.html
-    patientName,
-    firstName,
-    lastName,
-    dossier    : f['Nº Client']          || f['dossier']   || null,
-    email      : f['Email']              || f['email']     || null,
-    tel        : f['Téléphone']          || f['tel']       || null,
-    lang       : (f['Langue']            || f['lang']      || 'es').trim(),
-    dob        : f['Date de naissance']  || f['dob']       || null,
-    docsCount,
+    patientName,                                              // profilName, inputNombre
+    lastName,                                                 // inputApellido
+    patientEmail : f['Email']       || f['patientEmail'] || f['email'] || null,
+    phone        : f['Téléphone']   || f['phone']        || f['tel']   || null,
+    dossier      : f['Nº Client']   || f['dossier']      || null,
+    lang         : (f['Langue']     || f['lang']         || 'es').trim(),
+    dob          : f['Date de naissance'] || f['dob']    || null,
+    docCount,
     rdvCount,
     rdvUpcoming,
-    // Tableaux complets pour usage futur
-    rdv          : rdvList,
-    rdv_history  : Array.isArray(rdvHistory) ? rdvHistory : [],
-    docs_sent    : Array.isArray(docsRaw)    ? docsRaw    : [],
-    messages     : f['Messages']             || f['messages'] || [],
   };
 }
 
@@ -138,7 +132,8 @@ export default async function handler(req, res) {
         const patient = mapPatient(data);
         if (!patient.dossier) return res.status(200).json({ error: 'not_found' });
 
-        return res.status(200).json({ patient });
+        // Retourne les champs plats directement (pas d'enveloppe { patient })
+        return res.status(200).json(patient);
 
       } catch(e) {
         console.error('load error:', e.message);

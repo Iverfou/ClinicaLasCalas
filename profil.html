@@ -329,29 +329,28 @@
       })
       .then(function(res) { return res.json(); })
       .then(function(data) {
-        if (!data.patient) {
+        if (data.error || (!data.patientName && !data.dossier)) {
           showProfilError('Dossier introuvable. Vérifiez le lien ou contactez la clinique.');
           return;
         }
 
-        var p = data.patient;
-
         // ── Sidebar ──
-        document.getElementById('profilName').textContent     = p.patientName || '—';
-        document.getElementById('profilDossier').textContent  = p.dossier     || '';
-        document.getElementById('profilInitials').textContent = initiales(p.patientName);
+        document.getElementById('profilName').textContent     = data.patientName || '';
+        document.getElementById('profilDossier').textContent  = data.dossier     || '';
+        document.getElementById('profilInitials').textContent =
+          (data.patientName || 'XX').split(' ').map(function(w){ return w[0]; }).join('').substring(0,2).toUpperCase();
 
         // ── Stats ──
-        document.getElementById('statDocs').textContent = p.docsCount   || 0;
-        document.getElementById('statRdv').textContent  = p.rdvCount    || 0;
-        document.getElementById('statNext').textContent = p.rdvUpcoming || 0;
+        document.getElementById('statDocs').textContent = data.docCount   || 0;
+        document.getElementById('statRdv').textContent  = data.rdvCount   || 0;
+        document.getElementById('statNext').textContent = data.rdvUpcoming|| 0;
 
         // ── Panel info: prefill via IDs ──
-        document.getElementById('inputNombre').value   = p.firstName   || '';
-        document.getElementById('inputApellido').value = p.lastName    || '';
-        document.getElementById('inputEmail').value    = p.email       || '';
-        document.getElementById('inputTelefono').value = p.tel         || '';
-        if (p.lang) document.getElementById('inputLang').value = p.lang;
+        document.getElementById('inputNombre').value   = data.patientName  || '';
+        document.getElementById('inputApellido').value = data.lastName     || '';
+        document.getElementById('inputEmail').value    = data.patientEmail || '';
+        document.getElementById('inputTelefono').value = data.phone        || '';
+        if (data.lang) document.getElementById('inputLang').value = data.lang;
       })
       .catch(function(err) {
         console.error('loadProfile error:', err);

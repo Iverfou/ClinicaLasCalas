@@ -49,6 +49,14 @@ function mapPatient(raw) {
     docCount,
     rdvCount,
     rdvUpcoming,
+    statut             : f['Statut']               || null,
+    dateRdv            : f['Date Rdv']             || null,
+    typeRdv            : f['Type RDV']             || null,
+    medecin            : f['Medecin']              || null,
+    specialite         : f['Specialite']           || null,
+    motif              : f['Motif']                || null,
+    docsAttendus       : f['Documents Attendus']   || null,
+    datePremierContact : f['Date premier contact'] || null,
   };
 }
 

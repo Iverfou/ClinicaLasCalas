@@ -132,13 +132,13 @@
             <div style="border:1.5px solid var(--gray-200);border-radius:var(--radius-xl);padding:1.5rem;">
               <h4 style="margin-bottom:1rem;" data-i18n="profil.status.title">Estado del dossier</h4>
               <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;">
-                <span class="badge green" data-i18n="profil.status.confirmed">RDV confirmado</span>
+                <span id="badgeRdv"   class="badge" style="opacity:.4;">RDV confirmado</span>
                 <span style="color:var(--gray-400);font-size:1.2rem;">→</span>
-                <span class="badge" style="opacity:.4;">Docs solicitados</span>
+                <span id="badgeDocs"  class="badge" style="opacity:.4;">Docs solicitados</span>
                 <span style="color:var(--gray-400);font-size:1.2rem;">→</span>
-                <span class="badge" style="opacity:.4;">Docs recibidos</span>
+                <span id="badgeRecu"  class="badge" style="opacity:.4;">Docs recibidos</span>
                 <span style="color:var(--gray-400);font-size:1.2rem;">→</span>
-                <span class="badge" style="opacity:.4;">Dossier cerrado</span>
+                <span id="badgeClos"  class="badge" style="opacity:.4;">Dossier cerrado</span>
               </div>
             </div>
           </div>
@@ -341,9 +341,38 @@
           (data.patientName || 'XX').split(' ').map(function(w){ return w[0]; }).join('').substring(0,2).toUpperCase();
 
         // ── Stats ──
-        document.getElementById('statDocs').textContent = data.docCount   || 0;
-        document.getElementById('statRdv').textContent  = data.rdvCount   || 0;
-        document.getElementById('statNext').textContent = data.rdvUpcoming|| 0;
+        document.getElementById('statDocs').textContent = data.docCount || (data.docType ? 1 : 0);
+        document.getElementById('statRdv').textContent  = data.rdvCount    || 0;
+        document.getElementById('statNext').textContent = data.rdvUpcoming || 0;
+
+        // ── Prochaine cita ──
+        if (data.dateRdv) {
+          document.getElementById('nextRdvTitle').textContent =
+            (data.specialite || '') + (data.medecin ? ' — ' + data.medecin : '');
+          document.getElementById('nextRdvDate').textContent = data.dateRdv;
+          document.getElementById('nextRdvType').textContent = '🏥 ' + (data.typeRdv || 'Presencial');
+        }
+
+        // ── Statut dossier — active le badge correspondant ──
+        var statutMap = {
+          'Nouveau'     : 'badgeRdv',
+          'Docs Attendus': 'badgeDocs',
+          'Docs Reçus'  : 'badgeRecu',
+          'Docs Refused': 'badgeRecu',
+          'Complete'    : 'badgeClos'
+        };
+        var activeBadgeId = data.statut ? statutMap[data.statut] : 'badgeRdv';
+        ['badgeRdv','badgeDocs','badgeRecu','badgeClos'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          if (id === activeBadgeId) {
+            el.classList.add('green');
+            el.style.opacity = '1';
+          } else {
+            el.classList.remove('green');
+            el.style.opacity = '.4';
+          }
+        });
 
         // ── Panel info: prefill via IDs ──
         document.getElementById('inputNombre').value   = data.patientName  || '';

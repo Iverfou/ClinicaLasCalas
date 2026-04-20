@@ -199,27 +199,27 @@
               <div class="form-row">
                 <div class="form-group">
                   <label class="form-label" data-i18n="form.firstname">Nombre</label>
-                  <input type="text" class="form-control" value="Juan" />
+                  <input id="inputNombre" type="text" class="form-control" />
                 </div>
                 <div class="form-group">
                   <label class="form-label" data-i18n="form.lastname">Apellido</label>
-                  <input type="text" class="form-control" value="García" />
+                  <input id="inputApellido" type="text" class="form-control" />
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group">
                   <label class="form-label" data-i18n="form.email">Email</label>
-                  <input type="email" class="form-control" value="juan@email.com" />
+                  <input id="inputEmail" type="email" class="form-control" />
                 </div>
                 <div class="form-group">
                   <label class="form-label" data-i18n="form.phone">Teléfono</label>
-                  <input type="tel" class="form-control" value="+34 600 000 000" />
+                  <input id="inputTelefono" type="tel" class="form-control" />
                 </div>
               </div>
               <div class="form-group">
                 <label class="form-label" data-i18n="form.lang">Idioma preferido</label>
-                <select class="form-control">
-                  <option value="es" selected>🇪🇸 Español</option>
+                <select id="inputLang" class="form-control">
+                  <option value="es">🇪🇸 Español</option>
                   <option value="en">🇬🇧 English</option>
                   <option value="fr">🇫🇷 Français</option>
                 </select>
@@ -346,16 +346,12 @@
         document.getElementById('statRdv').textContent  = p.rdvCount    || 0;
         document.getElementById('statNext').textContent = p.rdvUpcoming || 0;
 
-        // ── Panel info: prefill ──
-        var inputs = document.querySelectorAll('#panel-info input[type="text"]');
-        if (inputs[0]) inputs[0].value = p.firstName || '';
-        if (inputs[1]) inputs[1].value = p.lastName  || '';
-        var emailInput = document.querySelector('#panel-info input[type="email"]');
-        if (emailInput) emailInput.value = p.email || '';
-        var telInput = document.querySelector('#panel-info input[type="tel"]');
-        if (telInput) telInput.value = p.tel || '';
-        var langSelect = document.querySelector('#panel-info select');
-        if (langSelect && p.lang) langSelect.value = p.lang;
+        // ── Panel info: prefill via IDs ──
+        document.getElementById('inputNombre').value   = p.firstName   || '';
+        document.getElementById('inputApellido').value = p.lastName    || '';
+        document.getElementById('inputEmail').value    = p.email       || '';
+        document.getElementById('inputTelefono').value = p.tel         || '';
+        if (p.lang) document.getElementById('inputLang').value = p.lang;
       })
       .catch(function(err) {
         console.error('loadProfile error:', err);

@@ -1,5 +1,40 @@
 // api/profil.js — Clínica Las Calas
-// Actions: verify (access by dossier+email), get (by token), reply (send message reply)
+// Proxy → N8N_PROFIL_WEBHOOK
+// Actions: verify (dossier+email), get (token+dossier), reply
+
+// ── Helper: parse JSON body (Vercel ne parse pas automatiquement) ──────────
+function parseBody(req) {
+  return new Promise((resolve) => {
+    let data = '';
+    req.on('data', chunk => data += chunk.toString());
+    req.on('end', () => {
+      try { resolve(JSON.parse(data)); }
+      catch(e) { resolve({}); }
+    });
+  });
+}
+
+// ── Helper: normaliser la réponse N8N vers { patient: {...} } ──────────────
+function mapPatient(raw) {
+  // N8N peut retourner [{ fields }] ou { patient } ou { fields } directement
+  const record = Array.isArray(raw) ? raw[0] : raw;
+  const f = record?.fields || record?.patient || record || {};
+
+  return {
+    nombre      : f['Prénom']              || f['nombre']       || null,
+    apellido    : f['Nom']                 || f['apellido']     || null,
+    email       : f['Email']               || f['email']        || null,
+    tel         : f['Téléphone']           || f['tel']          || null,
+    dossier     : f['Nº Client']           || f['dossier']      || null,
+    lang        : f['Langue']              || f['lang']         || 'es',
+    dob         : f['Date de naissance']   || f['dob']          || null,
+    rdv         : f['RDV']                 || f['rdv']          || [],
+    rdv_history : f['Historique RDV']      || f['rdv_history']  || [],
+    docs_sent   : f['Documents envoyés']   || f['docs_sent']    || [],
+    docs_received: f['Documents reçus']    || f['docs_received']|| [],
+    messages    : f['Messages']            || f['messages']     || [],
+  };
+}
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,7 +45,7 @@ export default async function handler(req, res) {
 
   const n8nWebhook = process.env.N8N_PROFIL_WEBHOOK;
 
-  // ── GET by token ──────────────────────────────────────
+  // ── GET: charger profil par token ─────────────────────────────────────────
   if (req.method === 'GET') {
     const { token, dossier, lang } = req.query;
 
@@ -23,47 +58,71 @@ export default async function handler(req, res) {
     }
 
     try {
-      const n8nRes = await fetch(n8nWebhook, {
-        method: 'POST',
+      const r = await fetch(n8nWebhook, {
+        method : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'get', token, dossier, lang: lang || 'es' })
+        body   : JSON.stringify({ action: 'get', token, dossier, lang: lang || 'es' })
       });
-      const data = await n8nRes.json();
-      return res.status(200).json(data);
-    } catch (err) {
-      return res.status(500).json({ error: err.message });
+
+      if (!r.ok) {
+        const errText = await r.text().catch(() => '');
+        console.error('N8N GET error:', r.status, errText);
+        return res.status(200).json({ error: 'invalid' });
+      }
+
+      const data = await r.json().catch(() => null);
+      if (!data) return res.status(200).json({ error: 'invalid' });
+
+      const patient = mapPatient(data);
+      return res.status(200).json({ patient });
+
+    } catch(e) {
+      console.error('GET error:', e.message);
+      return res.status(500).json({ error: e.message });
     }
   }
 
-  // ── POST actions ──────────────────────────────────────
+  // ── POST actions ──────────────────────────────────────────────────────────
   if (req.method === 'POST') {
-    const { action, dossier, email, lang, msgIndex, reply } = req.body;
+    const body = await parseBody(req);
+    const { action, dossier, email, token, lang, msgIndex, reply } = body;
 
-    // ── VERIFY: check dossier + email, return patient data
+    // ── VERIFY: vérifier dossier + email → retourner patient ─────────────
     if (action === 'verify') {
       if (!dossier || !email) {
         return res.status(400).json({ error: 'Missing dossier or email' });
       }
 
       if (!n8nWebhook) {
-        // Demo mode — return null so frontend uses mock
         return res.status(200).json({ patient: null, demo: true });
       }
 
       try {
-        const n8nRes = await fetch(n8nWebhook, {
-          method: 'POST',
+        const r = await fetch(n8nWebhook, {
+          method : 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'verify', dossier, email, lang: lang || 'es' })
+          body   : JSON.stringify({ action: 'verify', dossier, email, lang: lang || 'es' })
         });
-        const data = await n8nRes.json();
-        return res.status(200).json(data);
-      } catch (err) {
-        return res.status(500).json({ error: err.message });
+
+        if (!r.ok) {
+          const errText = await r.text().catch(() => '');
+          console.error('N8N verify error:', r.status, errText);
+          return res.status(200).json({ error: 'not_found' });
+        }
+
+        const data = await r.json().catch(() => null);
+        if (!data) return res.status(200).json({ error: 'not_found' });
+
+        const patient = mapPatient(data);
+        return res.status(200).json({ patient });
+
+      } catch(e) {
+        console.error('verify error:', e.message);
+        return res.status(500).json({ error: e.message });
       }
     }
 
-    // ── REPLY: patient replies to a clinic message
+    // ── REPLY: répondre à un message ─────────────────────────────────────
     if (action === 'reply') {
       if (!reply || !dossier) {
         return res.status(400).json({ error: 'Missing reply or dossier' });
@@ -74,23 +133,31 @@ export default async function handler(req, res) {
       }
 
       try {
-        // N8N will: save reply to Airtable + notify relevant staff by email
-        const n8nRes = await fetch(n8nWebhook, {
-          method: 'POST',
+        const r = await fetch(n8nWebhook, {
+          method : 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'reply',
+          body   : JSON.stringify({
+            action,
             dossier,
             msgIndex,
             reply,
-            lang: lang || 'es',
+            lang     : lang || 'es',
             timestamp: new Date().toISOString()
           })
         });
-        const data = await n8nRes.json().catch(() => ({}));
+
+        if (!r.ok) {
+          const errText = await r.text().catch(() => '');
+          console.error('N8N reply error:', r.status, errText);
+          return res.status(500).json({ error: `N8N error ${r.status}`, detail: errText });
+        }
+
+        const data = await r.json().catch(() => ({}));
         return res.status(200).json({ success: true, ...data });
-      } catch (err) {
-        return res.status(500).json({ error: err.message });
+
+      } catch(e) {
+        console.error('reply error:', e.message);
+        return res.status(500).json({ error: e.message });
       }
     }
 

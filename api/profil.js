@@ -14,36 +14,47 @@ function parseBody(req) {
   });
 }
 
-// ── Helper: normaliser la réponse N8N vers { patient: {...} } ──────────────
+// ── Helper: normaliser la réponse N8N → champs plats attendus par profil.html
 function mapPatient(raw) {
   // N8N peut retourner [{ fields }] ou { patient } ou { fields } directement
   const record = Array.isArray(raw) ? raw[0] : raw;
   const f = record?.fields || record?.patient || record || {};
 
-  // Nombre de documents reçus : tableau ou nombre brut
-  const docsRaw   = f['Documents reçus'] || f['docs_received'] || [];
+  const firstName  = f['Prénom']     || f['firstName']  || f['nombre']   || '';
+  const lastName   = f['Nom']        || f['lastName']   || f['apellido'] || '';
+  const patientName = f['Nom Complet'] || f['patientName'] ||
+                      `${firstName} ${lastName}`.trim() || null;
+
+  // Docs count : tableau ou nombre brut
+  const docsRaw  = f['Documents reçus'] || f['docs_received'] || f['docs_sent'] || [];
   const docsCount = typeof docsRaw === 'number' ? docsRaw
                   : Array.isArray(docsRaw)      ? docsRaw.length
                   : 0;
 
-  const fullName  = f['Nom Complet'] || f['fullName'] || '';
-  const parts     = fullName.trim().split(/\s+/);
+  // RDV counts
+  const rdvHistory  = f['Historique RDV'] || f['rdv_history'] || [];
+  const rdvList     = f['RDV']            || f['rdv']         || [];
+  const rdvCount    = Array.isArray(rdvHistory) ? rdvHistory.length : 0;
+  const rdvUpcoming = Array.isArray(rdvList)    ? rdvList.length    : 0;
 
   return {
-    fullName    : fullName,
-    nombre      : f['Prénom']              || f['nombre']       || parts[0]            || null,
-    apellido    : f['Nom']                 || f['apellido']     || parts.slice(1).join(' ') || null,
-    email       : f['Email']               || f['email']        || null,
-    tel         : f['Téléphone']           || f['tel']          || null,
-    dossier     : f['Nº Client']           || f['dossier']      || null,
-    lang        : (f['Langue']             || f['lang']         || 'es').trim(),
-    dob         : f['Date de naissance']   || f['dob']          || null,
+    // Champs utilisés directement par profil.html
+    patientName,
+    firstName,
+    lastName,
+    dossier    : f['Nº Client']          || f['dossier']   || null,
+    email      : f['Email']              || f['email']     || null,
+    tel        : f['Téléphone']          || f['tel']       || null,
+    lang       : (f['Langue']            || f['lang']      || 'es').trim(),
+    dob        : f['Date de naissance']  || f['dob']       || null,
     docsCount,
-    rdv         : f['RDV']                 || f['rdv']          || [],
-    rdv_history : f['Historique RDV']      || f['rdv_history']  || [],
-    docs_sent   : f['Documents envoyés']   || f['docs_sent']    || [],
-    docs_received: Array.isArray(docsRaw) ? docsRaw : [],
-    messages    : f['Messages']            || f['messages']     || [],
+    rdvCount,
+    rdvUpcoming,
+    // Tableaux complets pour usage futur
+    rdv          : rdvList,
+    rdv_history  : Array.isArray(rdvHistory) ? rdvHistory : [],
+    docs_sent    : Array.isArray(docsRaw)    ? docsRaw    : [],
+    messages     : f['Messages']             || f['messages'] || [],
   };
 }
 

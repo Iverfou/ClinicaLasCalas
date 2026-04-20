@@ -276,158 +276,92 @@
 
   <script src="js/chat.js" type="module"></script>
   <script src="js/main.js" type="module"></script>
-  <script type="module">
+  <script>
 
-    // ── Panel navigation ────────────────────────────────────────────────────
-    document.querySelectorAll('.profil-nav-item[data-panel]').forEach(item => {
-      item.addEventListener('click', () => {
-        const panel = item.dataset.panel;
+    // ── Panel navigation ─────────────────────────────────────────────────────
+    document.querySelectorAll('.profil-nav-item[data-panel]').forEach(function(item) {
+      item.addEventListener('click', function() {
+        var panel = item.dataset.panel;
         if (panel === 'logout') { window.location.href = 'index.html'; return; }
-        document.querySelectorAll('.profil-nav-item').forEach(i => i.classList.remove('active'));
+        document.querySelectorAll('.profil-nav-item').forEach(function(i) { i.classList.remove('active'); });
         item.classList.add('active');
-        document.querySelectorAll('[id^="panel-"]').forEach(p => p.style.display = 'none');
-        const el = document.getElementById('panel-' + panel);
+        document.querySelectorAll('[id^="panel-"]').forEach(function(p) { p.style.display = 'none'; });
+        var el = document.getElementById('panel-' + panel);
         if (el) el.style.display = 'block';
       });
     });
 
-    // ── Init ────────────────────────────────────────────────────────────────
-    document.addEventListener('DOMContentLoaded', () => {
-      const params  = new URLSearchParams(window.location.search);
-      const dossier = params.get('dossier');
+    // ── Helper: 2-letter initials from full name ─────────────────────────────
+    function initiales(name) {
+      if (!name) return '?';
+      var parts = name.trim().split(/\s+/);
+      return ((parts[0] ? parts[0][0] : '') + (parts[1] ? parts[1][0] : '')).toUpperCase() || '?';
+    }
 
-      if (!dossier) {
-        showProfilError('Dossier introuvable. Veuillez utiliser le lien envoyé par la clinique.');
-        return;
-      }
-
-      loadProfile(dossier);
-    });
-
-    // ── showProfilError ──────────────────────────────────────────────────────
+    // ── Helper: show error banner ────────────────────────────────────────────
     function showProfilError(msg) {
-      // Show error banner above the profil layout
-      let banner = document.getElementById('profil-error-banner');
+      var banner = document.getElementById('profil-error-banner');
       if (!banner) {
         banner = document.createElement('div');
         banner.id = 'profil-error-banner';
-        banner.style.cssText = [
-          'background:#FEF2F2', 'border:1.5px solid #FECACA',
-          'color:#DC2626', 'border-radius:12px', 'padding:1rem 1.25rem',
-          'margin-bottom:1.5rem', 'font-size:.9rem', 'font-weight:500'
-        ].join(';');
-        const layout = document.querySelector('.profil-layout');
+        banner.style.cssText = 'background:#FEF2F2;border:1.5px solid #FECACA;color:#DC2626;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.9rem;font-weight:500';
+        var layout = document.querySelector('.profil-layout');
         if (layout) layout.parentElement.insertBefore(banner, layout);
       }
       banner.textContent = '⚠️ ' + msg;
       banner.style.display = 'block';
     }
 
-    // ── loadProfile: POST /api/profil { action:'load', dossier } ────────────
-    async function loadProfile(dossier) {
-      try {
-        const res = await fetch('/api/profil', {
-          method : 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body   : JSON.stringify({ action: 'load', dossier })
-        });
+    // ── Main: run on DOMContentLoaded ────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', function() {
+      var params  = new URLSearchParams(window.location.search);
+      var dossier = params.get('dossier');
 
-        const data = await res.json();
+      if (!dossier) {
+        showProfilError('Dossier introuvable. Veuillez utiliser le lien envoyé par la clinique.');
+        return;
+      }
 
-        if (data?.error || !data?.patient) {
+      fetch('/api/profil', {
+        method : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body   : JSON.stringify({ action: 'load', dossier: dossier })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (!data.patient) {
           showProfilError('Dossier introuvable. Vérifiez le lien ou contactez la clinique.');
           return;
         }
 
-        renderProfile(data.patient);
+        var p = data.patient;
 
-      } catch(err) {
+        // ── Sidebar ──
+        document.getElementById('profilName').textContent     = p.patientName || '—';
+        document.getElementById('profilDossier').textContent  = p.dossier     || '';
+        document.getElementById('profilInitials').textContent = initiales(p.patientName);
+
+        // ── Stats ──
+        document.getElementById('statDocs').textContent = p.docsCount   || 0;
+        document.getElementById('statRdv').textContent  = p.rdvCount    || 0;
+        document.getElementById('statNext').textContent = p.rdvUpcoming || 0;
+
+        // ── Panel info: prefill ──
+        var inputs = document.querySelectorAll('#panel-info input[type="text"]');
+        if (inputs[0]) inputs[0].value = p.firstName || '';
+        if (inputs[1]) inputs[1].value = p.lastName  || '';
+        var emailInput = document.querySelector('#panel-info input[type="email"]');
+        if (emailInput) emailInput.value = p.email || '';
+        var telInput = document.querySelector('#panel-info input[type="tel"]');
+        if (telInput) telInput.value = p.tel || '';
+        var langSelect = document.querySelector('#panel-info select');
+        if (langSelect && p.lang) langSelect.value = p.lang;
+      })
+      .catch(function(err) {
         console.error('loadProfile error:', err);
         showProfilError('Erreur de connexion. Réessayez dans quelques instants.');
-      }
-    }
-
-    // ── verifyAccess: POST /api/profil { action:'verify', dossier, email } ──
-    async function verifyAccess(dossier, email) {
-      const res  = await fetch('/api/profil', {
-        method : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body   : JSON.stringify({ action: 'verify', dossier, email })
       });
-      const data = await res.json();
-      if (data?.patient) { renderProfile(data.patient); return data.patient; }
-      return null;
-    }
-
-    // ── renderProfile: populate page with patient data ───────────────────────
-    function renderProfile(p) {
-      const fullName = p.fullName || `${p.nombre || ''} ${p.apellido || ''}`.trim();
-      const parts    = fullName.trim().split(/\s+/);
-      const initials = (parts[0]?.[0] || '') + (parts[1]?.[0] || '');
-
-      const g = id => document.getElementById(id);
-
-      // ── Sidebar ──
-      if (g('profilInitials')) g('profilInitials').textContent = initials.toUpperCase() || '?';
-      if (g('profilName'))     g('profilName').textContent     = fullName || '—';
-      if (g('profilDossier'))  g('profilDossier').textContent  = p.dossier || '';
-
-      // ── Stats ──
-      const docsCount    = typeof p.docsCount === 'number' ? p.docsCount
-                         : Array.isArray(p.docs_sent) ? p.docs_sent.length : 0;
-      const rdvHistory   = Array.isArray(p.rdv_history) ? p.rdv_history : [];
-      const rdvUpcoming  = Array.isArray(p.rdv)         ? p.rdv         : [];
-
-      if (g('statRdv'))  g('statRdv').textContent  = rdvHistory.length;
-      if (g('statDocs')) g('statDocs').textContent  = docsCount;
-      if (g('statNext')) g('statNext').textContent  = rdvUpcoming.length;
-
-      // ── Next RDV ──
-      if (rdvUpcoming.length > 0) {
-        const next = rdvUpcoming[0];
-        if (g('nextRdvTitle')) g('nextRdvTitle').textContent = next.title  || next.service || '—';
-        if (g('nextRdvDate'))  g('nextRdvDate').textContent  = next.date   || '—';
-        if (g('nextRdvType'))  g('nextRdvType').textContent  = next.type   || '';
-      }
-
-      // ── Panel info: prefill inputs ──
-      const txtInputs  = document.querySelectorAll('#panel-info input[type="text"]');
-      if (txtInputs[0]) txtInputs[0].value = p.nombre   || parts[0] || '';
-      if (txtInputs[1]) txtInputs[1].value = p.apellido || parts.slice(1).join(' ') || '';
-      const emailInput = document.querySelector('#panel-info input[type="email"]');
-      if (emailInput) emailInput.value = p.email || '';
-      const telInput   = document.querySelector('#panel-info input[type="tel"]');
-      if (telInput)   telInput.value   = p.tel   || '';
-      const langSelect = document.querySelector('#panel-info select');
-      if (langSelect && p.lang) langSelect.value = p.lang;
-
-      // ── Panel docs: replace static list ──
-      const docsSent = Array.isArray(p.docs_sent) ? p.docs_sent : [];
-      if (docsSent.length > 0) {
-        const list = document.querySelector('#panel-docs .upload-file-item')?.parentElement;
-        if (list) {
-          list.innerHTML = docsSent.map(doc => `
-            <div class="upload-file-item">
-              <span class="upload-file-icon">📄</span>
-              <div class="upload-file-info">
-                <strong>${escH(doc.name || doc.fileName || '—')}</strong>
-                <span>${escH(doc.type || '')}${doc.type && doc.date ? ' · ' : ''}${escH(doc.date || doc.uploadDate || '')}</span>
-              </div>
-              <span class="upload-file-status" style="color:var(--green);">✅</span>
-            </div>
-          `).join('');
-        }
-      }
-    }
-
-    function escH(s) {
-      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    }
-
-    // ── Expose for external use ──────────────────────────────────────────────
-    window.loadProfile   = loadProfile;
-    window.verifyAccess  = verifyAccess;
-    window.renderProfile = renderProfile;
+    });
 
   </script>
 </body>

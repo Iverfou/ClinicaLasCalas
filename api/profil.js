@@ -20,18 +20,29 @@ function mapPatient(raw) {
   const record = Array.isArray(raw) ? raw[0] : raw;
   const f = record?.fields || record?.patient || record || {};
 
+  // Nombre de documents reçus : tableau ou nombre brut
+  const docsRaw   = f['Documents reçus'] || f['docs_received'] || [];
+  const docsCount = typeof docsRaw === 'number' ? docsRaw
+                  : Array.isArray(docsRaw)      ? docsRaw.length
+                  : 0;
+
+  const fullName  = f['Nom Complet'] || f['fullName'] || '';
+  const parts     = fullName.trim().split(/\s+/);
+
   return {
-    nombre      : f['Prénom']              || f['nombre']       || null,
-    apellido    : f['Nom']                 || f['apellido']     || null,
+    fullName    : fullName,
+    nombre      : f['Prénom']              || f['nombre']       || parts[0]            || null,
+    apellido    : f['Nom']                 || f['apellido']     || parts.slice(1).join(' ') || null,
     email       : f['Email']               || f['email']        || null,
     tel         : f['Téléphone']           || f['tel']          || null,
     dossier     : f['Nº Client']           || f['dossier']      || null,
-    lang        : f['Langue']              || f['lang']         || 'es',
+    lang        : (f['Langue']             || f['lang']         || 'es').trim(),
     dob         : f['Date de naissance']   || f['dob']          || null,
+    docsCount,
     rdv         : f['RDV']                 || f['rdv']          || [],
     rdv_history : f['Historique RDV']      || f['rdv_history']  || [],
     docs_sent   : f['Documents envoyés']   || f['docs_sent']    || [],
-    docs_received: f['Documents reçus']    || f['docs_received']|| [],
+    docs_received: Array.isArray(docsRaw) ? docsRaw : [],
     messages    : f['Messages']            || f['messages']     || [],
   };
 }
@@ -86,6 +97,43 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const body = await parseBody(req);
     const { action, dossier, email, token, lang, msgIndex, reply } = body;
+
+    // ── LOAD: charger profil par dossier (lien clinique) ─────────────────
+    if (action === 'load') {
+      if (!dossier) {
+        return res.status(400).json({ error: 'Missing dossier' });
+      }
+
+      if (!n8nWebhook) {
+        return res.status(200).json({ patient: null, demo: true });
+      }
+
+      try {
+        const r = await fetch(n8nWebhook, {
+          method : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body   : JSON.stringify({ action: 'load', dossier })
+        });
+
+        if (!r.ok) {
+          const errText = await r.text().catch(() => '');
+          console.error('N8N load error:', r.status, errText);
+          return res.status(200).json({ error: 'not_found' });
+        }
+
+        const data = await r.json().catch(() => null);
+        if (!data) return res.status(200).json({ error: 'not_found' });
+
+        const patient = mapPatient(data);
+        if (!patient.dossier) return res.status(200).json({ error: 'not_found' });
+
+        return res.status(200).json({ patient });
+
+      } catch(e) {
+        console.error('load error:', e.message);
+        return res.status(500).json({ error: e.message });
+      }
+    }
 
     // ── VERIFY: vérifier dossier + email → retourner patient ─────────────
     if (action === 'verify') {

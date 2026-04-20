@@ -291,89 +291,118 @@
       });
     });
 
-    // ── Init: load profile from URL params ──────────────────────────────────
+    // ── Init ────────────────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', () => {
       const params  = new URLSearchParams(window.location.search);
       const dossier = params.get('dossier');
-      const token   = params.get('token');
-      if (dossier || token) loadProfile(dossier, token);
+
+      if (!dossier) {
+        showProfilError('Dossier introuvable. Veuillez utiliser le lien envoyé par la clinique.');
+        return;
+      }
+
+      loadProfile(dossier);
     });
 
-    // ── loadProfile: GET /api/profil?dossier=...&token=... ──────────────────
-    async function loadProfile(dossier, token) {
-      try {
-        const qs = new URLSearchParams();
-        if (dossier) qs.set('dossier', dossier);
-        if (token)   qs.set('token', token);
-        qs.set('lang', document.documentElement.lang || 'es');
+    // ── showProfilError ──────────────────────────────────────────────────────
+    function showProfilError(msg) {
+      // Show error banner above the profil layout
+      let banner = document.getElementById('profil-error-banner');
+      if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'profil-error-banner';
+        banner.style.cssText = [
+          'background:#FEF2F2', 'border:1.5px solid #FECACA',
+          'color:#DC2626', 'border-radius:12px', 'padding:1rem 1.25rem',
+          'margin-bottom:1.5rem', 'font-size:.9rem', 'font-weight:500'
+        ].join(';');
+        const layout = document.querySelector('.profil-layout');
+        if (layout) layout.parentElement.insertBefore(banner, layout);
+      }
+      banner.textContent = '⚠️ ' + msg;
+      banner.style.display = 'block';
+    }
 
-        const res  = await fetch(`/api/profil?${qs}`);
+    // ── loadProfile: POST /api/profil { action:'load', dossier } ────────────
+    async function loadProfile(dossier) {
+      try {
+        const res = await fetch('/api/profil', {
+          method : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body   : JSON.stringify({ action: 'load', dossier })
+        });
+
         const data = await res.json();
 
-        if (data?.patient) {
-          renderProfile(data.patient);
-        } else {
-          console.warn('loadProfile: no patient returned', data);
+        if (data?.error || !data?.patient) {
+          showProfilError('Dossier introuvable. Vérifiez le lien ou contactez la clinique.');
+          return;
         }
+
+        renderProfile(data.patient);
+
       } catch(err) {
         console.error('loadProfile error:', err);
+        showProfilError('Erreur de connexion. Réessayez dans quelques instants.');
       }
     }
 
     // ── verifyAccess: POST /api/profil { action:'verify', dossier, email } ──
     async function verifyAccess(dossier, email) {
-      const lang = document.documentElement.lang || 'es';
       const res  = await fetch('/api/profil', {
         method : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body   : JSON.stringify({ action: 'verify', dossier, email, lang })
+        body   : JSON.stringify({ action: 'verify', dossier, email })
       });
       const data = await res.json();
-      if (data?.patient) {
-        renderProfile(data.patient);
-        return data.patient;
-      }
+      if (data?.patient) { renderProfile(data.patient); return data.patient; }
       return null;
     }
 
-    // ── renderProfile: populate page with patient data ──────────────────────
+    // ── renderProfile: populate page with patient data ───────────────────────
     function renderProfile(p) {
-      const name     = `${p.nombre || ''} ${p.apellido || ''}`.trim();
-      const initials = `${(p.nombre||'')[0]||''}${(p.apellido||'')[0]||''}`.toUpperCase();
-      const g = id   => document.getElementById(id);
+      const fullName = p.fullName || `${p.nombre || ''} ${p.apellido || ''}`.trim();
+      const parts    = fullName.trim().split(/\s+/);
+      const initials = (parts[0]?.[0] || '') + (parts[1]?.[0] || '');
 
-      // Sidebar
-      if (g('profilInitials')) g('profilInitials').textContent = initials || '?';
-      if (g('profilName'))     g('profilName').textContent     = name      || '—';
+      const g = id => document.getElementById(id);
+
+      // ── Sidebar ──
+      if (g('profilInitials')) g('profilInitials').textContent = initials.toUpperCase() || '?';
+      if (g('profilName'))     g('profilName').textContent     = fullName || '—';
       if (g('profilDossier'))  g('profilDossier').textContent  = p.dossier || '';
 
-      // Stats
-      const rdvHistory = Array.isArray(p.rdv_history) ? p.rdv_history : [];
-      const docsSent   = Array.isArray(p.docs_sent)   ? p.docs_sent   : [];
-      const rdvUpcoming= Array.isArray(p.rdv)         ? p.rdv         : [];
+      // ── Stats ──
+      const docsCount    = typeof p.docsCount === 'number' ? p.docsCount
+                         : Array.isArray(p.docs_sent) ? p.docs_sent.length : 0;
+      const rdvHistory   = Array.isArray(p.rdv_history) ? p.rdv_history : [];
+      const rdvUpcoming  = Array.isArray(p.rdv)         ? p.rdv         : [];
 
       if (g('statRdv'))  g('statRdv').textContent  = rdvHistory.length;
-      if (g('statDocs')) g('statDocs').textContent  = docsSent.length;
+      if (g('statDocs')) g('statDocs').textContent  = docsCount;
       if (g('statNext')) g('statNext').textContent  = rdvUpcoming.length;
 
-      // Next RDV
+      // ── Next RDV ──
       if (rdvUpcoming.length > 0) {
         const next = rdvUpcoming[0];
-        if (g('nextRdvTitle')) g('nextRdvTitle').textContent = next.title   || next.service || '—';
-        if (g('nextRdvDate'))  g('nextRdvDate').textContent  = next.date    || '—';
-        if (g('nextRdvType'))  g('nextRdvType').textContent  = next.type    || '';
+        if (g('nextRdvTitle')) g('nextRdvTitle').textContent = next.title  || next.service || '—';
+        if (g('nextRdvDate'))  g('nextRdvDate').textContent  = next.date   || '—';
+        if (g('nextRdvType'))  g('nextRdvType').textContent  = next.type   || '';
       }
 
-      // Info panel inputs
-      const txtInputs = document.querySelectorAll('#panel-info input[type="text"]');
-      if (txtInputs[0]) txtInputs[0].value = p.nombre   || '';
-      if (txtInputs[1]) txtInputs[1].value = p.apellido || '';
+      // ── Panel info: prefill inputs ──
+      const txtInputs  = document.querySelectorAll('#panel-info input[type="text"]');
+      if (txtInputs[0]) txtInputs[0].value = p.nombre   || parts[0] || '';
+      if (txtInputs[1]) txtInputs[1].value = p.apellido || parts.slice(1).join(' ') || '';
       const emailInput = document.querySelector('#panel-info input[type="email"]');
       if (emailInput) emailInput.value = p.email || '';
-      const telInput = document.querySelector('#panel-info input[type="tel"]');
-      if (telInput) telInput.value = p.tel || '';
+      const telInput   = document.querySelector('#panel-info input[type="tel"]');
+      if (telInput)   telInput.value   = p.tel   || '';
+      const langSelect = document.querySelector('#panel-info select');
+      if (langSelect && p.lang) langSelect.value = p.lang;
 
-      // Docs panel
+      // ── Panel docs: replace static list ──
+      const docsSent = Array.isArray(p.docs_sent) ? p.docs_sent : [];
       if (docsSent.length > 0) {
         const list = document.querySelector('#panel-docs .upload-file-item')?.parentElement;
         if (list) {
@@ -381,8 +410,8 @@
             <div class="upload-file-item">
               <span class="upload-file-icon">📄</span>
               <div class="upload-file-info">
-                <strong>${doc.name || doc.fileName || '—'}</strong>
-                <span>${doc.type || ''} · ${doc.date || doc.uploadDate || ''}</span>
+                <strong>${escH(doc.name || doc.fileName || '—')}</strong>
+                <span>${escH(doc.type || '')}${doc.type && doc.date ? ' · ' : ''}${escH(doc.date || doc.uploadDate || '')}</span>
               </div>
               <span class="upload-file-status" style="color:var(--green);">✅</span>
             </div>
@@ -391,7 +420,11 @@
       }
     }
 
-    // Expose for external use
+    function escH(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    // ── Expose for external use ──────────────────────────────────────────────
     window.loadProfile   = loadProfile;
     window.verifyAccess  = verifyAccess;
     window.renderProfile = renderProfile;

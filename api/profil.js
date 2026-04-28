@@ -137,11 +137,14 @@ export default async function handler(req, res) {
         const data = await r.json().catch(() => null);
         if (!data) return res.status(200).json({ error: 'not_found' });
 
-        const patient = mapPatient(data);
-        if (!patient.dossier) return res.status(200).json({ error: 'not_found' });
-
-        // Retourne les champs plats directement (pas d'enveloppe { patient })
-        return res.status(200).json(patient);
+        // Si N8N retourne le nouveau format { patient, documents, rdv }
+if (data.patient) {
+  return res.status(200).json(data);
+}
+// Sinon ancien format flat
+const patient = mapPatient(data);
+if (!patient.dossier) return res.status(200).json({ error: 'not_found' });
+return res.status(200).json(patient);
 
       } catch(e) {
         console.error('load error:', e.message);

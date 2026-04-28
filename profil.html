@@ -278,121 +278,6 @@
   <script src="js/main.js" type="module"></script>
   <script>
 
-    // ── Panel navigation ─────────────────────────────────────────────────────
-    document.querySelectorAll('.profil-nav-item[data-panel]').forEach(function(item) {
-      item.addEventListener('click', function() {
-        var panel = item.dataset.panel;
-        if (panel === 'logout') { window.location.href = 'index.html'; return; }
-        document.querySelectorAll('.profil-nav-item').forEach(function(i) { i.classList.remove('active'); });
-        item.classList.add('active');
-        document.querySelectorAll('[id^="panel-"]').forEach(function(p) { p.style.display = 'none'; });
-        var el = document.getElementById('panel-' + panel);
-        if (el) el.style.display = 'block';
-      });
-    });
-
-    // ── Helper: 2-letter initials from full name ─────────────────────────────
-    function initiales(name) {
-      if (!name) return '?';
-      var parts = name.trim().split(/\s+/);
-      return ((parts[0] ? parts[0][0] : '') + (parts[1] ? parts[1][0] : '')).toUpperCase() || '?';
-    }
-
-    // ── Helper: show error banner ────────────────────────────────────────────
-    function showProfilError(msg) {
-      var banner = document.getElementById('profil-error-banner');
-      if (!banner) {
-        banner = document.createElement('div');
-        banner.id = 'profil-error-banner';
-        banner.style.cssText = 'background:#FEF2F2;border:1.5px solid #FECACA;color:#DC2626;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.9rem;font-weight:500';
-        var layout = document.querySelector('.profil-layout');
-        if (layout) layout.parentElement.insertBefore(banner, layout);
-      }
-      banner.textContent = '⚠️ ' + msg;
-      banner.style.display = 'block';
-    }
-
-    // ── Main: run on DOMContentLoaded ────────────────────────────────────────
-    document.addEventListener('DOMContentLoaded', function() {
-      var params  = new URLSearchParams(window.location.search);
-      var dossier = params.get('dossier');
-
-      if (!dossier) {
-        showProfilError('Dossier introuvable. Veuillez utiliser le lien envoyé par la clinique.');
-        return;
-      }
-
-      fetch('/api/profil', {
-        method : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body   : JSON.stringify({ action: 'load', dossier: dossier })
-      })
-      .then(function(res) { return res.json(); })
-      .then(function(data) {
-        if (data.error || (!data.patientName && !data.dossier)) {
-          showProfilError('Dossier introuvable. Vérifiez le lien ou contactez la clinique.');
-          return;
-        }
-
-        // ── Sidebar ──
-        document.getElementById('profilName').textContent     = data.patientName || '';
-        document.getElementById('profilDossier').textContent  = data.dossier     || '';
-        document.getElementById('profilInitials').textContent =
-          (data.patientName || 'XX').split(' ').map(function(w){ return w[0]; }).join('').substring(0,2).toUpperCase();
-
-        // ── Stats ──
-        document.getElementById('statDocs').textContent =
-          data.docCount || (data.docType || data.fileName ? 1 : 0) ||
-          (data.dossier ? 1 : 0);
-        document.getElementById('statRdv').textContent  = data.rdvCount    || 0;
-        document.getElementById('statNext').textContent = data.rdvUpcoming || 0;
-
-        // ── Prochaine cita ──
-        if (data.dateRdv) {
-          document.getElementById('nextRdvTitle').textContent =
-            (data.specialite || '') + (data.medecin ? ' — ' + data.medecin : '');
-          document.getElementById('nextRdvDate').textContent = data.dateRdv;
-          document.getElementById('nextRdvType').textContent = '🏥 ' + (data.typeRdv || 'Presencial');
-        }
-
-        // ── Statut dossier — active le badge correspondant ──
-        var statutMap = {
-          'Nouveau'     : 'badgeRdv',
-          'Docs Attendus': 'badgeDocs',
-          'Docs Reçus'  : 'badgeRecu',
-          'Docs Refused': 'badgeRecu',
-          'Complete'    : 'badgeClos'
-        };
-        var activeBadgeId = data.statut ? statutMap[data.statut] : 'badgeRdv';
-        ['badgeRdv','badgeDocs','badgeRecu','badgeClos'].forEach(function(id) {
-          var el = document.getElementById(id);
-          if (!el) return;
-          if (id === activeBadgeId) {
-            el.classList.add('green');
-            el.style.opacity = '1';
-          } else {
-            el.classList.remove('green');
-            el.style.opacity = '.4';
-          }
-        });
-
-        // ── Panel info: prefill via IDs ──
-        document.getElementById('inputNombre').value   = data.patientName  || '';
-        document.getElementById('inputApellido').value = data.lastName     || '';
-        document.getElementById('inputEmail').value    = data.patientEmail || '';
-        document.getElementById('inputTelefono').value = data.phone        || '';
-        if (data.lang) document.getElementById('inputLang').value = data.lang;
-      })
-      .catch(function(err) {
-        console.error('loadProfile error:', err);
-        showProfilError('Erreur de connexion. Réessayez dans quelques instants.');
-      });
-    });
-
- <script src="js/chat.js" type="module"></script>
-    <script src="js/main.js" type="module"></script>
-    <script>
- 
   // ── Panel navigation ─────────────────────────────────────────────────────
   document.querySelectorAll('.profil-nav-item[data-panel]').forEach(function(item) {
     item.addEventListener('click', function() {
@@ -405,7 +290,7 @@
       if (el) el.style.display = 'block';
     });
   });
- 
+
   // ── Helper: show error banner ────────────────────────────────────────────
   function showProfilError(msg) {
     var banner = document.getElementById('profil-error-banner');
@@ -419,7 +304,7 @@
     banner.textContent = '⚠️ ' + msg;
     banner.style.display = 'block';
   }
- 
+
   // ── Helper: format date ───────────────────────────────────────────────────
   function formatDate(dateStr) {
     if (!dateStr) return '';
@@ -429,32 +314,27 @@
       });
     } catch(e) { return dateStr; }
   }
- 
+
   // ── Render documents panel ────────────────────────────────────────────────
   function renderDocuments(documents) {
-    var container = document.querySelector('#panel-docs .upload-file-item')?.parentElement;
+    var container = document.querySelector('#panel-docs > div:last-child');
     if (!container) return;
- 
     if (!documents || documents.length === 0) {
       container.innerHTML = '<p style="color:var(--text-light);font-size:.9rem;padding:1rem 0;">No hay documentos enviados todavía.</p>';
       return;
     }
- 
     container.innerHTML = documents.map(function(doc) {
       var icon = '📄';
       var typeStr = (doc.type || '').toLowerCase();
       if (typeStr.includes('identidad') || typeStr.includes('passeport') || typeStr.includes('admin')) icon = '🪪';
       if (typeStr.includes('medic') || typeStr.includes('03')) icon = '🩺';
       if (typeStr.includes('seguro') || typeStr.includes('assurance') || typeStr.includes('02')) icon = '💳';
- 
       var analyseColor = 'var(--text-light)';
       var analyseIcon  = '⏳';
-      if (doc.analyse === 'valide')     { analyseColor = 'var(--green)';   analyseIcon = '✅'; }
-      if (doc.analyse === 'invalide')   { analyseColor = '#DC2626';         analyseIcon = '❌'; }
-      if (doc.analyse === 'A verifier') { analyseColor = 'var(--gold)';    analyseIcon = '🔍'; }
- 
+      if (doc.analyse === 'valide')     { analyseColor = 'var(--green)';  analyseIcon = '✅'; }
+      if (doc.analyse === 'invalide')   { analyseColor = '#DC2626';        analyseIcon = '❌'; }
+      if (doc.analyse === 'A verifier') { analyseColor = 'var(--gold)';   analyseIcon = '🔍'; }
       var dateStr = doc.date ? formatDate(doc.date) : '';
- 
       return [
         '<div class="upload-file-item">',
         '  <span class="upload-file-icon">' + icon + '</span>',
@@ -467,17 +347,15 @@
       ].join('');
     }).join('');
   }
- 
+
   // ── Render RDV panel ──────────────────────────────────────────────────────
   function renderRdv(rdvList) {
     var container = document.querySelector('#panel-rdv > div:last-child');
     if (!container) return;
- 
     if (!rdvList || rdvList.length === 0) {
       container.innerHTML = '<p style="color:var(--text-light);font-size:.9rem;padding:1rem 0;">No hay citas registradas.</p>';
       return;
     }
- 
     container.innerHTML = rdvList.map(function(rdv) {
       var dateStr = rdv.date ? formatDate(rdv.date) : 'Date à confirmer';
       return [
@@ -492,17 +370,17 @@
       ].join('');
     }).join('');
   }
- 
+
   // ── Main: load on DOMContentLoaded ───────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function() {
     var params  = new URLSearchParams(window.location.search);
     var dossier = params.get('dossier');
- 
+
     if (!dossier) {
       showProfilError('Dossier introuvable. Veuillez utiliser le lien envoyé par la clinique.');
       return;
     }
- 
+
     fetch('/api/profil', {
       method : 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -510,36 +388,34 @@
     })
     .then(function(res) { return res.json(); })
     .then(function(data) {
- 
-      // Support both formats: new { patient, documents, rdv } and legacy flat
-      var p   = data.patient   || data;
+      var p    = data.patient   || data;
       var docs = data.documents || [];
       var rdvs = data.rdv       || [];
- 
-      var nom    = p.nom    || p.patientName || '';
+
+      var nom    = p.nom    || p.patientName  || '';
       var email  = p.email  || p.patientEmail || '';
       var statut = p.statut || '';
       var langue = p.langue || p.lang || 'es';
       var dos    = p.dossier || dossier;
- 
+
       if (!nom && !email) {
         showProfilError('Dossier introuvable. Vérifiez le lien ou contactez la clinique.');
         return;
       }
- 
-      // ── Sidebar ──────────────────────────────────────────────────────────
+
+      // Sidebar
       document.getElementById('profilName').textContent    = nom;
       document.getElementById('profilDossier').textContent = dos;
       document.getElementById('profilInitials').textContent =
         nom.trim().split(/\s+/).map(function(w){ return w[0] || ''; }).join('').substring(0,2).toUpperCase() || '?';
- 
-      // ── Stats ─────────────────────────────────────────────────────────────
+
+      // Stats
       document.getElementById('statDocs').textContent = docs.length || 0;
       document.getElementById('statRdv').textContent  = rdvs.length || 0;
       var upcoming = rdvs.filter(function(r){ return r.date && new Date(r.date) >= new Date(); });
       document.getElementById('statNext').textContent = upcoming.length || 0;
- 
-      // ── Prochaine cita ────────────────────────────────────────────────────
+
+      // Prochaine cita
       var nextRdv = upcoming[0] || rdvs[0];
       if (nextRdv) {
         document.getElementById('nextRdvTitle').textContent =
@@ -547,8 +423,8 @@
         document.getElementById('nextRdvDate').textContent = formatDate(nextRdv.date);
         document.getElementById('nextRdvType').textContent = '🏥 Presencial · Cap de las Huertas';
       }
- 
-      // ── Statut dossier badges ─────────────────────────────────────────────
+
+      // Statut badges
       var statutMap = {
         'Nouveau'      : 'badgeRdv',
         'Docs Attendus': 'badgeDocs',
@@ -563,10 +439,10 @@
         if (id === activeBadge) { el.classList.add('green'); el.style.opacity = '1'; }
         else                    { el.classList.remove('green'); el.style.opacity = '.4'; }
       });
- 
-      // ── Panel info: prefill ───────────────────────────────────────────────
+
+      // Panel info
       var parts = nom.trim().split(/\s+/);
-      document.getElementById('inputNombre').value   = parts[0]  || '';
+      document.getElementById('inputNombre').value   = parts[0] || '';
       document.getElementById('inputApellido').value = parts.slice(1).join(' ') || '';
       document.getElementById('inputEmail').value    = email;
       document.getElementById('inputTelefono').value = p.phone || p.whatsapp || '';
@@ -576,8 +452,8 @@
                        langue.toLowerCase().startsWith('en') ? 'en' : 'es';
         langSelect.value = langCode;
       }
- 
-      // ── Panels: documents & RDV ───────────────────────────────────────────
+
+      // Panels dynamiques
       renderDocuments(docs);
       renderRdv(rdvs);
     })
@@ -586,9 +462,7 @@
       showProfilError('Erreur de connexion. Réessayez dans quelques instants.');
     });
   });
- 
-</script>
 
+  </script>
   </body>
 </html>
-

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr" data-theme="c">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Perfil — Clínica Las Calas</title>
+  <meta name="description" content="Espacio personal del paciente — Clínica Las Calas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo.svg" alt="Clínica Las Calas" onerror="this.style.display='none'" />
+        <span class="nav-logo-text">Clínica <span>Las Calas</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" data-i18n="nav.home">Inicio</a>
+        <a href="services.html" data-i18n="nav.services">Servicios</a>
+        <a href="equipe.html" data-i18n="nav.team">Equipo</a>
+        <a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a>
+        <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+        <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+      </div>
+      <div class="nav-right">
+        <div class="lang-selector" id="langSelector">
+          <button class="lang-btn" id="langBtn"><span id="currentLang">ES</span><span>▾</span></button>
+          <div class="lang-dropdown" id="langDropdown">
+            <div class="lang-option active" data-lang="es"><span class="flag">🇪🇸</span> Español</div>
+            <div class="lang-option" data-lang="en"><span class="flag">🇬🇧</span> English</div>
+            <div class="lang-option" data-lang="fr"><span class="flag">🇫🇷</span> Français</div>
+            <div class="lang-option" data-lang="de"><span class="flag">🇩🇪</span> Deutsch</div>
+            <div class="lang-option" data-lang="it"><span class="flag">🇮🇹</span> Italiano</div>
+            <div class="lang-option" data-lang="ru"><span class="flag">🇷🇺</span> Русский</div>
+            <div class="lang-option" data-lang="uk"><span class="flag">🇺🇦</span> Українська</div>
+            <div class="lang-option" data-lang="zh"><span class="flag">🇨🇳</span> 中文</div>
+            <div class="lang-divider"></div>
+            <div class="lang-option" data-lang="ar-dz"><span class="flag">🇩🇿</span> العربية (DZ)</div>
+            <div class="lang-option" data-lang="ar-ma"><span class="flag">🇲🇦</span> العربية (MA)</div>
+            <div class="lang-option" data-lang="ar-tn"><span class="flag">🇹🇳</span> العربية (TN)</div>
+          </div>
+        </div>
+        <a href="rdv.html" class="btn btn-primary btn-sm" data-i18n="nav.rdv">Pedir cita</a>
+        <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="index.html" data-i18n="nav.home">Inicio</a>
+    <a href="services.html" data-i18n="nav.services">Servicios</a>
+    <a href="equipe.html" data-i18n="nav.team">Equipo</a>
+    <a href="tarifs.html" data-i18n="nav.tarifs">Tarifas</a>
+    <a href="faq.html" data-i18n="nav.faq">FAQ</a>
+    <a href="contact.html" data-i18n="nav.contact">Contacto</a>
+    <a href="rdv.html" class="btn btn-primary" data-i18n="nav.rdv">Pedir cita</a>
+  </div>
+
+  <div style="padding-top:var(--nav-h);"></div>
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="profil-layout">
+
+        <!-- Sidebar -->
+        <div class="profil-sidebar">
+          <div class="profil-avatar-section">
+            <div class="profil-avatar" id="profilInitials">JG</div>
+            <h4 id="profilName" style="color:var(--primary-dark);margin-bottom:.2rem;">Juan García</h4>
+            <p style="font-size:.8rem;color:var(--text-light);" id="profilDossier">ClC-001</p>
+          </div>
+          <nav class="profil-nav">
+            <div class="profil-nav-item active" data-panel="overview">
+              <span>📊</span> <span data-i18n="profil.nav.overview">Resumen</span>
+            </div>
+            <div class="profil-nav-item" data-panel="rdv">
+              <span>📅</span> <span data-i18n="profil.nav.rdv">Mis citas</span>
+            </div>
+            <div class="profil-nav-item" data-panel="docs">
+              <span>📄</span> <span data-i18n="profil.nav.docs">Mis documentos</span>
+            </div>
+            <div class="profil-nav-item" data-panel="info">
+              <span>👤</span> <span data-i18n="profil.nav.info">Datos personales</span>
+            </div>
+            <div class="profil-nav-item" style="border-top:1px solid var(--gray-200);margin-top:.5rem;padding-top:.5rem;" data-panel="logout">
+              <span>🚪</span> <span data-i18n="profil.nav.logout">Cerrar sesión</span>
+            </div>
+          </nav>
+        </div>
+
+        <!-- Main content -->
+        <div class="profil-main">
+
+          <!-- Panel: Overview -->
+          <div id="panel-overview">
+            <h2 style="margin-bottom:1.5rem;" data-i18n="profil.overview.title">Resumen de su expediente</h2>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-bottom:2rem;">
+              <div style="background:var(--primary-xlight);border-radius:var(--radius-lg);padding:1.25rem;text-align:center;border:1.5px solid var(--primary-light);">
+                <div style="font-size:2rem;font-weight:700;color:var(--primary);" id="statRdv">2</div>
+                <div style="font-size:.82rem;color:var(--text-light);" data-i18n="profil.stat.rdv">Citas realizadas</div>
+              </div>
+              <div style="background:var(--green-light);border-radius:var(--radius-lg);padding:1.25rem;text-align:center;border:1.5px solid #A7F3D0;">
+                <div style="font-size:2rem;font-weight:700;color:var(--green);" id="statDocs">3</div>
+                <div style="font-size:.82rem;color:var(--text-light);" data-i18n="profil.stat.docs">Documentos</div>
+              </div>
+              <div style="background:var(--gold-light);border-radius:var(--radius-lg);padding:1.25rem;text-align:center;border:1.5px solid rgba(201,168,76,.3);">
+                <div style="font-size:2rem;font-weight:700;color:var(--gold);" id="statNext">1</div>
+                <div style="font-size:.82rem;color:var(--text-light);" data-i18n="profil.stat.next">Próxima cita</div>
+              </div>
+            </div>
+
+            <!-- Prochaine cita -->
+            <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:var(--radius-xl);padding:1.5rem;color:white;margin-bottom:1.5rem;">
+              <div style="font-size:.8rem;color:rgba(255,255,255,.7);margin-bottom:.4rem;" data-i18n="profil.next.title">PRÓXIMA CITA</div>
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+                <div>
+                  <div style="font-size:1.1rem;font-weight:700;" id="nextRdvTitle">Medicina General — Dr. García</div>
+                  <div style="color:rgba(255,255,255,.85);font-size:.9rem;margin-top:.2rem;" id="nextRdvDate">Lunes 20 Enero 2025 · 10:30</div>
+                  <div style="color:rgba(255,255,255,.7);font-size:.82rem;margin-top:.15rem;" id="nextRdvType">🏥 Presencial · Cap de las Huertas</div>
+                </div>
+                <div style="display:flex;gap:.6rem;flex-wrap:wrap;">
+                  <a href="#" style="background:rgba(255,255,255,.2);color:white;padding:.45rem .9rem;border-radius:var(--radius-full);font-size:.8rem;font-weight:600;" data-i18n="profil.next.cancel">Cancelar</a>
+                  <a href="upload.html" style="background:rgba(255,255,255,.9);color:var(--primary);padding:.45rem .9rem;border-radius:var(--radius-full);font-size:.8rem;font-weight:700;" data-i18n="profil.next.docs">Enviar docs</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Statut dossier -->
+            <div style="border:1.5px solid var(--gray-200);border-radius:var(--radius-xl);padding:1.5rem;">
+              <h4 style="margin-bottom:1rem;" data-i18n="profil.status.title">Estado del dossier</h4>
+              <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;">
+                <span id="badgeRdv"   class="badge" style="opacity:.4;">RDV confirmado</span>
+                <span style="color:var(--gray-400);font-size:1.2rem;">→</span>
+                <span id="badgeDocs"  class="badge" style="opacity:.4;">Docs solicitados</span>
+                <span style="color:var(--gray-400);font-size:1.2rem;">→</span>
+                <span id="badgeRecu"  class="badge" style="opacity:.4;">Docs recibidos</span>
+                <span style="color:var(--gray-400);font-size:1.2rem;">→</span>
+                <span id="badgeClos"  class="badge" style="opacity:.4;">Dossier cerrado</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel: Citas -->
+          <div id="panel-rdv" style="display:none;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+              <h2 data-i18n="profil.nav.rdv">Mis citas</h2>
+              <a href="rdv.html" class="btn btn-primary btn-sm" data-i18n="nav.rdv">Nueva cita</a>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:1rem;">
+              <div style="border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;">
+                <div>
+                  <div style="font-weight:700;">Medicina General — Dr. Carlos García</div>
+                  <div style="font-size:.85rem;color:var(--text-light);margin-top:.2rem;">20 Enero 2025 · 10:30 · Presencial</div>
+                </div>
+                <span class="badge green">Confirmado</span>
+              </div>
+              <div style="border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;opacity:.7;">
+                <div>
+                  <div style="font-weight:700;">Cardiología — Dra. Ana Martínez</div>
+                  <div style="font-size:.85rem;color:var(--text-light);margin-top:.2rem;">15 Diciembre 2024 · 11:00 · Teams</div>
+                </div>
+                <span class="badge" style="background:var(--gray-100);color:var(--gray-600);">Completado</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel: Documents -->
+          <div id="panel-docs" style="display:none;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+              <h2 data-i18n="profil.nav.docs">Mis documentos</h2>
+              <a href="upload.html" class="btn btn-primary btn-sm" data-i18n="upload.submit">Enviar doc</a>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:.75rem;">
+              <div class="upload-file-item">
+                <span class="upload-file-icon">📄</span>
+                <div class="upload-file-info"><strong>pasaporte_scan.pdf</strong><span>Identidad · 1.2 MB · 10 Ene 2025</span></div>
+                <span class="upload-file-status" style="color:var(--green);">✅</span>
+              </div>
+              <div class="upload-file-item">
+                <span class="upload-file-icon">📋</span>
+                <div class="upload-file-info"><strong>historial_medico.pdf</strong><span>Médico · 3.4 MB · 10 Ene 2025</span></div>
+                <span class="upload-file-status" style="color:var(--green);">✅</span>
+              </div>
+              <div class="upload-file-item">
+                <span class="upload-file-icon">💳</span>
+                <div class="upload-file-info"><strong>seguro_viaje.jpg</strong><span>Seguro · 0.8 MB · 11 Ene 2025</span></div>
+                <span class="upload-file-status" style="color:var(--green);">✅</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel: Info -->
+          <div id="panel-info" style="display:none;">
+            <h2 style="margin-bottom:1.5rem;" data-i18n="profil.nav.info">Datos personales</h2>
+            <form>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" data-i18n="form.firstname">Nombre</label>
+                  <input id="inputNombre" type="text" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" data-i18n="form.lastname">Apellido</label>
+                  <input id="inputApellido" type="text" class="form-control" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" data-i18n="form.email">Email</label>
+                  <input id="inputEmail" type="email" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" data-i18n="form.phone">Teléfono</label>
+                  <input id="inputTelefono" type="tel" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" data-i18n="form.lang">Idioma preferido</label>
+                <select id="inputLang" class="form-control">
+                  <option value="es">🇪🇸 Español</option>
+                  <option value="en">🇬🇧 English</option>
+                  <option value="fr">🇫🇷 Français</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary" data-i18n="profil.save">Guardar cambios</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo"><span class="nav-logo-text">Clínica <span>Las Calas</span></span></div>
+          <p data-i18n="footer.desc">Clínica médica multiespecialidad en Alicante.</p>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.clinic">Clínica</h5>
+          <ul><li><a href="rdv.html" data-i18n="nav.rdv">Pedir cita</a></li><li><a href="upload.html" data-i18n="nav.upload">Enviar docs</a></li></ul>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.contact">Contacto</h5>
+          <div class="footer-contact-item"><span class="icon">📞</span><a href="tel:+34965000000">+34 965 000 000</a></div>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer.legal">Legal</h5>
+          <ul><li><a href="mentions.html" data-i18n="nav.mentions">Aviso legal</a></li><li><a href="mentions.html#privacy" data-i18n="footer.privacy">Privacidad</a></li></ul>
+        </div>
+      </div>
+      <div class="footer-bottom"><span>© 2025 Clínica Las Calas.</span></div>
+    </div>
+  </footer>
+
+  <div class="chat-fab" id="chatFab">💬<div class="chat-fab-pulse"></div></div>
+  <div class="chat-window chat-closed" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-header-avatar">🏥</div>
+      <div class="chat-header-info"><strong data-i18n="chat.title">Asistente</strong><div class="chat-header-online"><div class="dot"></div><span data-i18n="chat.online">En línea</span></div></div>
+      <button class="chat-close" id="chatClose">✕</button>
+    </div>
+    <div class="chat-disclaimer"><span class="icon">⚠️</span><span data-i18n="chat.disclaimer">Este asistente no realiza diagnósticos.</span></div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-quick-btns" id="quickBtns"><button class="chat-quick-btn" data-action="rdv" data-i18n="chat.quick.rdv">📅 Pedir cita</button></div>
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="chatInput" rows="1" data-i18n-placeholder="chat.placeholder"></textarea>
+      <button class="chat-send" id="chatSend">➤</button>
+    </div>
+  </div>
+  <a href="https://wa.me/34965000000" target="_blank" rel="noopener" class="whatsapp-fab">💬</a>
+
+  <script src="js/chat.js" type="module"></script>
+  <script src="js/main.js" type="module"></script>
+  <script>
+  document.querySelectorAll('.profil-nav-item[data-panel]').forEach(function(item) {
+    item.addEventListener('click', function() {
+      var panel = item.dataset.panel;
+      if (panel === 'logout') { window.location.href = 'index.html'; return; }
+      document.querySelectorAll('.profil-nav-item').forEach(function(i) { i.classList.remove('active'); });
+      item.classList.add('active');
+      document.querySelectorAll('[id^="panel-"]').forEach(function(p) { p.style.display = 'none'; });
+      var el = document.getElementById('panel-' + panel);
+      if (el) el.style.display = 'block';
+    });
+  });
+
+  function showProfilError(msg) {
+    var banner = document.getElementById('profil-error-banner');
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.id = 'profil-error-banner';
+      banner.style.cssText = 'background:#FEF2F2;border:1.5px solid #FECACA;color:#DC2626;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.9rem;font-weight:500';
+      var layout = document.querySelector('.profil-layout');
+      if (layout) layout.parentElement.insertBefore(banner, layout);
+    }
+    banner.textContent = '⚠️ ' + msg;
+    banner.style.display = 'block';
+  }
+
+  function formatDate(dateStr) {
+    if (!dateStr) return '';
+    try {
+      return new Date(dateStr).toLocaleDateString('es-ES', {
+        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+      });
+    } catch(e) { return dateStr; }
+  }
+
+  function renderDocuments(documents) {
+    var container = document.querySelector('#panel-docs > div:last-child');
+    if (!container) return;
+    if (!documents || documents.length === 0) {
+      container.innerHTML = '<p style="color:var(--text-light);font-size:.9rem;padding:1rem 0;">No hay documentos enviados todavía.</p>';
+      return;
+    }
+    container.innerHTML = documents.map(function(doc) {
+      var icon = '📄';
+      var typeStr = (doc.type || '').toLowerCase();
+      if (typeStr.includes('identidad') || typeStr.includes('passeport') || typeStr.includes('admin')) icon = '🪪';
+      if (typeStr.includes('medic') || typeStr.includes('03')) icon = '🩺';
+      if (typeStr.includes('seguro') || typeStr.includes('assurance') || typeStr.includes('02')) icon = '💳';
+      var analyseColor = 'var(--text-light)';
+      var analyseIcon = '⏳';
+      if (doc.analyse === 'valide')     { analyseColor = 'var(--green)'; analyseIcon = '✅'; }
+      if (doc.analyse === 'invalide')   { analyseColor = '#DC2626';       analyseIcon = '❌'; }
+      if (doc.analyse === 'A verifier') { analyseColor = 'var(--gold)';  analyseIcon = '🔍'; }
+      var dateStr = doc.date ? formatDate(doc.date) : '';
+      return '<div class="upload-file-item">' +
+        '<span class="upload-file-icon">' + icon + '</span>' +
+        '<div class="upload-file-info">' +
+        '<strong>' + (doc.type || 'Document') + '</strong>' +
+        '<span>' + (doc.statut || '') + (dateStr ? ' · ' + dateStr : '') + '</span>' +
+        '<span style="font-size:.75rem;color:' + analyseColor + ';">' + analyseIcon + ' ' + (doc.analyse || '') + '</span>' +
+        '</div></div>';
+    }).join('');
+  }
+
+  function renderRdv(rdvList) {
+    var container = document.querySelector('#panel-rdv > div:last-child');
+    if (!container) return;
+    if (!rdvList || rdvList.length === 0) {
+      container.innerHTML = '<p style="color:var(--text-light);font-size:.9rem;padding:1rem 0;">No hay citas registradas.</p>';
+      return;
+    }
+    container.innerHTML = rdvList.map(function(rdv) {
+      var dateStr = rdv.date ? formatDate(rdv.date) : 'Date à confirmer';
+      return '<div style="border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;">' +
+        '<div><div style="font-weight:700;">' + (rdv.specialite || 'Consulta') + (rdv.medecin ? ' — ' + rdv.medecin : '') + '</div>' +
+        '<div style="font-size:.85rem;color:var(--text-light);margin-top:.2rem;">' + dateStr + '</div></div>' +
+        '<span class="badge green">' + (rdv.statut || 'Confirmado') + '</span></div>';
+    }).join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var params  = new URLSearchParams(window.location.search);
+    var dossier = params.get('dossier');
+
+    if (!dossier) {
+      showProfilError('Dossier introuvable. Veuillez utiliser le lien envoyé par la clinique.');
+      return;
+    }
+
+    fetch('/api/profil', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'load', dossier: dossier })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      var p    = data.patient   || data;
+      var docs = data.documents || [];
+      var rdvs = data.rdv       || [];
+      var nom    = p.nom    || p.patientName  || '';
+      var email  = p.email  || p.patientEmail || '';
+      var statut = p.statut || '';
+      var langue = p.langue || p.lang || 'es';
+      var dos    = p.dossier || dossier;
+
+      if (!nom && !email) {
+        showProfilError('Dossier introuvable. Vérifiez le lien ou contactez la clinique.');
+        return;
+      }
+
+      document.getElementById('profilName').textContent    = nom;
+      document.getElementById('profilDossier').textContent = dos;
+      document.getElementById('profilInitials').textContent =
+        nom.trim().split(/\s+/).map(function(w){ return w[0] || ''; }).join('').substring(0,2).toUpperCase() || '?';
+
+      document.getElementById('statDocs').textContent = docs.length || 0;
+      document.getElementById('statRdv').textContent  = rdvs.length || 0;
+      var upcoming = rdvs.filter(function(r){ return r.date && new Date(r.date) >= new Date(); });
+      document.getElementById('statNext').textContent = upcoming.length || 0;
+
+      var nextRdv = upcoming[0] || rdvs[0];
+      if (nextRdv) {
+        document.getElementById('nextRdvTitle').textContent =
+          (nextRdv.specialite || '') + (nextRdv.medecin ? ' — ' + nextRdv.medecin : '');
+        document.getElementById('nextRdvDate').textContent = formatDate(nextRdv.date);
+        document.getElementById('nextRdvType').textContent = '🏥 Presencial · Cap de las Huertas';
+      }
+
+      var statutMap = { 'Nouveau':'badgeRdv','Docs Attendus':'badgeDocs','Docs Reçus':'badgeRecu','Docs Refused':'badgeRecu','Complete':'badgeClos' };
+      var activeBadge = statutMap[statut] || 'badgeRdv';
+      ['badgeRdv','badgeDocs','badgeRecu','badgeClos'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        if (id === activeBadge) { el.classList.add('green'); el.style.opacity = '1'; }
+        else { el.classList.remove('green'); el.style.opacity = '.4'; }
+      });
+
+      var parts = nom.trim().split(/\s+/);
+      document.getElementById('inputNombre').value   = parts[0] || '';
+      document.getElementById('inputApellido').value = parts.slice(1).join(' ') || '';
+      document.getElementById('inputEmail').value    = email;
+      document.getElementById('inputTelefono').value = p.phone || p.whatsapp || '';
+      var langSelect = document.getElementById('inputLang');
+      if (langSelect && langue) {
+        langSelect.value = langue.toLowerCase().startsWith('fr') ? 'fr' :
+                           langue.toLowerCase().startsWith('en') ? 'en' : 'es';
+      }
+
+      renderDocuments(docs);
+      renderRdv(rdvs);
+    })
+    .catch(function(err) {
+      console.error('loadProfile error:', err);
+      showProfilError('Erreur de connexion. Réessayez dans quelques instants.');
+    });
+  });
+  </script>
+  </body>
+</html>

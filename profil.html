@@ -302,14 +302,19 @@
     banner.style.display = 'block';
   }
 
-  function formatDate(dateStr) {
-    if (!dateStr) return '';
-    try {
-      return new Date(dateStr).toLocaleDateString('es-ES', {
-        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-      });
-    } catch(e) { return dateStr; }
-  }
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  try {
+    var d = new Date(dateStr);
+    var date = d.toLocaleDateString('es-ES', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+    var heure = d.toLocaleTimeString('es-ES', {
+      hour: '2-digit', minute: '2-digit'
+    });
+    return date + ' · ' + heure;
+  } catch(e) { return dateStr; }
+}
 
   function renderDocuments(documents) {
     var container = document.querySelector('#panel-docs > div:last-child');

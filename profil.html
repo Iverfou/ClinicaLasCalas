@@ -445,6 +445,39 @@ function formatDate(dateStr) {
 
       renderDocuments(docs);
       renderRdv(rdvs);
+      function renderMessages(messages) {
+  var container = document.getElementById('messagesList');
+  var badge = document.getElementById('badgeMessages');
+  if (!container) return;
+
+  if (!messages || messages.length === 0) {
+    container.innerHTML = '<p style="color:var(--text-light);font-size:.9rem;">No hay mensajes.</p>';
+    return;
+  }
+
+  var nonLus = messages.filter(function(m){ return !m.lu; }).length;
+  if (nonLus > 0 && badge) {
+    badge.textContent = nonLus;
+    badge.style.display = 'inline-block';
+  }
+
+  container.innerHTML = messages.map(function(msg) {
+    var dateStr = msg.date ? formatDate(msg.date) : '';
+    var luStyle = msg.lu ? 'opacity:.7;' : 'border-left:3px solid var(--primary);';
+    return '<div style="border:1.5px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.25rem;' + luStyle + '">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">' +
+      '<strong>' + (msg.sujet || 'Mensaje') + '</strong>' +
+      '<span style="font-size:.78rem;color:var(--text-light);">' + dateStr + '</span>' +
+      '</div>' +
+      '<div style="font-size:.85rem;color:var(--text-light);margin-bottom:.4rem;">De: ' + (msg.de || '') + '</div>' +
+      '<div style="font-size:.9rem;">' + (msg.contenu || '') + '</div>' +
+      (msg.fichier ? '<a href="' + msg.fichier + '" target="_blank" style="display:inline-block;margin-top:.75rem;background:var(--primary);color:white;padding:.4rem .9rem;border-radius:var(--radius-full);font-size:.8rem;font-weight:600;text-decoration:none;">📎 Descargar</a>' : '') +
+      '</div>';
+  }).join('');
+}
+
+// Ajoute cet appel après renderRdv(rdvs) :
+renderMessages(data.messages || []);
     })
     .catch(function(err) {
       console.error('loadProfile error:', err);

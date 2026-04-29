@@ -88,6 +88,9 @@
             <div class="profil-nav-item" style="border-top:1px solid var(--gray-200);margin-top:.5rem;padding-top:.5rem;" data-panel="logout">
               <span>🚪</span> <span data-i18n="profil.nav.logout">Cerrar sesión</span>
             </div>
+            <div class="profil-nav-item" data-panel="messages">
+  <span>✉️</span> <span>Mensajes</span>
+</div>
           </nav>
         </div>
 
@@ -192,6 +195,17 @@
             </div>
           </div>
 
+          <!-- Panel: Messages -->
+<div id="panel-messages" style="display:none;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+    <h2>Mensajes</h2>
+    <span id="badgeMessages" style="background:var(--primary);color:white;border-radius:999px;padding:.2rem .7rem;font-size:.8rem;font-weight:700;display:none;">0</span>
+  </div>
+  <div id="messagesList" style="display:flex;flex-direction:column;gap:.75rem;">
+    <p style="color:var(--text-light);font-size:.9rem;">No hay mensajes.</p>
+  </div>
+</div>
+      
           <!-- Panel: Info -->
           <div id="panel-info" style="display:none;">
             <h2 style="margin-bottom:1.5rem;" data-i18n="profil.nav.info">Datos personales</h2>

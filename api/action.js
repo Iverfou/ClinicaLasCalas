@@ -107,19 +107,19 @@ export default async function handler(req, res) {
       const docType = fields['Documents reçus'] || '';
 
       return res.status(200).json({
-        dossier     : fields['Nº Client'],
-        patientName : fields['Nom Complet'],
-        patientEmail: fields['Email'],
-        patientLang : (fields['Langue'] || 'es').trim(),
-        docType     : docType.toLowerCase(),
-        docTypeLabel: docTypeMap[docType.toLowerCase()] || docType,
-        fileName    : fields['Nom sur document']     || '',
-        uploadDate  : fields['Date premier contact'] || '',
-        oneDriveUrl : fields['OneDrive URL']         || '',
-        airtableUrl : fields['Airtable URL']         || '',
-        analysis    : fields['Analyse'] ? JSON.parse(fields['Analyse']) : null,
-      });
-
+  dossier     : fields['Nº Client']      || '',
+  patientName : fields['Nom Complet']    || '',
+  patientEmail: fields['Email']          || '',
+  patientLang : (fields['Langue'] || 'es').trim(),
+  docType     : fields['Notes']          || '',
+  docTypeLabel: fields['Notes']          || '',
+  fileName    : fields['fileName']       || '',
+  uploadDate  : fields['RECEPTION DATE'] || '',
+  oneDriveUrl : fields['One Drive']      || '',
+  airtableUrl : '',
+  analysis    : {resumen_medico: fields['Notes'] || ''
+  },
+});
     } catch(e) {
       console.error('GET error:', e.message);
       return res.status(500).json({ error: e.message });

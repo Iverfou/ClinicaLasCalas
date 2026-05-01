@@ -85,7 +85,16 @@ export default async function handler(req, res) {
         return res.status(200).json({ error: 'invalid' });
       }
 
-      const data = await r.json().catch(() => null);
+      const rawText = await r.text();
+console.log('N8N raw response:', rawText);
+
+let data;
+try {
+  data = JSON.parse(rawText);
+} catch(e) {
+  console.error('Parse error:', rawText);
+  return res.status(200).json({ error: 'invalid' });
+}
       const record = Array.isArray(data) ? data[0] : data;
       const fields = record?.fields || {};
 

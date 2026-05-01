@@ -106,26 +106,28 @@ export default async function handler(req, res) {
       };
       const claudeJson = fields['Claude JSON'] ? JSON.parse(fields['Claude JSON']) : {};
 
+const datos = {};
+if (claudeJson.claudeDatos?.nombre_completo) datos['Nombre'] = claudeJson.claudeDatos.nombre_completo;
+if (claudeJson.claudeDatos?.fecha_nacimiento) datos['Fecha nacimiento'] = claudeJson.claudeDatos.fecha_nacimiento;
+if (claudeJson.claudeDatos?.num_documento) datos['Nº documento'] = claudeJson.claudeDatos.num_documento;
+if (claudeJson.claudeDatos?.validez) datos['Validez'] = claudeJson.claudeDatos.validez;
+
 return res.status(200).json({
   dossier      : fields['Nº Client']      || '',
   patientName  : fields['Nom Complet']    || '',
   patientEmail : fields['Email']          || '',
   patientLang  : (fields['Langue'] || 'es').trim(),
+  docTypeLabel : claudeJson.claudeType    || '',
+  docType      : claudeJson.claudeType    || '',
   uploadDate   : fields['RECEPTION DATE'] || '',
   oneDriveUrl  : fields['One Drive']      || '',
   analyse      : fields['Analyse']        || '',
   analysis: {
-    tipo_detectado  : claudeJson.claudeType         || '',
-    resumen_medico  : claudeJson.claudeResumen       || '',
-    observaciones   : claudeJson.claudeObservaciones || '',
-    confianza       : claudeJson.claudeConfianza     || '',
-    nom_correspond  : claudeJson.claudeNomCorrespond || false,
-    datos: {
-      nombre_completo : claudeJson.claudeDatos?.nombre_completo  || '',
-      fecha_nacimiento: claudeJson.claudeDatos?.fecha_nacimiento || '',
-      num_documento   : claudeJson.claudeDatos?.num_documento    || '',
-      validez         : claudeJson.claudeDatos?.validez          || ''
-    }
+    tipo_detectado  : claudeJson.claudeType          || '',
+    resumen_medico  : claudeJson.claudeResumen        || '',
+    observaciones   : claudeJson.claudeObservaciones  || '',
+    confianza       : claudeJson.claudeConfianza      || '',
+    datos
   }
 });
     } catch(e) {

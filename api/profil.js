@@ -154,39 +154,35 @@ return res.status(200).json(patient);
 
     // ── VERIFY: vérifier dossier + email → retourner patient ─────────────
     if (action === 'verify') {
-      if (!dossier || !email) {
-        return res.status(400).json({ error: 'Missing dossier or email' });
-      }
+  if (!dossier || !email) {
+    return res.status(400).json({ error: 'Missing dossier or email' });
+  }
 
-      if (!n8nWebhook) {
-        return res.status(200).json({ patient: null, demo: true });
-      }
+  if (!n8nWebhook) {
+    return res.status(200).json({ valid: true, dossier, demo: true });
+  }
 
-      try {
-        const r = await fetch(n8nWebhook, {
-          method : 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body   : JSON.stringify({ action: 'verify', dossier, email, lang: lang || 'es' })
-        });
+  try {
+    const r = await fetch(n8nWebhook, {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body   : JSON.stringify({ action: 'verify', dossier, email })
+    });
 
-        if (!r.ok) {
-          const errText = await r.text().catch(() => '');
-          console.error('N8N verify error:', r.status, errText);
-          return res.status(200).json({ error: 'not_found' });
-        }
-
-        const data = await r.json().catch(() => null);
-        if (!data) return res.status(200).json({ error: 'not_found' });
-
-        const patient = mapPatient(data);
-        return res.status(200).json({ patient });
-
-      } catch(e) {
-        console.error('verify error:', e.message);
-        return res.status(500).json({ error: e.message });
-      }
+    const data = await r.json().catch(() => null);
+    
+    // N8N retourne { valid: true/false, dossier: 'CLC-X' }
+    if (data && data.valid && data.dossier) {
+      return res.status(200).json({ valid: true, dossier: data.dossier });
     }
+    
+    return res.status(200).json({ valid: false });
 
+  } catch(e) {
+    console.error('verify error:', e.message);
+    return res.status(500).json({ error: e.message });
+  }
+}
     // ── REPLY: répondre à un message ─────────────────────────────────────
     if (action === 'reply') {
       if (!reply || !dossier) {

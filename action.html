@@ -419,11 +419,9 @@ async function loadActionData(t) {
     actionData = data;
     renderData(data);
   } catch(e) {
-    // DEMO mode
-    actionData = getMockData();
-    renderData(actionData);
+    console.error('Erreur chargement:', e);
+    showError('Erreur de connexion', e.message);
   }
-}
 
 function getMockData() {
   return {
